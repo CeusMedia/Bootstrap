@@ -1,15 +1,37 @@
 <?php
+/**
+ *	...
+ *	@category		cmModules
+ *	@package		Bootstrap
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmmodules/
+ *	@since			0.3.0
+ *	@version		$Id$
+ */
+/**
+ *	...
+ *	@category		cmModules
+ *	@package		Bootstrap
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmmodules/
+ *	@since			0.3.0
+ *	@version		$Id$
+ */
 class CMM_Bootstrap_ProgressBar{
 	
 	const CLASS_ACTIVE		= "active";
 	const CLASS_DANGER		= "progress-danger";
-	const CLASS_INFO		= "progress-info";
+	const CLASS_INFO			= "progress-info";
 	const CLASS_STRIPED		= "progress_striped";
 	const CLASS_SUCCESS		= "progress-success";
 	const CLASS_WARNING		= "progress-warning";
 	
 	const BAR_CLASS_DANGER	= "bar-danger";
-	const BAR_CLASS_INFO	= "bar-info";
+	const BAR_CLASS_INFO		= "bar-info";
 	const BAR_CLASS_SUCCESS	= "bar-success";
 	const BAR_CLASS_WARNING	= "bar-warning";
 	
