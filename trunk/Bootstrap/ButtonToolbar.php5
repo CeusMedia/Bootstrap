@@ -22,7 +22,9 @@
  *	@version		$Id$
  */
 class CMM_Bootstrap_ButtonToolbar{
+
 	protected $buttons		= array();
+
 	public function __construct( $buttons = array() ){
 		$this->add( $buttons );
 	}
