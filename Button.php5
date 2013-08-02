@@ -35,9 +35,9 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 	const CLASS_LARGE		= "btn-large";
 	const CLASS_BLOCK		= "btn-block";
 
-	protected $icon;
-	protected $iconWhite	= FALSE;
 	protected $disabled;
+	protected $icon;
+	protected $name;
 	protected $type		= "button";
 		
 	public function __construct( $content, $class = NULL, $icon = NULL, $disabled = FALSE ){
@@ -45,6 +45,10 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 		$this->setClass( $class );
 		$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
+	}
+
+	public function setDisabled( $disabled = TRUE ){
+		$this->disabled	= $disabled;
 	}
 
 	public function setIcon( $icon, $white = FALSE ){
@@ -56,12 +60,13 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 		$this->icon	= $icon;
 	}
 
-	public function setDisabled( $disabled = TRUE ){
-		$this->disabled	= $disabled;
+	public function setName( $name ){
+		$this->name	= $name;
 	}
 
 	public function render(){
 		$attributes	= array(
+			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'type'		=> $this->type,
 			'class'		=> "btn ".join( " ", $this->class ),
