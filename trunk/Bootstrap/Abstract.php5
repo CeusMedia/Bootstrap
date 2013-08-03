@@ -60,7 +60,7 @@ abstract class CMM_Bootstrap_Abstract{
 
 	protected function extendAttributesByData( &$attributes ){
 		foreach( $this->data as $key => $value )
-			$attributes['data-'.strtolower( $key )]	= addslashes( $value );
+			$attributes['data-'.strtolower( $key )]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 	}
 
 	protected function extendAttributesByEvents( &$attributes ){
