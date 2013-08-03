@@ -24,6 +24,10 @@
 class CMM_Bootstrap_NavList{
 
 	protected $current;
+
+	public function __toString(){
+		return $this->render();
+	}
 	
 	public function add( $url, $label, $icon = NULL, $class = NULL, $attr = array(), $data = array(), $events = array() ){
 		$this->items[]	= (object) array(
