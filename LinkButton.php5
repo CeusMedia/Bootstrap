@@ -26,6 +26,7 @@ class CMM_Bootstrap_LinkButton extends CMM_Bootstrap_Abstract{
 	protected $confirm;
 	protected $icon;
 	protected $url;
+	protected $title;
 	protected $events		= array();
 
 	public function __construct( $url, $content, $class = NULL, $icon = NULL, $disabled = FALSE ){

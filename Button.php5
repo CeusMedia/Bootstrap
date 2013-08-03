@@ -58,7 +58,7 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 	public function setIcon( $icon, $white = FALSE ){
 		if( !( $icon instanceof CMM_Bootstrap_Icon ) ){
 			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(danger|warning|info|inverse|success)/", $class );			//
+			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
 			$icon	= new CMM_Bootstrap_Icon( $icon, $white );
 		}
 		$this->icon	= $icon;
@@ -80,19 +80,6 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 		$this->extendAttributesByData( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
 		return UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
-	}
-
-	public function setDisabled( $disabled = TRUE ){
-		$this->disabled	= $disabled;
-	}
-
-	public function setIcon( $icon, $white = FALSE ){
-		if( !( $icon instanceof CMM_Bootstrap_Icon ) ){
-			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new CMM_Bootstrap_Icon( $icon, $white );
-		}
-		$this->icon	= $icon;
 	}
 }
 ?>
