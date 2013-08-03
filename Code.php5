@@ -39,7 +39,7 @@ class CMM_Bootstrap_Code extends CMM_Bootstrap_Abstract{
 		$attributes		= array( 'class' => join( " ", $this->class ) );
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
-		return UI_HTML_Tag::create( 'pre', $this->content, $attributes );
+		return UI_HTML_Tag::create( 'pre', htmlentities( $this->content, ENT_QUOTES, 'UTF-8' ), $attributes );
 	}
 }
 ?>
