@@ -29,7 +29,7 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 	const CLASS_SUCCESS		= "btn-success";
 	const CLASS_WARNING		= "btn-warning";
 
-	const CLASS_MINI		= "btn-mini";
+	const CLASS_MINI			= "btn-mini";
 	const CLASS_SMALL		= "btn-small";
 	const CLASS_DEFAULT		= "";
 	const CLASS_LARGE		= "btn-large";
@@ -56,7 +56,7 @@ class CMM_Bootstrap_Button extends CMM_Bootstrap_Abstract{
 	}
 
 	public function setIcon( $icon, $white = FALSE ){
-		if( !( $icon instanceof CMM_Bootstrap_Icon ) ){
+		if( $icon && !( $icon instanceof CMM_Bootstrap_Icon ) ){
 			$class	= join( " ", $this->class );
 			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
 			$icon	= new CMM_Bootstrap_Icon( $icon, $white );

@@ -23,23 +23,23 @@
  */
 class CMM_Bootstrap_ButtonToolbar{
 
-	protected $buttons		= array();
+	protected $groups		= array();
 
-	public function __construct( $buttons = array() ){
-		$this->add( $buttons );
+	public function __construct( $groups = array() ){
+		$this->add( $groups );
 	}
 
-	public function add( $button ){
-		if( is_array( $button ) )
-			foreach( $button as $item )
+	public function add( $group ){
+		if( is_array( $group ) )
+			foreach( $group as $item )
 				$this->add( $item );
-		else if( $button )
-			$this->buttons[]	= $button;
+		else if( $group )
+			$this->groups[]	= $group;
 	}
 
 	public function render(){
 		$attributes		= array( 'class' => 'btn-toolbar' );
-		return UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
+		return UI_HTML_Tag::create( 'div', $this->groups, $attributes );
 	}
 
 	public function __toString(){
