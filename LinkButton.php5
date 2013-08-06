@@ -46,7 +46,7 @@ class CMM_Bootstrap_LinkButton extends CMM_Bootstrap_Abstract{
 	}
 
 	public function setIcon( $icon, $white = FALSE ){
-		if( !( $icon instanceof CMM_Bootstrap_Icon ) ){
+		if( $icon && !( $icon instanceof CMM_Bootstrap_Icon ) ){
 			$class	= join( " ", $this->class );
 			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
 			$icon	= new CMM_Bootstrap_Icon( $icon, $white );
@@ -67,14 +67,14 @@ class CMM_Bootstrap_LinkButton extends CMM_Bootstrap_Abstract{
 			'id'		=> $this->id,
 			'class'		=> "btn ".join( " ", $this->class ),
 			'href'		=> $this->url,
-			'title'		=> addslashes( $this->title ),
+			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
 		);
 		if( $this->confirm ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}
 		if( $this->disabled ){
 			$attributes['class']	.= " disabled";
-			$attributes['href']		= "#";
+			$attributes['href']		= NULL;
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
