@@ -8,12 +8,12 @@ class CMM_Bootstrap_PageControl{
 	public $patternUrl;
 	public $patternIndicator;
 	public $size;
-	
+
 	const SIZE_MINI		= "mini";
 	const SIZE_SMALL		= "small";
 	const SIZE_DEFAULT	= "";
 	const SIZE_LARGE		= "large";
-	
+
 	public function __construct( $baseUrl, $page, $pages ){
 		$this->baseUrl			= $baseUrl;
 		$this->page				= abs( (int) $page );
@@ -29,10 +29,12 @@ class CMM_Bootstrap_PageControl{
 
 	protected function getUrl( $page = 0 ){
 		$fragment	= $this->fragment ? "#".$this->fragment : "";
-		$part		= (int)$page > 0 ? sprintf( $this->patternUrl, $page ) : "";
+		$part		= sprintf( $this->patternUrl, $page );
+		if( !$page && $this->patternUrl == "/%s" )
+			$part	= "";
 		return $this->baseUrl.$part.$fragment;
 	}
-	
+
 	public function render(){
 		if( $this->pages <= 1 )
 			return "";
