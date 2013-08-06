@@ -22,7 +22,7 @@
  *	@version		$Id$
  */
 class CMM_Bootstrap_TabbableNavbar{
-	
+
 	protected $active		= NULL;
 	protected $tabs			= array();
 	protected $contents		= array();
@@ -48,7 +48,7 @@ class CMM_Bootstrap_TabbableNavbar{
 		}
 	}
 
-	public function render( $active = NULL, $label = NULL ){
+	public function render( $active = NULL, $brandLabel = NULL, $brandUrl = NULL ){
 		if( is_null( $active ) )
 			if( is_null( $active = $this->active ) )
 				$active	= array_shift( array_values( $this->index ) );
@@ -59,7 +59,9 @@ class CMM_Bootstrap_TabbableNavbar{
 				'href'			=> '#'.$id,
 				'data-toggle'	=> "tab",
 			);
-			$link	= UI_HTML_Tag::create( 'a', $this->tabs[$id], $attributes );
+			$label	= $this->tabs[$id];
+#			$label	= htmlentities( $label, ENT_QUOTES, 'UTF-8' );
+			$link	= UI_HTML_Tag::create( 'a', $label, $attributes );
 			$attributes	= array( 'class' => $active == $id ? "active" : NULL );
 			$listTabs[]	= UI_HTML_Tag::create( 'li', $link, $attributes );
 		}
@@ -74,13 +76,26 @@ class CMM_Bootstrap_TabbableNavbar{
 			);
 			$listDivs[]	= UI_HTML_Tag::create( 'div', $this->contents[$id], $attributes );
 		}
-		$title		= strlen( trim( $label ) ) ? '<span class="brand" href="#">'.$label.'</span>' : "";
+		$brandUrl	= strlen( trim( $brandUrl ) ) ? $brandUrl : '#';
+		$title		= strlen( trim( $label ) ) ? '<span class="brand" href="'.$brandUrl.'">'.$brandLabel.'</span>' : "";
 		$attributes	= array( 'class' => "tab-content" );
 		$listDivs	= UI_HTML_Tag::create( 'div', $listDivs, $attributes );
-		$tabs		= UI_HTML_Tag::create( 'div', $title.$listTabs, array( 'class' => "navbar-inner" ) );	//
+
+		$toggleSpan	= UI_HTML_Tag::create( 'span', "", array( 'class' => 'icon-bar' ) );
+		$attributes	= array(
+			'data-toggle'	=> 'collapse',
+			'data-target'	=> '.nav-collapse',
+			'class'			=> 'btn btn-navbar',
+		);
+		$toggler	= UI_HTML_Tag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
+		$collapse	= UI_HTML_Tag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
+		$container	= UI_HTML_Tag::create( 'div', $toggler.$title.$collapse, array( 'class' => "container" ) );
+ 
+      
+      
+		$tabs		= UI_HTML_Tag::create( 'div', $container, array( 'class' => "navbar-inner" ) );	//
 		$navbar		= UI_HTML_Tag::create( 'div', $tabs, array( 'class' => $this->classNavBar) );			//
 		return UI_HTML_Tag::create( 'div', $navbar.$listDivs, array( 'class' => "tabbable" ) );		//
-		
 	}
 }
 ?>
