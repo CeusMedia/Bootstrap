@@ -83,8 +83,10 @@ class CMM_Bootstrap_PageControl{
 				$button	= new CMM_Bootstrap_Button( $button->label, $button->class, $button->icon, $button->disabled );
 			$group->add( $button );
 		}
-		$toolbar	= new CMM_Bootstrap_ButtonToolbar( $group );
-		return UI_HTML_Tag::create( 'div', $toolbar, array( 'class' => 'page-control' ) );
+		$group->setClass( "page-control" );
+		return (string) $group;
+//		$toolbar	= new CMM_Bootstrap_ButtonToolbar( $group );
+		return UI_HTML_Tag::create( 'div', $group, array( 'class' => 'page-control' ) );
 	}
 }
 ?>

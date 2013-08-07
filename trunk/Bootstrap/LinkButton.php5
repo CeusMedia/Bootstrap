@@ -68,13 +68,17 @@ class CMM_Bootstrap_LinkButton extends CMM_Bootstrap_Abstract{
 			'class'		=> "btn ".join( " ", $this->class ),
 			'href'		=> $this->url,
 			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
+			'onclick'	=> NULL,
 		);
 		if( $this->confirm ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}
 		if( $this->disabled ){
 			$attributes['class']	.= " disabled";
+			$attributes['data-attr-href']		= $attributes['href'];
+			$attributes['data-attr-onclick']	= $attributes['onclick'];
 			$attributes['href']		= NULL;
+			$attributes['onclick']	= NULL;
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";

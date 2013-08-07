@@ -24,6 +24,7 @@
 class CMM_Bootstrap_ButtonGroup{
 	protected $buttons		= array();
 	protected $stacked		= FALSE;
+	protected $class		= "";
 
 	public function __construct( $buttons = array(), $stacked = FALSE ){
 		$this->add( $buttons );
@@ -39,10 +40,17 @@ class CMM_Bootstrap_ButtonGroup{
 	}
 
 	public function render(){
-		$attributes		= array( 'class' => 'btn-group' );
+		$classes		= array( 'btn-group' );
 		if( $this->stacked )
-			$attributes['class']	.= ' btn-group-vertical';
+			$classes[]	= 'btn-group-vertical';
+		if( strlen( trim( $this->class ) ) )
+			$classes[]	= trim( $this->class );
+		$attributes		= array( 'class' => join( " ", $classes ) );
 		return UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
+	}
+
+	public function setClass( $class ){
+		$this->class	= $class;
 	}
 
 	public function setStacked( $stacked = TRUE ){
