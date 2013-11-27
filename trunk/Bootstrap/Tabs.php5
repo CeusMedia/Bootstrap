@@ -100,7 +100,7 @@ class CMM_Bootstrap_Tabs{
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'active';
 			}
-			$label			= htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
+			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
 			$link			= UI_HTML_Tag::create( 'a', $label, array( 'href' => $tab->url ) );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
