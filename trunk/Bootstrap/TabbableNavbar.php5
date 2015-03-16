@@ -49,9 +49,10 @@ class CMM_Bootstrap_TabbableNavbar{
 	}
 
 	public function render( $active = NULL, $brandLabel = NULL, $brandUrl = NULL ){
+		$index = $this->index;
 		if( is_null( $active ) )
 			if( is_null( $active = $this->active ) )
-				$active	= array_shift( array_values( $this->index ) );
+				$active	= array_shift( $index );
 
 		$listTabs	= array();
 		foreach( $this->index as $id ){
