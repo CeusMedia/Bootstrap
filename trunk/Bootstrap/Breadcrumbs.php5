@@ -83,7 +83,7 @@ class CMM_Bootstrap_Breadcrumbs{
 				$icon	= new CMM_Bootstrap_Icon( $crumb->icon ).' ';
 			$list[]	= UI_HTML_Tag::create( 'li', $icon.$content, $attributes );
 		}
-		return UI_HTML_Tag::create( 'div', $list, array( 'class' => 'breadcrumb' ) );
+		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
 	}
 
 	public function __toString(){
