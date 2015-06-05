@@ -52,14 +52,14 @@ $component->setActive( 2 );
 print '<h3>Nav: Pills</h3>'.$component;
 
 
-$component	= new CeusMedia\Bootstrap\ButtonGroup();
-$component->add( new CeusMedia\Bootstrap\LinkButton( "#", "Button 1", "btn-danger", "star" ) );
-$component->add( new CeusMedia\Bootstrap\LinkButton( "#", "Button 2", "btn-warning", "star" ) );
-$component->add( new CeusMedia\Bootstrap\LinkButton( "#", "Button 3", "btn-success", "star" ) );
-$component->add( new CeusMedia\Bootstrap\LinkButton( "#", "Button 4", "btn-info", "star" ) );
-$component->add( new CeusMedia\Bootstrap\SubmitButton( "save", "Button 5", "btn-primary", "star" ) );
-$component->add( new CeusMedia\Bootstrap\LinkButton( "#", "Button 6", "btn-inverse", "star" ) );
-print '<h3>ButtonGroup</h3>'.$component;
+$component	= new CeusMedia\Bootstrap\Button\Group();
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 1", "btn-danger", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 2", "btn-warning", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 3", "btn-success", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 4", "btn-info", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Submit( "save", "Button 5", "btn-primary", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 6", "btn-inverse", "star" ) );
+print '<h3>Button Group</h3>'.$component;
 
 
 

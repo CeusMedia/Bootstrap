@@ -2,32 +2,32 @@
 /**
  *	...
  *	@category		Library
- *	@package		CeusMedia_Bootstrap
+ *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Button;
 /**
  *	...
  *	@category		Library
- *	@package		CeusMedia_Bootstrap
+ *	@package		CeusMedia_Bootstrap_Botton
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class LinkButton extends Component{
+class Submit extends \CeusMedia\Bootstrap\Component{
 
 	protected $confirm;
 	protected $icon;
-	protected $url;
+	protected $name;
 	protected $title;
 	protected $events		= array();
 
-	public function __construct( $url, $content, $class = NULL, $icon = NULL, $disabled = FALSE ){
-		$this->setUrl( $url );
+	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE ){
+		$this->setName( $name );
 		$this->setContent( $content );
 		$this->setClass( $class );
 		$this->setIcon( $icon );
@@ -43,10 +43,10 @@ class LinkButton extends Component{
 	}
 
 	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof Icon ) ){
+		if( $icon && !( $icon instanceof \CeusMedia\Bootstrap\Icon ) ){
 			$class	= join( " ", $this->class );
 			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new Icon( $icon, $white );
+			$icon	= new \CeusMedia\Bootstrap\Icon( $icon, $white );
 		}
 		$this->icon	= $icon;
 	}
@@ -55,31 +55,28 @@ class LinkButton extends Component{
 		$this->title	= $title;
 	}
 
-	public function setUrl( $url ){
-		$this->url		= $url;
+	public function setName( $name ){
+		$this->name		= $name;
 	}
 
 	public function render(){
 		$attributes	= array(
+			'type'		=> 'submit',
 			'id'		=> $this->id,
+			'name'		=> $this->name,
 			'class'		=> "btn ".join( " ", $this->class ),
-			'href'		=> $this->url,
 			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
-			'onclick'	=> NULL,
 		);
-		if( $this->confirm ){
+		if( $this->confirm && !$this->disabled ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}
 		if( $this->disabled ){
 			$attributes['class']	.= " disabled";
-			$attributes['data-attr-href']		= $attributes['href'];
-			$attributes['data-attr-onclick']	= $attributes['onclick'];
-			$attributes['href']		= NULL;
-			$attributes['onclick']	= NULL;
+			$attributes['disabled']	= 'disabled';
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return \UI_HTML_Tag::create( 'a', $icon.$this->content, $attributes );
+		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
 	}
 }
 ?>
