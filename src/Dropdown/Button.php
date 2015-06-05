@@ -8,7 +8,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Dropdown;
 /**
  *	...
  *	@category		Library
@@ -18,16 +18,18 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link extends Component{
+class Button{
 
-	protected $icon;
-	protected $url;
+	protected $items		= array();
+	protected $alignLeft	= TRUE;
+	protected $trigger		= NULL;
 
-	public function __construct( $url, $content, $class = NULL, $icon = NULL ){
-		$this->setUrl( $url );
-		$this->setContent( $content );
-		$this->setClass( $class );
-		$this->setIcon( $icon );
+	public function __construct( $label, \CeusMedia\Bootstrap\Dropdown $dropdown, $class = NULL, $icon = NULL, $caret = TRUE ){
+		$this->label	= $label;
+		$this->dropdown	= $dropdown;
+		$this->class	= $class;
+		$this->icon		= $icon;
+		$this->caret	= $caret;
 	}
 
 	public function __toString(){
@@ -41,23 +43,12 @@ class Link extends Component{
 	}
 
 	public function render(){
-		$attributes		= array(
-			'href'		=> $this->url,
-			'class'		=> $this->class,
-		);
-		$this->extendAttributesByData( $attributes );
-		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return \UI_HTML_Tag::create( 'a', $icon.$this->content, $attributes );
+		$trigger	= new Trigger\Button( $this->label, $this->class, $this->icon, $this->caret );
+		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof Icon ) )
-			$icon	= new Icon( $icon, $white );
-		$this->icon	= $icon;
-	}
-
-	public function setUrl( $url ){
-		$this->url	= $url;
+	public function setAlign( $left = TRUE ){
+		$this->alignLeft	= $left;
 	}
 }
 ?>

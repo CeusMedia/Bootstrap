@@ -1,8 +1,8 @@
 <?php
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -10,10 +10,11 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_SubmitButton extends CMM_Bootstrap_Abstract{
+class SubmitButton extends Component{
 
 	protected $confirm;
 	protected $icon;
@@ -46,10 +47,10 @@ class CMM_Bootstrap_SubmitButton extends CMM_Bootstrap_Abstract{
 	}
 
 	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof CMM_Bootstrap_Icon ) ){
+		if( $icon && !( $icon instanceof Icon ) ){
 			$class	= join( " ", $this->class );
 			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new CMM_Bootstrap_Icon( $icon, $white );
+			$icon	= new Icon( $icon, $white );
 		}
 		$this->icon	= $icon;
 	}
@@ -79,7 +80,7 @@ class CMM_Bootstrap_SubmitButton extends CMM_Bootstrap_Abstract{
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
+		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
 	}
 }
 ?>

@@ -1,27 +1,24 @@
 <?php
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class CMM_Bootstrap_Abstract{
+abstract class Component{
 
 	protected $class	= array();
 	protected $content	= NULL;
@@ -34,10 +31,29 @@ abstract class CMM_Bootstrap_Abstract{
 		$this->setContent( $content );
 	}
 
-	public function setClass( $class ){
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	public function addClass( $class ){
 		if( !is_array( $class ) )
 			$class	= explode( " ", $class );
-		$this->class	= $class;
+		foreach( $class as $item )
+			$this->class[]	= $item;
+	}
+
+	public function setClass( $class ){
+		$this->class	= array();
+		$this->addClass( $class );
+//		if( !is_array( $class ) )
+//			$class	= explode( " ", $class );
+//		$this->class	= $class;
 	}
 
 	public function setContent( $content ){
@@ -72,9 +88,5 @@ abstract class CMM_Bootstrap_Abstract{
 	}
 
 	abstract public function render();
-
-	public function __toString(){
-		return $this->render();
-	}
 }
 ?>

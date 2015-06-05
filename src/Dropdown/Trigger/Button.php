@@ -8,7 +8,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Dropdown\Trigger;
 /**
  *	...
  *	@category		Library
@@ -18,16 +18,17 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link extends Component{
+class Button{
 
-	protected $icon;
-	protected $url;
+	protected $label;
+	protected $class;
+	protected $caret;
 
-	public function __construct( $url, $content, $class = NULL, $icon = NULL ){
-		$this->setUrl( $url );
-		$this->setContent( $content );
-		$this->setClass( $class );
-		$this->setIcon( $icon );
+	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
+		$this->label	= $label;
+		$this->class	= $class;
+		$this->icon		= $icon;
+		$this->toggleCaret( $caret );
 	}
 
 	public function __toString(){
@@ -41,23 +42,17 @@ class Link extends Component{
 	}
 
 	public function render(){
-		$attributes		= array(
-			'href'		=> $this->url,
-			'class'		=> $this->class,
-		);
-		$this->extendAttributesByData( $attributes );
-		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return \UI_HTML_Tag::create( 'a', $icon.$this->content, $attributes );
+		$caret	= ' '.\UI_HTML_Tag::create( 'span', "", array( 'class' => 'caret' ) );
+		if( !$this->caret )
+			$caret	= '';
+		$button	= new \CeusMedia\Bootstrap\Button( $this->label.$caret, $this->class, $this->icon );
+		$button->addClass( 'dropdown-toggle '.$this->class );
+		$button->setData( 'toggle', "dropdown" );
+		return $button->render();
 	}
 
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof Icon ) )
-			$icon	= new Icon( $icon, $white );
-		$this->icon	= $icon;
-	}
-
-	public function setUrl( $url ){
-		$this->url	= $url;
+	public function toggleCaret( $useCaret = TRUE ){
+		$this->caret	= (bool) $useCaret;
 	}
 }
 ?>

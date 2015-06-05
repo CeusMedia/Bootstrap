@@ -1,8 +1,8 @@
 <?php
 /**
  *  ...
- *  @category       cmModules
- *  @package        Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
  *  @copyright      2013 {@link http://ceusmedia.de/ Ceus Media}
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -10,10 +10,11 @@
  *  @since          0.3.0
  *  @version        $Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *  ...
- *  @category       cmModules
- *  @package        Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
  *  @copyright      2013 {@link http://ceusmedia.de/ Ceus Media}
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -21,7 +22,7 @@
  *  @since          0.3.0
  *  @version        $Id$
  */
-class CMM_Bootstrap_Tabs{
+class Tabs{
 
 	protected $active		= 0;
 	protected $tabs			= array();
@@ -101,18 +102,18 @@ class CMM_Bootstrap_Tabs{
 				$classesPane[]	= 'active';
 			}
 			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
-			$link			= UI_HTML_Tag::create( 'a', $label, array( 'href' => $tab->url ) );
+			$link			= \UI_HTML_Tag::create( 'a', $label, array( 'href' => $tab->url ) );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= UI_HTML_Tag::create( 'a', $label, array() );
+				$link			= \UI_HTML_Tag::create( 'a', $label, array() );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
-			$listTabs[]		= UI_HTML_Tag::create( 'li', $link, $attr );
+			$listTabs[]		= \UI_HTML_Tag::create( 'li', $link, $attr );
 			$attr			= array( 'class' => join( ' ', $classesPane ), 'id' => $tab->id );
-			$listPanes[]	= UI_HTML_Tag::create( 'div', $tab->content, $attr );
+			$listPanes[]	= \UI_HTML_Tag::create( 'div', $tab->content, $attr );
 		}
-		$listTabs	= UI_HTML_Tag::create( 'ul', $listTabs, array( 'class' => 'nav nav-tabs', 'id' => $this->id ) );
-		$listPanes	= UI_HTML_Tag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
+		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, array( 'class' => 'nav nav-tabs', 'id' => $this->id ) );
+		$listPanes	= \UI_HTML_Tag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
 		return $listTabs.$listPanes;
 	}
 

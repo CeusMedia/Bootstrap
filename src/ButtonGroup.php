@@ -1,27 +1,24 @@
 <?php
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class CMM_Bootstrap_ButtonGroup{
+class ButtonGroup{
 	protected $buttons		= array();
 	protected $stacked		= FALSE;
 	protected $class		= "";
@@ -29,6 +26,10 @@ class CMM_Bootstrap_ButtonGroup{
 	public function __construct( $buttons = array(), $stacked = FALSE ){
 		$this->add( $buttons );
 		$this->setStacked( $stacked );
+	}
+
+	public function __toString(){
+		return $this->render();
 	}
 
 	public function add( $button ){
@@ -46,7 +47,7 @@ class CMM_Bootstrap_ButtonGroup{
 		if( strlen( trim( $this->class ) ) )
 			$classes[]	= trim( $this->class );
 		$attributes		= array( 'class' => join( " ", $classes ) );
-		return UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
+		return \UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
 	}
 
 	public function setClass( $class ){
@@ -55,10 +56,6 @@ class CMM_Bootstrap_ButtonGroup{
 
 	public function setStacked( $stacked = TRUE ){
 		$this->stacked		= $stacked;
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>

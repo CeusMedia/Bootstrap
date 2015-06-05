@@ -1,8 +1,8 @@
 <?php
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -10,10 +10,11 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_ProgressBar{
+class ProgressBar{
 	
 	const CLASS_ACTIVE		= "active";
 	const CLASS_DANGER		= "progress-danger";
@@ -58,13 +59,13 @@ class CMM_Bootstrap_ProgressBar{
 				$class	= is_array( $bar->class ) ? join( ' ', $bar->class ) : $bar->class;
 				$attributes['class']	.= ' '.$class;
 			}
-			$list[]	= UI_HTML_Tag::create( 'div', $bar->label, $attributes );
+			$list[]	= \UI_HTML_Tag::create( 'div', $bar->label, $attributes );
 		}
 		$class	= 'progress';
 		if( $this->class ){
 			$class	.= ' '.( is_array( $this->class ) ? join( ' ', $this->class ) : $this->class );	//
 		}
-		return UI_HTML_Tag::create( 'div', $list, array( 'class' => $class ) );
+		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => $class ) );
 	}
 
 	public function __toString(){

@@ -1,27 +1,24 @@
 <?php
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2013 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2015 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
- *	@since			0.3.0
- *	@version		$Id$
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class CMM_Bootstrap_Label extends CMM_Bootstrap_Abstract{
+class Label extends Component{
 
 	const CLASS_IMPORTANT	= "label-important";
 	const CLASS_INVERSE		= "label-inverse";
@@ -33,7 +30,7 @@ class CMM_Bootstrap_Label extends CMM_Bootstrap_Abstract{
 		$class	= 'label';
 		if( count( $this->class ) )
 			$class	.= ' '.join( " ", $this->class );
-		return UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
 	}
 }
 ?>

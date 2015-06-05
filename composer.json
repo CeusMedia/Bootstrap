@@ -21,6 +21,8 @@
     "ceus-media/common": "dev-master"
   },
   "autoload": {
-    "classmap": ["src/"]
+    "psr-4": {
+        "CeusMedia\\Bootstrap\\": ["src/"]
+    }
   }
 }

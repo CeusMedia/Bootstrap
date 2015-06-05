@@ -1,8 +1,8 @@
 <?php
 /**
  *	Replacement for checkbox inputs.
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -13,10 +13,11 @@
  *	@see			http://www.larentis.eu/switch/					original examples
  *	@see			http://bdmdesign.github.io/bootstrap-switch-BdMdesigN/examples.html		latest examples
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	Replacement for checkbox inputs.
- *	@category		cmModules
- *	@package		Bootstrap
+ *	@category		Library
+ *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2013 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -24,7 +25,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_Switch extends CMM_Bootstrap_Abstract{
+class Checkbox extends Component{
 
 	const SIZE_DEFAULT	= "";
 	const SIZE_LARGE		= "large";
@@ -52,11 +53,11 @@ class CMM_Bootstrap_Switch extends CMM_Bootstrap_Abstract{
 			'value'		=> $this->value,
 			'checked'	=> $this->checked ? "checked" : NULL,
 		);
-		$input			= UI_HTML_Tag::create( 'input', NULL, $attributes );
+		$input			= \UI_HTML_Tag::create( 'input', NULL, $attributes );
 		$attributes	= array();
 		$attributes['class']	= "make-switch".( $this->size ? " switch-".$this->size : "" );
 		$this->extendAttributesByData( $attributes );
-		return UI_HTML_Tag::create( 'div', $input, $attributes );
+		return \UI_HTML_Tag::create( 'div', $input, $attributes );
 	}
 
 	public function setChecked( $checked ){
