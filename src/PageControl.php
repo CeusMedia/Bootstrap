@@ -96,18 +96,16 @@ class PageControl{
 				'disabled'	=> $this->page === $this->pages - 1,
 			),
 		);
-		$group		= new ButtonGroup();
+		$group		= new Button\Group();
 		foreach( $buttons as $button ){
 			if( isset( $button->url ) )
-				$button	= new LinkButton( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
+				$button	= new Button\Link( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
 			else
 				$button	= new Button( $button->label, $button->class, $button->icon, $button->disabled );
 			$group->add( $button );
 		}
 		$group->setClass( "page-control" );
 		return (string) $group;
-//		$toolbar	= new CMM_Bootstrap_ButtonToolbar( $group );
-		return \UI_HTML_Tag::create( 'div', $group, array( 'class' => 'page-control' ) );
 	}
 }
 ?>
