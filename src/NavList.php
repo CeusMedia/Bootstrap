@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_NavList{
+class NavList{
 
 	protected $current;
 
@@ -54,7 +55,7 @@ class CMM_Bootstrap_NavList{
 		);
 	}
 
-	public function addNavList( CMM_Bootstrap_NavList $list ){
+	public function addNavList( NavList $list ){
 		$this->items[]	= (object) array(
 			'type'		=> 'navlist',
 			'list'		=> $list,
@@ -69,13 +70,13 @@ class CMM_Bootstrap_NavList{
 		foreach( $this->items as $item ){
 			switch( $item->type ){
 				case 'divider':
-					$list[]	= UI_HTML_Tag::create( 'li', "", array( 'class' => 'divider' ) );
+					$list[]	= \UI_HTML_Tag::create( 'li', "", array( 'class' => 'divider' ) );
 					break;
 				case 'header':
 					$label	= $item->label;
 					if( $item->icon )
-						$label	= new CMM_Bootstrap_Icon( $item->icon ).' '.$label;
-					$list[]	= UI_HTML_Tag::create( 'li', $label, array( 'class' => $item->class) );
+						$label	= new Icon( $item->icon ).' '.$label;
+					$list[]	= \UI_HTML_Tag::create( 'li', $label, array( 'class' => $item->class) );
 					break;
 				case 'navlist':
 					$list[]	= $item->list->render();
@@ -90,14 +91,14 @@ class CMM_Bootstrap_NavList{
 						$attr['class'][]	= 'active';
 						$invert	= TRUE;
 					}
-					$link	= new CMM_Bootstrap_Link( $item->url, $item->label, 'autocut' );
+					$link	= new Link( $item->url, $item->label, 'autocut' );
 					$link->setIcon( $item->icon, $invert );
 					$attr['class']	= join( " ", $attr['class'] );
-					$list[]	= UI_HTML_Tag::create( 'li', $link, $attr );
+					$list[]	= \UI_HTML_Tag::create( 'li', $link, $attr );
 					break;
 			}
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
+		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
 	}
 }
 ?>

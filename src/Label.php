@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_Label extends CMM_Bootstrap_Abstract{
+class Label extends Component{
 
 	const CLASS_IMPORTANT	= "label-important";
 	const CLASS_INVERSE		= "label-inverse";
@@ -33,7 +34,7 @@ class CMM_Bootstrap_Label extends CMM_Bootstrap_Abstract{
 		$class	= 'label';
 		if( count( $this->class ) )
 			$class	.= ' '.join( " ", $this->class );
-		return UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
 	}
 }
 ?>

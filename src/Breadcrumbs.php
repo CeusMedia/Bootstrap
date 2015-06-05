@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_Breadcrumbs{
+class Breadcrumbs{
 
 	protected $crumbs;
 	protected $class;
@@ -46,7 +47,7 @@ class CMM_Bootstrap_Breadcrumbs{
 		$this->add( $label, NULL, NULL, $icon, TRUE );
 	}
 
-	public function addLink( CMM_Bootstrap_Link $link ){
+	public function addLink( Link $link ){
 		$this->add( $link, NULL, NULL, NULL, FALSE );
 	}
 
@@ -60,13 +61,13 @@ class CMM_Bootstrap_Breadcrumbs{
 
 	public function render(){
 		$list		= array();
-		$divider	= UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
+		$divider	= \UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof CMM_Bootstrap_Link )
 				$content	= $crumb->label->render();
 			else if( strlen( trim( $crumb->url ) ) ){
 				$attributes	= array( 'href' => $crumb->url );
-				$content	= UI_HTML_Tag::create( 'a', $crumb->label, $attributes );
+				$content	= \UI_HTML_Tag::create( 'a', $crumb->label, $attributes );
 			}
 			else
 				$content	= $crumb->label;
@@ -77,13 +78,13 @@ class CMM_Bootstrap_Breadcrumbs{
 			if( $crumb->active )
 				$attributes['class']	.= ' active';
 			$icon	= "";
-			if( $crumb->icon instanceof CMM_Bootstrap_Icon )
+			if( $crumb->icon instanceof Icon )
 				$icon	= $crumb->icon->render().' ';
 			else if( $crumb->icon )
-				$icon	= new CMM_Bootstrap_Icon( $crumb->icon ).' ';
-			$list[]	= UI_HTML_Tag::create( 'li', $icon.$content, $attributes );
+				$icon	= new Icon( $crumb->icon ).' ';
+			$list[]	= \UI_HTML_Tag::create( 'li', $icon.$content, $attributes );
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
 	}
 
 	public function __toString(){

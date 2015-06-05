@@ -8,8 +8,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  *	@since			0.3.0
- *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap\Dropdown;
 /**
  *	...
  *	@category		cmModules
@@ -19,34 +19,38 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  *	@since			0.3.0
- *	@version		$Id$
- *	@todo			kriss: finish refactoring
  */
-class CMM_Bootstrap_DropdownButton{
+class Button{
 
 	protected $items		= array();
 	protected $alignLeft	= TRUE;
 	protected $trigger		= NULL;
 
-	public function __construct( $label, CMM_Bootstrap_Dropdown $dropdown, $class = NULL, $caret = TRUE ){
+	public function __construct( $label, \CeusMedia\Bootstrap\Dropdown $dropdown, $class = NULL, $icon = NULL, $caret = TRUE ){
 		$this->label	= $label;
-		$this->class	= $class;
 		$this->dropdown	= $dropdown;
+		$this->class	= $class;
+		$this->icon		= $icon;
 		$this->caret	= $caret;
+	}
+
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	public function render(){
+		$trigger	= new Trigger\Button( $this->label, $this->class, $this->icon, $this->caret );
+		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 
 	public function setAlign( $left = TRUE ){
 		$this->alignLeft	= $left;
-	}
-
-	public function render(){
-		$trigger	= new CMM_Bootstrap_DropdownTrigger( $this->label, $this->class, $this->caret );
-		$list		= $this->dropdown->render();
-		return UI_HTML_Tag::create( 'div', $trigger.$list, array( 'class' => 'btn-group' ) );
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>

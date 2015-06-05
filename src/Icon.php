@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_Icon{
+class Icon{
 
 	public function __construct( $icon, $white = FALSE ){
 		$this->icon		= $icon;
@@ -32,7 +33,7 @@ class CMM_Bootstrap_Icon{
 		$class	= 'icon-'.$this->icon;
 		if( $this->white )
 			$class	.= ' icon-white';
-		return UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
+		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
 	}
 
 	public function __toString(){

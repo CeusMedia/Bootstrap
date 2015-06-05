@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_ButtonToolbar{
+class ButtonToolbar{
 
 	protected $groups		= array();
 
@@ -39,7 +40,7 @@ class CMM_Bootstrap_ButtonToolbar{
 
 	public function render(){
 		$attributes		= array( 'class' => 'btn-toolbar' );
-		return UI_HTML_Tag::create( 'div', $this->groups, $attributes );
+		return \UI_HTML_Tag::create( 'div', $this->groups, $attributes );
 	}
 
 	public function __toString(){

@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_Code extends CMM_Bootstrap_Abstract{
+class Code extends Component{
 
 	protected $scrollable		= FALSE;
 
@@ -39,7 +40,7 @@ class CMM_Bootstrap_Code extends CMM_Bootstrap_Abstract{
 		$attributes		= array( 'class' => join( " ", $this->class ) );
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
-		return UI_HTML_Tag::create( 'pre', htmlentities( $this->content, ENT_QUOTES, 'UTF-8' ), $attributes );
+		return \UI_HTML_Tag::create( 'pre', htmlentities( $this->content, ENT_QUOTES, 'UTF-8' ), $attributes );
 	}
 }
 ?>

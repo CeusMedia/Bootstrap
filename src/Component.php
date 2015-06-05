@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-abstract class CMM_Bootstrap_Abstract{
+abstract class Component{
 
 	protected $class	= array();
 	protected $content	= NULL;
@@ -34,10 +35,29 @@ abstract class CMM_Bootstrap_Abstract{
 		$this->setContent( $content );
 	}
 
-	public function setClass( $class ){
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	public function addClass( $class ){
 		if( !is_array( $class ) )
 			$class	= explode( " ", $class );
-		$this->class	= $class;
+		foreach( $class as $item )
+			$this->class[]	= $item;
+	}
+
+	public function setClass( $class ){
+		$this->class	= array();
+		$this->addClass( $class );
+//		if( !is_array( $class ) )
+//			$class	= explode( " ", $class );
+//		$this->class	= $class;
 	}
 
 	public function setContent( $content ){
@@ -72,9 +92,5 @@ abstract class CMM_Bootstrap_Abstract{
 	}
 
 	abstract public function render();
-
-	public function __toString(){
-		return $this->render();
-	}
 }
 ?>

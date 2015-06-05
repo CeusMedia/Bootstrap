@@ -10,6 +10,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
+namespace CeusMedia\Bootstrap;
 /**
  *	...
  *	@category		cmModules
@@ -21,7 +22,7 @@
  *	@since			0.3.0
  *	@version		$Id$
  */
-class CMM_Bootstrap_ButtonGroup{
+class ButtonGroup{
 	protected $buttons		= array();
 	protected $stacked		= FALSE;
 	protected $class		= "";
@@ -29,6 +30,10 @@ class CMM_Bootstrap_ButtonGroup{
 	public function __construct( $buttons = array(), $stacked = FALSE ){
 		$this->add( $buttons );
 		$this->setStacked( $stacked );
+	}
+
+	public function __toString(){
+		return $this->render();
 	}
 
 	public function add( $button ){
@@ -46,7 +51,7 @@ class CMM_Bootstrap_ButtonGroup{
 		if( strlen( trim( $this->class ) ) )
 			$classes[]	= trim( $this->class );
 		$attributes		= array( 'class' => join( " ", $classes ) );
-		return UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
+		return \UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
 	}
 
 	public function setClass( $class ){
@@ -55,10 +60,6 @@ class CMM_Bootstrap_ButtonGroup{
 
 	public function setStacked( $stacked = TRUE ){
 		$this->stacked		= $stacked;
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>
