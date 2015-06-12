@@ -1,8 +1,7 @@
 <?php
+(@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
+
 //namespace CeusMedia\Bootstrap;
-
-require '../vendor/autoload.php';
-
 //use \CeusMedia\Bootstrap;
 
 ob_start();
