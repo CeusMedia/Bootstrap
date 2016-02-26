@@ -59,7 +59,7 @@ class Breadcrumbs{
 		$list		= array();
 		$divider	= \UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
 		foreach( $this->crumbs as $nr => $crumb ){
-			if( $crumb->label instanceof CMM_Bootstrap_Link )
+			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
 			else if( strlen( trim( $crumb->url ) ) ){
 				$attributes	= array( 'href' => $crumb->url );
