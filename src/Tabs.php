@@ -102,7 +102,8 @@ class Tabs{
 				$classesPane[]	= 'active';
 			}
 			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
-			$link			= \UI_HTML_Tag::create( 'a', $label, array( 'href' => $tab->url ) );
+			$attr			= array( 'href' => $tab->url, 'data-toggle' => 'tab' );
+			$link			= \UI_HTML_Tag::create( 'a', $label, $attr );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
 				$link			= \UI_HTML_Tag::create( 'a', $label, array() );
