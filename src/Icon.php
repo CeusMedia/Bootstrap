@@ -20,15 +20,39 @@ namespace CeusMedia\Bootstrap;
  */
 class Icon{
 
+	static $iconSet		= 'glyphicons';
+
 	public function __construct( $icon, $white = FALSE ){
 		$this->icon		= $icon;
 		$this->white	= $white;
 	}
 
+	protected function resolve( $icon ){
+		$parts	= explode( " ", preg_replace( "/ +/", " ", $icon ) );
+		$list	= array();
+		foreach( $parts as $part ){
+			switch( strtolower( self::$iconSet ) ){
+				case 'glyphicons':
+					$part	= "icon-".$part;
+					break;
+				case 'fontawesome':
+					return 'fa fa-fw fa-'.$part;
+					break;
+			}
+			$list[]		= $part;
+		}
+		if( $this->white ){
+			switch( strtolower( self::$iconSet ) ){
+				case 'glyphicons':
+					$list[]	= 'icon-white';
+					break;
+			}
+		}
+		return join( " ", $list );
+	}
+
 	public function render(){
-		$class	= 'icon-'.$this->icon;
-		if( $this->white )
-			$class	.= ' icon-white';
+		$class		= $this->resolve( $this->icon );
 		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
 	}
 

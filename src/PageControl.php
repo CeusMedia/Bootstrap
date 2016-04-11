@@ -30,9 +30,9 @@ class PageControl{
 	public $patternIndicator;
 	public $size;
 
-	const SIZE_MINI		= "mini";
+	const SIZE_MINI			= "mini";
 	const SIZE_SMALL		= "small";
-	const SIZE_DEFAULT	= "";
+	const SIZE_DEFAULT		= "";
 	const SIZE_LARGE		= "large";
 
 	public function __construct( $baseUrl, $page, $pages ){
