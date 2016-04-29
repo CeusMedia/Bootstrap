@@ -44,11 +44,11 @@ class Trigger{
 
 	public function asButton( $asButton = TRUE ){
 		$this->type		= (bool) $asButton ? "button" : "link";
-	}	
+	}
 
 	public function asLink( $asLink = TRUE ){
 		$this->type		= (bool) $asLink ? "link" : "button";
-	}	
+	}
 
 	public function render(){
 		switch( $this->type ){
@@ -57,7 +57,7 @@ class Trigger{
 				break;
 			case "link":
 			default:
-				$trigger	= new \CeusMedia\Bootstrap\Dropdown\Trigger\Link( $this->label, $this->class, $this->icon, $this->caret ), 
+				$trigger	= new \CeusMedia\Bootstrap\Dropdown\Trigger\Link( $this->label, $this->class, $this->icon, $this->caret );
 		}
 		return $trigger;
 	}
