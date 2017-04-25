@@ -60,8 +60,6 @@ $component->add( new CeusMedia\Bootstrap\Button\Submit( "save", "Button 5", "btn
 $component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 6", "btn-inverse", "star" ) );
 print '<h3>Button Group</h3>'.$component;
 
-
-
 $component	= new CeusMedia\Bootstrap\Badge( "2", CeusMedia\Bootstrap\Badge::CLASS_INFO );
 print '<h3>Badge</h3>'.$component;
 print new CeusMedia\Bootstrap\Code( '
@@ -72,6 +70,21 @@ $component	= new CeusMedia\Bootstrap\PageControl( "#page-", 0, 10 );
 $component->patternUrl	= "%s";
 print '<h3>PageControl</h3>'.$component;
 
+$modal		= new CeusMedia\Bootstrap\Modal( "modal-id" );
+$modal->setHeading( 'Demo Modal Heading' );
+$modal->setBody( "<h4>Hello World!</h4><p>Lorem ipsum ...</p>" );
+$modal->setCloseButtonClass( 'btn btn-small' );
+$modal->setCloseButtonIconClass( 'icon-remove' );
+$modal->setCloseButtonLabel( 'dismiss' );
+$modal->setSubmitButtonClass( 'btn btn-primary' );
+$modal->setSubmitButtonIconClass( 'icon-arrow-right' );
+$modal->setSubmitButtonLabel( 'continue' );
+$modalTrigger	= new CeusMedia\Bootstrap\Modal\Trigger( "modal-id", "open" );
+
+print '<h3>Modal</h3>'.$modalTrigger->render().$modal->render();
+print '<br/>';
+print '<br/>';
+
 $page	= new UI_HTML_PageFrame();
 $page->addStylesheet( "http://cdn.int1a.net/css/bootstrap.min.css" );
 $page->addJavaScript( "http://cdn.int1a.net/js/jquery/1.10.2.min.js" );
@@ -79,4 +92,3 @@ $page->addJavaScript( "http://cdn.int1a.net/js/bootstrap.min.js" );
 $page->addBody( '<div class="container">'.ob_get_clean().'</div>' );
 
 print $page->build();
-

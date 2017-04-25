@@ -1,6 +1,5 @@
 {
   "name": "ceus-media/bootstrap",
-  "version": "0.2",
   "license": [
     "GPL-3.0+"
   ],
@@ -16,9 +15,10 @@
     "email": "office@ceusmedia.de",
     "jabber": "ceus-media@jabber.org"
   },
+  "minimum-stability": "dev",
   "require": {
-    "php": ">=5.3.0",
-    "ceus-media/common": ">=0.8.2"
+    "php": "~5.3 || ~7",
+    "ceus-media/common": "~0.8"
   },
   "autoload": {
     "psr-4": {
