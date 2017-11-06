@@ -28,8 +28,10 @@ class Icon{
 	}
 
 	protected function resolve( $icon ){
-		$parts	= explode( " ", preg_replace( "/ +/", " ", $icon ) );
-		$list	= array();
+		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
+		$list		= array();
+		if( preg_match( '/^fa fa-/', $icon ) )
+			return $icon;
 		foreach( $parts as $part ){
 			switch( strtolower( self::$iconSet ) ){
 				case 'glyphicons':

@@ -36,7 +36,7 @@ class Tabs{
 	 */
 	public function __construct( $id, $active = 0 ){
 		$this->setId( $id );
-		$this->setActive( $active );
+//		$this->setActive( $active );
 	}
 
 	public function __toString(){
@@ -60,30 +60,49 @@ class Tabs{
 			'url'		=> $url,
 			'label'		=> $label,
 			'content'	=> $content,
-			'disabled'	=> (boolean)$disabled,
+			'disabled'	=> (boolean) $disabled,
 		);
 	}
 
 	/**
 	 *	Notes tab to be disabled.
 	 *	@access		public
-	 *	@param		integer		$nr			Number of tab to disable
+	 *	@param		integer|string	$idOrIndex		Number or ID of tab to disable
 	 *	@return		void
 	 */
-	public function disableTab( $nr ){
-		if( isset( $this->tabs[$nr] ) )
-			$this->tabs[$nr]->disabled	= TRUE;
+	public function disableTab( $idOrIndex ){
+		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
+		foreach( $this->tabs as $nr => $item )
+			if( $item->id === $id )
+				$this->tabs[$nr]->disabled	= TRUE;
 	}
 
 	/**
 	 *	Notes tab to be enabled.
 	 *	@access		public
-	 *	@param		integer		$nr			Number of tab to enable
+	 *	@param		integer|string	$idOrIndex		Number or ID of tab to enable
 	 *	@return		void
 	 */
-	public function enableTab( $nr ){
-		if( isset( $this->tabs[$nr] ) )
-			$this->tabs[$nr]->disabled	= FALSE;
+	public function enableTab( $idOrIndex ){
+		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
+		foreach( $this->tabs as $nr => $item )
+			if( $item->id === $id )
+				$this->tabs[$nr]->disabled	= FALSE;
+	}
+
+	protected function getIdByIndex( $index ){
+		foreach( $this->tabs as $nr => $item ){
+			if( (int) $nr === (int) $index )
+				return $item->id;
+		}
+		throw new \RangeException( sprintf( 'No tab available for index %d', $index ) );
+	}
+
+	protected function getTabById( $id ){
+		foreach( $this->tabs as $nr => $tab )
+			if( $tab->id === $id )
+				return $this->tabs[$nr];
+		throw new \RangeException( sprintf( 'No tab available for ID %s', $id ) );
 	}
 
 	/**
@@ -97,7 +116,7 @@ class Tabs{
 		foreach( $this->tabs as $nr => $tab ){
 			$classesItem	= array();
 			$classesPane	= array( 'tab-pane' );
-			if( $nr == $this->active ){
+			if( $tab->id === $this->active ){
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'active';
 			}
@@ -123,11 +142,15 @@ class Tabs{
 	/**
 	 *	Sets active tab by its number.
 	 *	@access		public
-	 *	@param		integer		$nr			Number of tab to mark as active.
+	 *	@param		integer|string	$idOrIndex		Number or ID of tab to mark as active.
 	 *	@return
 	 */
-	public function setActive( $nr ){
-		$this->active	= $nr;
+	public function setActive( $idOrIndex ){
+		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
+		$tab	= $this->getTabById( $id );
+		if( $tab->disabled )
+			throw new \RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
+		$this->active	= $id;
 	}
 
 	/**
