@@ -27,21 +27,17 @@ namespace CeusMedia\Bootstrap;
  */
 class Checkbox extends Component{
 
-	const SIZE_DEFAULT	= "";
-	const SIZE_LARGE		= "large";
-	const SIZE_MINI		= "mini";
-	const SIZE_SMALL		= "small";
-
 	protected $name;
 	protected $value;
 	protected $options;
-	protected $size;
+	protected $label;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $size = self::SIZE_DEFAULT, $data = array() ){
+	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() ){
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setChecked( $checked );
-		$this->size		= $size;
+		$this->label	= $label;
+		$this->icon		= $icon;
 		foreach( $data as $key => $value )
 			$this->setData( $key, $value );
 	}
@@ -50,14 +46,16 @@ class Checkbox extends Component{
 		$attributes	= array(
 			'type'		=> 'checkbox',
 			'name'		=> $this->name,
+			'id'		=> 'input_'.$this->name,
 			'value'		=> $this->value,
 			'checked'	=> $this->checked ? "checked" : NULL,
 		);
-		$input			= \UI_HTML_Tag::create( 'input', NULL, $attributes );
-		$attributes	= array();
-		$attributes['class']	= "make-switch".( $this->size ? " switch-".$this->size : "" );
 		$this->extendAttributesByData( $attributes );
-		return \UI_HTML_Tag::create( 'div', $input, $attributes );
+		$input			= \UI_HTML_Tag::create( 'input', NULL, $attributes );
+		$icon			= \UI_HTML_Tag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
+		$overlay		= \UI_HTML_Tag::create( 'span', $icon, array( 'class' => "cr" ) );
+		$label			= \UI_HTML_Tag::create( 'label', $input.$overlay.$this->label );
+		return \UI_HTML_Tag::create( 'div', $label, array( 'class' => 'checkbox' ) );
 	}
 
 	public function setChecked( $checked ){
