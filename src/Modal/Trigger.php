@@ -24,7 +24,7 @@ class Trigger{
 		try{
 			return $this->render();
 		}
-		catch( Exception $e ){
+		catch( \Exception $e ){
 			print $e->getMessage();
 			exit;
 		}

@@ -26,6 +26,16 @@ class Modal{
 			$this->setId( $id );
 	}
 
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
 	/**
 	 *	Returns rendered component.
 	 *	@access		public
