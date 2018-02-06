@@ -26,6 +26,7 @@ class Modal{
 	protected $heading;
 	protected $body;
 	protected $formAction;
+	protected $formSubmit;
 	protected $buttonCloseClass			= "btn";
 	protected $buttonCloseIconClass		= "";
 	protected $buttonCloseLabel			= "close";
@@ -92,6 +93,7 @@ class Modal{
 			$modal	= \UI_HTML_Tag::create( 'form', $modal, array(
 				'action'	=> $this->formAction,
 				'method'	=> 'POST',
+				'onsubmit'	=> $this->formSubmit ? $this->formSubmit.'; return false;' : NULL,
 			) );
 		}
 		return $modal;
@@ -235,6 +237,10 @@ class Modal{
 	 */
 	public function setFormAction( $action ){
 		$this->formAction	= $action;
+	}
+
+	public function setFormSubmit( $onSubmit ){
+		$this->formSubmit	= $onSubmit;
 	}
 
 	/**
