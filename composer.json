@@ -21,6 +21,9 @@
     "ceus-media/common": "^0.8",
     "nostalgiaz/bootstrap-switch": "^3.3"
   },
+  "require-dev": {
+    "ceus-media/doc-creator": "*",
+  },
   "autoload": {
     "psr-4": {
         "CeusMedia\\Bootstrap\\": ["src/"]
