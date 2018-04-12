@@ -22,10 +22,24 @@ class NavList{
 
 	protected $current;
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
-		return $this->render();
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
 	}
-	
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $url, $label, $icon = NULL, $class = NULL, $attr = array(), $data = array(), $events = array() ){
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
@@ -34,14 +48,24 @@ class NavList{
 			'icon'		=> $icon,
 			'class'		=> $class,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addDivider(){
 		$this->items[]	= (object) array(
 			'type'		=> 'divider',
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addHeader( $label, $icon = NULL, $class = NULL ){
 		$this->items[]	= (object) array(
 			'type'		=> 'header',
@@ -49,19 +73,25 @@ class NavList{
 			'icon'		=> $icon,
 			'class'		=> trim( 'nav-header autocut '.$class ),
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addNavList( NavList $list ){
 		$this->items[]	= (object) array(
 			'type'		=> 'navlist',
 			'list'		=> $list,
 		);
+		return $this;
 	}
 
-	public function setCurrent( $url ){
-		$this->current	= $url;
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		foreach( $this->items as $item ){
 			switch( $item->type ){
@@ -95,6 +125,15 @@ class NavList{
 			}
 		}
 		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setCurrent( $url ){
+		$this->current	= $url;
+		return $this;
 	}
 }
 ?>

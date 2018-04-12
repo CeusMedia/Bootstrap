@@ -38,6 +38,10 @@ class Trigger{
 			$this->setLabel( $label );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -50,16 +54,18 @@ class Trigger{
 
 	public function asButton( $asButton = TRUE ){
 		$this->type		= (bool) $asButton ? "button" : "link";
+		return $this;
 	}
 
 	public function asLink( $asLink = TRUE ){
 		$this->type		= (bool) $asLink ? "link" : "button";
+		return $this;
 	}
 
 	/**
 	 *	Returns rendered component.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
 		if( !$this->label )

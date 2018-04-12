@@ -32,6 +32,10 @@ class Button{
 		$this->caret	= $caret;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -42,13 +46,22 @@ class Button{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$trigger	= new Trigger\Button( $this->label, $this->class, $this->icon, $this->caret );
 		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setAlign( $left = TRUE ){
 		$this->alignLeft	= $left;
+		return $this;
 	}
 }
 ?>

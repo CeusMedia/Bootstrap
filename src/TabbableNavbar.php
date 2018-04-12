@@ -26,21 +26,40 @@ class TabbableNavbar{
 	protected $classNavBar	= "navbar";
 	protected $brand		= NULL;
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
-		return $this->render();
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $id, $label, $content ){
 		$this->index[]			= $id;
 		$this->tabs[$id]		= $label;
 		$this->contents[$id]	= $content;
+		return $this;
 	}
 
-	public function render( $active = NULL ){
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
+	public function render(){
 		$index = $this->index;
+		$active	= $this->active;
 		if( is_null( $active ) )
-			if( is_null( $active = $this->active ) )
-				$active	= array_shift( $index );
+			$active	= array_shift( $index );
 
 		$listTabs	= array();
 		foreach( $this->index as $id ){
@@ -87,18 +106,28 @@ class TabbableNavbar{
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer		$nr			Number of tab to mark as active.
-	 *	@return
+	 *	@return		object		Own instance for chainability
 	 */
 	public function setActive( $nr ){
 		$this->active	= $nr;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setBrand( $label, $url = NULL ){
 		$this->brand	= \UI_HTML_Tag::create( 'span', $label, array( 'class' => 'brand' ) );
 		if( $url )
 			$this->brand	= new Link( $url, $label, "brand" );
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setFixed( $position = NULL ){
 		switch( $position ){
 			case 'top':
@@ -111,6 +140,7 @@ class TabbableNavbar{
 				$this->classNavBar	= "navbar";
 				break;
 		}
+		return $this;
 	}
 }
 ?>

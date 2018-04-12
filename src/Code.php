@@ -32,20 +32,6 @@ class Code extends Component{
 		$this->convertTabsToWhitespace	= $convertTabsToWhitespace;
 	}
 
-	public function setScrollable( $scrollable ){
-		$this->scrollable	= (bool) $scrollable;
-	}
-
-	public function render(){
-		$attributes		= array( 'class' => join( " ", $this->class ) );
-		if( $this->scrollable )
-			$attributes['class']	.= " pre-scrollable";
-		$content	= $this->content;
-		if( $this->convertTabsToWhitespace )
-			$content	= $this->convertTabsToWhitespace( $this->content );
-		return \UI_HTML_Tag::create( 'pre', htmlentities( $content, ENT_QUOTES, 'UTF-8' ), $attributes );
-	}
-
 	protected function convertTabsToWhitespace( $content ){
 		$lines	= array();
 		foreach( explode( "\n", $content ) as $line ){
@@ -60,6 +46,29 @@ class Code extends Component{
 			$lines[]	= $line;
 		}
 		return join( "\n", $lines );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
+	public function render(){
+		$attributes		= array( 'class' => join( " ", $this->class ) );
+		if( $this->scrollable )
+			$attributes['class']	.= " pre-scrollable";
+		$content	= $this->content;
+		if( $this->convertTabsToWhitespace )
+			$content	= $this->convertTabsToWhitespace( $this->content );
+		return \UI_HTML_Tag::create( 'pre', htmlentities( $content, ENT_QUOTES, 'UTF-8' ), $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setScrollable( $scrollable ){
+		$this->scrollable	= (bool) $scrollable;
+		return $this;
 	}
 }
 ?>

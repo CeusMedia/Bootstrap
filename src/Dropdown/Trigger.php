@@ -32,6 +32,10 @@ class Trigger{
 		$this->icon		= $icon;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -42,14 +46,28 @@ class Trigger{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function asButton( $asButton = TRUE ){
 		$this->type		= (bool) $asButton ? "button" : "link";
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function asLink( $asLink = TRUE ){
 		$this->type		= (bool) $asLink ? "link" : "button";
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		switch( $this->type ){
 			case "button":

@@ -45,6 +45,10 @@ class Modal{
 			$this->setId( $id );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -58,7 +62,7 @@ class Modal{
 	/**
 	 *	Returns rendered component.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
 		$body		= \UI_HTML_Tag::create( 'div', $this->body, array(
@@ -107,11 +111,11 @@ class Modal{
 		if( $this->buttonSubmitIconClass )
 		 	$iconSubmit	= \UI_HTML_Tag::create( 'i', '', array( 'class' => $this->buttonSubmitIconClass ) );
 		$labelClose		= $iconClose.$this->buttonCloseLabel;
-		$labelSubmit	= $iconClose.$this->buttonSubmitLabel;
+		$labelSubmit	= $iconSubmit.$this->buttonSubmitLabel;
 		if( $iconClose && $this->buttonCloseLabel )
 			$labelClose = $iconClose.'&nbsp;'.$this->buttonCloseLabel;
 		if( $iconSubmit && $this->buttonSubmitLabel )
-			$labelSubmit = $iconClose.'&nbsp;'.$this->buttonCloseLabel;
+			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
 
 		$buttonClose	= \UI_HTML_Tag::create( 'button', $labelClose, array(
 			'class'		=> $this->buttonCloseClass,
@@ -237,10 +241,12 @@ class Modal{
 	 */
 	public function setFormAction( $action ){
 		$this->formAction	= $action;
+		return $this;
 	}
 
 	public function setFormSubmit( $onSubmit ){
 		$this->formSubmit	= $onSubmit;
+		return $this;
 	}
 
 	/**

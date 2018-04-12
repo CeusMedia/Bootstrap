@@ -26,7 +26,7 @@ class Button extends Component{
 	const CLASS_SUCCESS		= "btn-success";
 	const CLASS_WARNING		= "btn-warning";
 
-	const CLASS_MINI			= "btn-mini";
+	const CLASS_MINI		= "btn-mini";
 	const CLASS_SMALL		= "btn-small";
 	const CLASS_DEFAULT		= "";
 	const CLASS_LARGE		= "btn-large";
@@ -44,23 +44,10 @@ class Button extends Component{
 		$this->setDisabled( $disabled );
 	}
 
-	public function setDisabled( $disabled = TRUE ){
-		$this->disabled	= $disabled;
-	}
-
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof Icon ) ){
-			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new Icon( $icon, $white );
-		}
-		$this->icon	= $icon;
-	}
-
-	public function setName( $name ){
-		$this->name	= $name;
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$attributes	= array(
 			'name'		=> $this->name,
@@ -73,6 +60,38 @@ class Button extends Component{
 		$this->extendAttributesByData( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
 		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setDisabled( $disabled = TRUE ){
+		$this->disabled	= $disabled;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setIcon( $icon, $white = FALSE ){
+		if( $icon && !( $icon instanceof Icon ) ){
+			$class	= join( " ", $this->class );
+			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
+			$icon	= new Icon( $icon, $white );
+		}
+		$this->icon	= $icon;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setName( $name ){
+		$this->name	= $name;
+		return $this;
 	}
 }
 ?>

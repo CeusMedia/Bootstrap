@@ -31,6 +31,10 @@ abstract class Component{
 		$this->setContent( $content );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -41,37 +45,16 @@ abstract class Component{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addClass( $class ){
 		if( !is_array( $class ) )
 			$class	= explode( " ", $class );
 		foreach( $class as $item )
 			$this->class[]	= $item;
-	}
-
-	public function setClass( $class ){
-		$this->class	= array();
-		$this->addClass( $class );
-//		if( !is_array( $class ) )
-//			$class	= explode( " ", $class );
-//		$this->class	= $class;
-	}
-
-	public function setContent( $content ){
-		$this->content	= $content;
-	}
-
-	public function setData( $key, $value ){
-		$this->data[$key]	= $value;
-	}
-
-	public function setEvent( $event, $action ){
-		if( !isset( $this->events[$event] ) )
-			$this->events[$event]	= array();
-		$this->events[$event][]	= $action;
-	}
-
-	public function setId( $id ){
-		$this->id		= $id;
+		return $this;
 	}
 
 	protected function extendAttributesByData( &$attributes ){
@@ -87,6 +70,62 @@ abstract class Component{
 		}
 	}
 
+	/**
+	 *	@abstract				To be implemented by derived components
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	abstract public function render();
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setClass( $class ){
+		$this->class	= array();
+		$this->addClass( $class );
+//		if( !is_array( $class ) )
+//			$class	= explode( " ", $class );
+//		$this->class	= $class;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setContent( $content ){
+		$this->content	= $content;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setData( $key, $value ){
+		$this->data[$key]	= $value;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setEvent( $event, $action ){
+		if( !isset( $this->events[$event] ) )
+			$this->events[$event]	= array();
+		$this->events[$event][]	= $action;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setId( $id ){
+		$this->id		= $id;
+		return $this;
+	}
 }
 ?>

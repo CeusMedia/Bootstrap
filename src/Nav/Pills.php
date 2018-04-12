@@ -23,6 +23,10 @@ class Pills{
 	protected $active	= -1;
 	protected $items	= array();
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -33,18 +37,32 @@ class Pills{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $url, $label, $class = NULL, $icon = NULL ){
 		$link	= new \CeusMedia\Bootstrap\Link( $url, $label, $class, $icon );
 		$this->addLink( $link );
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addLink( \CeusMedia\Bootstrap\Link $link ){
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
 			'link'		=> $link,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addDropdown( \CeusMedia\Bootstrap\Dropdown $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ){
 		$this->items[]	= (object) array(
 			'type'			=> 'dropdown',
@@ -54,8 +72,13 @@ class Pills{
 			'icon'			=> $icon,
 			'iconActive'	=> $iconActive,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$items	= array();
 		foreach( $this->items as $nr => $item ){
@@ -73,12 +96,22 @@ class Pills{
 		return \UI_HTML_Tag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setActive( $nr ){
 		$this->active	= $nr;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setStacked( $stacked = TRUE ){
 		$this->stacked	= (bool) $stacked;
+		return $this;
 	}
 }
 ?>

@@ -42,8 +42,18 @@ class PageControl{
 		$this->fragment			= "";
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
-		return $this->render();
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
 	}
 
 	protected function getUrl( $page = 0 ){
@@ -54,6 +64,10 @@ class PageControl{
 		return $this->baseUrl.$part.$fragment;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		if( $this->pages <= 1 )
 			return "";

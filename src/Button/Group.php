@@ -29,17 +29,32 @@ class Group{
 	}
 
 	public function __toString(){
-		return $this->render();
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $button ){
 		if( is_array( $button ) )
 			foreach( $button as $item )
 				$this->add( $item );
 		else if( $button )
 			$this->buttons[]	= $button;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$classes		= array( 'btn-group' );
 		if( $this->stacked )
@@ -50,12 +65,22 @@ class Group{
 		return \UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setClass( $class ){
 		$this->class	= $class;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setStacked( $stacked = TRUE ){
 		$this->stacked		= $stacked;
+		return $this;
 	}
 }
 ?>

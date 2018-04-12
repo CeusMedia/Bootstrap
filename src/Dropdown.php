@@ -23,6 +23,10 @@ class Dropdown{
 	protected $items		= array();
 	protected $alignLeft	= TRUE;
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			$string	= $this->render();
@@ -34,6 +38,10 @@ class Dropdown{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $url, $label, $class = NULL, $icon = NULL, $disabled = FALSE ){
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
@@ -42,15 +50,25 @@ class Dropdown{
 			'icon'		=> $icon,
 			'disabled'	=> $disabled,*/
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addDivider(){
 		$this->items[]	= (object) array(
 			'type'		=> 'divider',
 			'content'	=> NULL,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addDropdown( $label, Dropdown $dropdown, $class = NULL, $icon = NULL, $disabled = FALSE ){
 		$this->items[]	= (object) array(
 			'type'		=> 'dropdown',
@@ -60,35 +78,37 @@ class Dropdown{
 			'icon'		=> $icon,
 			'disabled'	=> $disabled,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addLink( $link, $disabled = FALSE ){
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
 			'content'	=> $link,
 			'disabled'	=> $disabled,
 		);
+		return $this;
 	}
 
-	public function setAlign( $left = TRUE ){
-		$this->alignLeft	= $left;
-	}
-
-	public function setAriaLabel( $label ){
-		$this->ariaLabel	= $label;
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$list	= array();
 		foreach( $this->items as $item ){
-			$attributes	= array( 'class' => NULL );# 'class' => 'active' ); 
+			$attributes	= array( 'class' => NULL );# 'class' => 'active' );
 			switch( $item->type ){
 				case "dropdown":
 					$attributes['class']	= 'dropdown-submenu';
 					$item->content	= $item->content.$item->submenu->render();
 					break;
 				case "divider":
-					$attributes['class']	= 'divider'; 
+					$attributes['class']	= 'divider';
 					break;
 				case "link":
 					break;
@@ -96,7 +116,7 @@ class Dropdown{
 					throw new OutOfBoundsException( 'Invalid dropdown item time: '.$item->type );
 			}
 			if( $item->disabled )
-				$attributes['class']	.= ' disabled'; 
+				$attributes['class']	.= ' disabled';
 			$list[]	= \UI_HTML_Tag::create( 'li', $item->content, $attributes );
 		}
 		$attributes	= array(
@@ -105,6 +125,24 @@ class Dropdown{
 		if( !$this->alignLeft )
 			$attributes['class']	= $attributes['class'].' pull-right';
 		return \UI_HTML_Tag::create( 'ul', $list, $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setAlign( $left = TRUE ){
+		$this->alignLeft	= $left;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setAriaLabel( $label ){
+		$this->ariaLabel	= $label;
+		return $this;
 	}
 }
 ?>

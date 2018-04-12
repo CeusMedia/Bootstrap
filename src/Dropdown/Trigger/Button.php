@@ -31,6 +31,10 @@ class Button{
 		$this->toggleCaret( $caret );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
 		try{
 			return $this->render();
@@ -41,6 +45,10 @@ class Button{
 		}
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$caret	= ' '.\UI_HTML_Tag::create( 'span', "", array( 'class' => 'caret' ) );
 		if( !$this->caret )
@@ -51,8 +59,13 @@ class Button{
 		return $button->render();
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function toggleCaret( $useCaret = TRUE ){
 		$this->caret	= (bool) $useCaret;
+		return $this;
 	}
 }
 ?>

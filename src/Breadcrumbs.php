@@ -29,6 +29,24 @@ class Breadcrumbs{
 		$this->setClass( $class );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $label, $url = NULL, $class = NULL, $icon = NULL, $active = FALSE ){
 		$this->crumbs[]	= (object) array(
 			'label'		=> (string) $label,
@@ -37,24 +55,31 @@ class Breadcrumbs{
 			'icon'		=> (string) $icon,
 			'active'	=> (bool) $active,
 		);
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addCurrent( $label, $icon = NULL ){
 		$this->add( $label, NULL, NULL, $icon, TRUE );
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addLink( Link $link ){
 		$this->add( $link, NULL, NULL, NULL, FALSE );
+		return $this;
 	}
 
-	public function setClass( $class ){
-		$this->class	= $class;
-	}
-
-	public function setDivider( $divider ){
-		$this->divider	= $divider;
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$list		= array();
 		$divider	= \UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
@@ -83,8 +108,22 @@ class Breadcrumbs{
 		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
 	}
 
-	public function __toString(){
-		return $this->render();
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setClass( $class ){
+		$this->class	= $class;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setDivider( $divider ){
+		$this->divider	= $divider;
+		return $this;
 	}
 }
 ?>

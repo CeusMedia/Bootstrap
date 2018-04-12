@@ -22,13 +22,13 @@ class ProgressBar{
 
 	const CLASS_ACTIVE		= "active";
 	const CLASS_DANGER		= "progress-danger";
-	const CLASS_INFO			= "progress-info";
+	const CLASS_INFO		= "progress-info";
 	const CLASS_STRIPED		= "progress_striped";
 	const CLASS_SUCCESS		= "progress-success";
 	const CLASS_WARNING		= "progress-warning";
 
 	const BAR_CLASS_DANGER	= "bar-danger";
-	const BAR_CLASS_INFO		= "bar-info";
+	const BAR_CLASS_INFO	= "bar-info";
 	const BAR_CLASS_SUCCESS	= "bar-success";
 	const BAR_CLASS_WARNING	= "bar-warning";
 
@@ -37,13 +37,38 @@ class ProgressBar{
 	public function __construct( $class = NULL ){
 		$this->class	= $class;
 	}
+
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function addBar( $width, $class = NULL, $label = NULL ){
 		$this->bars[]	= (object) array(
 			'width'		=> $width,
 			'class'		=> $class,
 			'label'		=> (string) $label,
 		);
+		return $this;
 	}
+
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$list	= array();
 		foreach( $this->bars as $bar ){
@@ -62,10 +87,6 @@ class ProgressBar{
 			$class	.= ' '.( is_array( $this->class ) ? join( ' ', $this->class ) : $this->class );	//
 		}
 		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => $class ) );
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>

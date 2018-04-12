@@ -34,31 +34,10 @@ class Submit extends \CeusMedia\Bootstrap\Component{
 		$this->setDisabled( $disabled );
 	}
 
-	public function setConfirm( $message = NULL ){
-		$this->confirm	= $message;
-	}
-
-	public function setDisabled( $disabled = TRUE ){
-		$this->disabled	= $disabled;
-	}
-
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof \CeusMedia\Bootstrap\Icon ) ){
-			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new \CeusMedia\Bootstrap\Icon( $icon, $white );
-		}
-		$this->icon	= $icon;
-	}
-
-	public function setTitle( $title ){
-		$this->title	= $title;
-	}
-
-	public function setName( $name ){
-		$this->name		= $name;
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$attributes	= array(
 			'type'		=> 'submit',
@@ -77,6 +56,56 @@ class Submit extends \CeusMedia\Bootstrap\Component{
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
 		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setConfirm( $message = NULL ){
+		$this->confirm	= $message;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setDisabled( $disabled = TRUE ){
+		$this->disabled	= $disabled;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setIcon( $icon, $white = FALSE ){
+		if( $icon && !( $icon instanceof \CeusMedia\Bootstrap\Icon ) ){
+			$class	= join( " ", $this->class );
+			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
+			$icon	= new \CeusMedia\Bootstrap\Icon( $icon, $white );
+		}
+		$this->icon	= $icon;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setTitle( $title ){
+		$this->title	= $title;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setName( $name ){
+		$this->name		= $name;
+		return $this;
 	}
 }
 ?>
