@@ -8,7 +8,7 @@
 		<ignore type="file">/^(_|[a-z])/</ignore>
 		<ignore type="folder"></ignore>
 		<category by="default">Library</category>
-		<package by="default">CeusMedia_Common</package>
+		<package by="default">CeusMedia_Bootstrap</package>
 	</project>
 
 	<!--  READER SETTINGS  -->  
@@ -22,10 +22,10 @@
 	</reader>
 
 	<!--  BUILDER(S) -->  
-	<builder format="HTML" theme="Default-SilverFire">
+	<builder format="HTML" theme="BootAwesome-default">
 		<path type="target">doc/</path>
 		<path type="documents"></path>
-		<title version="0.8.1">CeusMedia::Common</title>
+		<title version="0.8.1">CeusMedia::Bootstrap</title>
 		<author email="christian.wuerker@ceusmedia.de">Christian Würker</author>
 		<company url="http://ceusmedia.de/">CeuS Media</company>
 		<logo href="https://github.com/CeusMedia/Common" title="CeusMedia/Common @ GitHub">logo/construction.png</logo>
