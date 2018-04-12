@@ -30,16 +30,10 @@ class Link extends Component{
 		$this->setIcon( $icon );
 	}
 
-	public function __toString(){
-		try{
-			return $this->render();
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$attributes		= array(
 			'href'		=> $this->url,
@@ -50,14 +44,24 @@ class Link extends Component{
 		return \UI_HTML_Tag::create( 'a', $icon.$this->content, $attributes );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setIcon( $icon, $white = FALSE ){
 		if( $icon && !( $icon instanceof Icon ) )
 			$icon	= new Icon( $icon, $white );
 		$this->icon	= $icon;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setUrl( $url ){
 		$this->url	= $url;
+		return $this;
 	}
 }
 ?>

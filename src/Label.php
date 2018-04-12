@@ -22,10 +22,14 @@ class Label extends Component{
 
 	const CLASS_IMPORTANT	= "label-important";
 	const CLASS_INVERSE		= "label-inverse";
-	const CLASS_INFO			= "label-info";
+	const CLASS_INFO		= "label-info";
 	const CLASS_SUCCESS		= "label-success";
 	const CLASS_WARNING		= "label-warning";
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$class	= 'label';
 		if( count( $this->class ) )

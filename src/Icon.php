@@ -27,6 +27,30 @@ class Icon{
 		$this->white	= $white;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
+	public function __toString(){
+		try{
+			$string	= $this->render();
+			return $string;
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
+	public function render(){
+		$class		= $this->resolve( $this->icon );
+		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
+	}
+
 	protected function resolve( $icon ){
 		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
 		$list		= array();
@@ -51,15 +75,6 @@ class Icon{
 			}
 		}
 		return join( " ", $list );
-	}
-
-	public function render(){
-		$class		= $this->resolve( $this->icon );
-		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>

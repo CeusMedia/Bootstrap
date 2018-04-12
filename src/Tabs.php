@@ -35,8 +35,18 @@ class Tabs{
 //		$this->setActive( $active );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
 	public function __toString(){
-		return $this->render();
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
 	}
 
 	/**
@@ -48,7 +58,7 @@ class Tabs{
 	 *	@param		string		$label		Label of tab pane
 	 *	@param		string		$content	Content of tab pane, if tab is a fragment link
 	 *	@param		boolean		$disabled	Flag: Do not enable this tab by default
-	 *	@return		void
+	 *	@return		object		Own instance for chainability
 	 */
 	public function add( $id, $url, $label, $content = NULL, $disabled = FALSE ){
 		$this->tabs[]	= (object) array(
@@ -58,32 +68,35 @@ class Tabs{
 			'content'	=> $content,
 			'disabled'	=> (boolean) $disabled,
 		);
+		return $this;
 	}
 
 	/**
 	 *	Notes tab to be disabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to disable
-	 *	@return		void
+	 *	@return		object		Own instance for chainability
 	 */
 	public function disableTab( $idOrIndex ){
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
 			if( $item->id === $id )
 				$this->tabs[$nr]->disabled	= TRUE;
+		return $this;
 	}
 
 	/**
 	 *	Notes tab to be enabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to enable
-	 *	@return		void
+	 *	@return		object		Own instance for chainability
 	 */
 	public function enableTab( $idOrIndex ){
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
 			if( $item->id === $id )
 				$this->tabs[$nr]->disabled	= FALSE;
+		return $this;
 	}
 
 	protected function getIdByIndex( $index ){
@@ -104,7 +117,7 @@ class Tabs{
 	/**
 	 *	Renders and returns tabs.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
 		$listTabs	= array();
@@ -139,7 +152,7 @@ class Tabs{
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to mark as active.
-	 *	@return
+	 *	@return		object		Own instance for chainability
 	 */
 	public function setActive( $idOrIndex ){
 		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
@@ -147,16 +160,18 @@ class Tabs{
 		if( $tab->disabled )
 			throw new \RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
 		$this->active	= $id;
+		return $this;
 	}
 
 	/**
 	 *	Set ID of tabs container.
 	 *	@access		public
 	 *	@param		string		$id			ID of tabs container
-	 *	@return void
+	 *	@return		object		Own instance for chainability
 	 */
 	public function setId( $id ){
 		$this->id	= $id;
+		return $this;
 	}
 }
 ?>

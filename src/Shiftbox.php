@@ -41,6 +41,10 @@ class Shiftbox extends Component{
 			$this->setData( $key, $value );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$attributes	= array(
 			'type'		=> 'checkbox',
@@ -59,17 +63,32 @@ class Shiftbox extends Component{
 		return \UI_HTML_Tag::create( 'div', $input, $attributes );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setChecked( $checked ){
 		$this->checked	= $checked;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setName( $name ){
 		$this->name		= $name;
 		$this->setId( $name ? 'input_'.$name : "" );
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function setValue( $value ){
 		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+		return $this;
 	}
 }
 ?>

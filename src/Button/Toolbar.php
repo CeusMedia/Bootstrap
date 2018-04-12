@@ -26,21 +26,40 @@ class Toolbar{
 		$this->add( $groups );
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component or exception message
+	 */
+	public function __toString(){
+		try{
+			return $this->render();
+		}
+		catch( \Exception $e ){
+			print $e->getMessage();
+			exit;
+		}
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		object		Own instance for chainability
+	 */
 	public function add( $group ){
 		if( is_array( $group ) )
 			foreach( $group as $item )
 				$this->add( $item );
 		else if( $group )
 			$this->groups[]	= $group;
+		return $this;
 	}
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$attributes		= array( 'class' => 'btn-toolbar' );
 		return \UI_HTML_Tag::create( 'div', $this->groups, $attributes );
-	}
-
-	public function __toString(){
-		return $this->render();
 	}
 }
 ?>

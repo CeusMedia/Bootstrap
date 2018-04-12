@@ -22,10 +22,14 @@ class Badge extends Component{
 
 	const CLASS_IMPORTANT	= "badge-important";
 	const CLASS_INVERSE		= "badge-inverse";
-	const CLASS_INFO			= "badge-info";
+	const CLASS_INFO		= "badge-info";
 	const CLASS_SUCCESS		= "badge-success";
 	const CLASS_WARNING		= "badge-warning";
 
+	/**
+	 *	@access		public
+	 *	@return		string		Rendered HTML of component
+	 */
 	public function render(){
 		$class	= 'badge';
 		if( count( $this->class ) )
