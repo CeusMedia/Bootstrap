@@ -21,6 +21,9 @@ namespace CeusMedia\Bootstrap\Modal;
 class Trigger{
 
 	protected $attributes	= array();
+	protected $icon;
+	protected $iconSize;
+	protected $iconStyle;
 	protected $id;
 	protected $label;
 	protected $modalId;
@@ -29,13 +32,25 @@ class Trigger{
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$id				ID of modal dialog container
+	 *	@param		string		$modalId		ID of modal dialog container
+	 *	@param		string		$label			Label of trigger
+	 *	@return		void
 	 */
 	public function __construct( $modalId = NULL, $label = NULL ){
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
 		if( !is_null( $label ) )
 			$this->setLabel( $label );
+	}
+	/**
+	 *	Create modal trigger object by static call.
+	 *	For arguments see code doc of contructor.
+	 *	@static
+	 *	@access		public
+	 *	@return		object		Modal trigger instance for chainability
+	 */
+	static public function create(){
+		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
 	}
 
 	/**
@@ -93,11 +108,23 @@ class Trigger{
 					$attributes[$key]	= $value;
 			}
 		}
+		$label	= $this->label;
+		if( $this->icon ){
+			$icon	= $this->icon;
+			if( !is_object( $icon ) )
+				$icon	= \CeusMedia\Bootstrap\Icon::create(
+					$icon,
+					$this->iconStyle,
+					$this->iconSize
+				);
+			$label	= $icon.'&nbsp;'.$label;
+		}
+
 		if( $this->type === 'link' )
-			return \UI_HTML_Tag::create( 'a', $this->label, $attributes );
+			return \UI_HTML_Tag::create( 'a', $label, $attributes );
 		if( $this->type === 'button' ){
 			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
-			return \UI_HTML_Tag::create( 'button', $this->label, $attributes );
+			return \UI_HTML_Tag::create( 'button', $label, $attributes );
 		}
 		throw new \RangeException( sprinf( 'Unsupported type: %s', $this->type ) );
 	}
@@ -112,6 +139,13 @@ class Trigger{
 	 */
 	public function setAttributes( $attributes ){
 		$this->attributes	= $attributes;
+		return $this;
+	}
+
+	public function setIcon( $icon, $style = NULL, $size = NULL ){
+		$this->icon			= $icon;
+		$this->iconStyle	= $style;
+		$this->iconSize		= $size;
 		return $this;
 	}
 
