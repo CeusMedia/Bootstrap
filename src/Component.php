@@ -1,6 +1,6 @@
 <?php
 /**
- *	...
+ *	Base class for every component working on one HTML Tag.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -10,7 +10,7 @@
  */
 namespace CeusMedia\Bootstrap;
 /**
- *	...
+ *	Base class for every component working on one HTML Tag.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -40,12 +40,18 @@ abstract class Component{
 			return $this->render();
 		}
 		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
+			$message	= '... failed: '.$e->getMessage();
+			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
+//			print $e->getMessage();																//  if app is still alive: print exception message
+//			exit;																				//  if app is still alive: exit application
+			return '';
 		}
 	}
 
 	/**
+	 *	Sets one or many HTML/CSS class names, given by string or array.
+	 *	Appends new class names to prior added or set class names.
+	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
@@ -53,8 +59,20 @@ abstract class Component{
 		if( !is_array( $class ) )
 			$class	= explode( " ", $class );
 		foreach( $class as $item )
-			$this->class[]	= $item;
+			if( !in_array( $item, $this->class ) )
+				$this->class[]	= $item;
 		return $this;
+	}
+
+	/**
+	 *	Create icon object by static call.
+	 *	For arguments see code doc of contructor.
+	 *	@static
+	 *	@access		public
+	 *	@return		object		Component instance for chainability
+	 */
+	static public function create(){
+		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
 	}
 
 	protected function extendAttributesByData( &$attributes ){
@@ -71,6 +89,18 @@ abstract class Component{
 	}
 
 	/**
+	 *	@access		public
+	 *	@param		string		$class		Class to be removed
+	 *	@return		object		Own instance for chainability
+	 */
+	public function removeClass( $class ){
+		$index	= array_search( trim( $class ), $this->class );
+		if( $index !== FALSE )
+			unset( $this->class[$index] );
+		return $this;
+	}
+
+	/**
 	 *	@abstract				To be implemented by derived components
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
@@ -78,16 +108,15 @@ abstract class Component{
 	abstract public function render();
 
 	/**
+	 *	Sets one or many HTML/CSS class names, given by string or array.
+	 *	Clears prior added or set class names.
+	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
 	public function setClass( $class ){
 		$this->class	= array();
-		$this->addClass( $class );
-//		if( !is_array( $class ) )
-//			$class	= explode( " ", $class );
-//		$this->class	= $class;
-		return $this;
+		return $this->addClass( $class );
 	}
 
 	/**
