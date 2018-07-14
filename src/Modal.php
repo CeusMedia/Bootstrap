@@ -26,6 +26,8 @@ class Modal{
 	protected $heading;
 	protected $body;
 	protected $formAction;
+	protected $formAttributes			= array();
+	protected $formIsUpload				= FALSE;
 	protected $formSubmit;
 	protected $buttonCloseClass			= "btn";
 	protected $buttonCloseIconClass		= "";
@@ -94,11 +96,13 @@ class Modal{
 		}
 		$modal		= \UI_HTML_Tag::create( 'div', array( $header, $body, $footer ), $attributes );
 		if( $this->formAction ){
-			$modal	= \UI_HTML_Tag::create( 'form', $modal, array(
+			$attributes	= array_merge( $this->formAttributes, array(
 				'action'	=> $this->formAction,
 				'method'	=> 'POST',
+				'enctype'	=> $this->formIsUpload ? 'multipart/form-data' : NULL,
 				'onsubmit'	=> $this->formSubmit ? $this->formSubmit.'; return false;' : NULL,
 			) );
+			$modal	= \UI_HTML_Tag::create( 'form', $modal, $attributes );
 		}
 		return $modal;
 	}
@@ -239,8 +243,14 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setFormAction( $action ){
-		$this->formAction	= $action;
+	public function setFormAction( $action, $attributes = array() ){
+		$this->formAction		= $action;
+		$this->formAttributes	= $attributes;
+		return $this;
+	}
+
+	public function setFormIsUpload( $isUpload = TRUE ){
+		$this->formIsUpload		= (bool) $isUpload;
 		return $this;
 	}
 
