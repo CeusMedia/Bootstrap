@@ -166,7 +166,7 @@ use \CeusMedia\Bootstrap\Shiftbox;
 <script>
 $(document).ready(function(){
 	$(":input[type=checkbox].shiftbox").bootstrapSwitch();
-	$(":input[type=checkbox].shiftbox").bind("change",function(e){
+	$(":input[type=checkbox].shiftbox").on("change",function(e){
 		console.log($(this).attr("id")+": "+$(this).is(":checked"))
 	});
 });
