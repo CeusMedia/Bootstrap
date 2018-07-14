@@ -20,11 +20,29 @@ namespace CeusMedia\Bootstrap;
  */
 class Icon{
 
-	static $iconSet		= 'glyphicons';
+	static $defaultSet		= 'glyphicons';
+	static $defaultSize		= array();
+	static $defaultStyle	= '';
 
-	public function __construct( $icon, $white = FALSE ){
-		$this->icon		= $icon;
-		$this->white	= $white;
+	protected $set		= NULL;
+	protected $size		= array();
+	protected $style	= FALSE;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string			$icon 		Icon class name plus modifying class names
+	 *	@param		string			$style 		Icon set style (see code doc of setStyle)
+	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of setSize)
+	 *	@return		void
+	 */
+	public function __construct( $icon, $style = NULL, $size = NULL ){
+		$style			= $style === TRUE ? 'white' : $style;									//  legacy: glyphicons white @todo remove
+		$this->setSet( self::$defaultSet );
+		$this->setIcon( $icon );
+		$this->setStyle( $style ? $style : static::$defaultStyle );
+		if( $size )
+			$this->setSize( $size );
 	}
 
 	/**
@@ -37,9 +55,22 @@ class Icon{
 			return $string;
 		}
 		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
+			$message	= '... failed: '.$e->getMessage();
+			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
+//			print $e->getMessage();																//  if app is still alive: print exception message
+//			exit;																				//  if app is still alive: exit application
 		}
+	}
+
+	/**
+	 *	Create icon object by static call.
+	 *	For arguments see code doc of contructor.
+	 *	@static
+	 *	@access		public
+	 *	@return		object		Icon instance for chainability
+	 */
+	static public function create(){
+		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
 	}
 
 	/**
@@ -51,30 +82,147 @@ class Icon{
 		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
 	}
 
+	protected function realizeSizes(){
+		$sizes	= $this->size ? $this->size : static::$defaultSize;
+		$list	= array();
+		foreach( $sizes as $size ){
+			switch( strtolower( $this->set ) ){
+				case 'fontawesome':
+				case 'fontawesome4':
+				case 'fontawesome5':
+					$size	= $size === 'fixed' ? 'fw' : $size;									//  translate generic 'fixed' to FontAwesome's 'fw'
+					if( preg_match( $regExpFactor = '/^x([1-9])$/', $size ) )					//  translate sizes like 'x2' (allowed: 1-9)
+						$size	= preg_match( $regExpFactor, '\\1x', $size );					//  ... to 2x
+					$list[]	= 'fa-'.$size;														//  ...
+					break;
+				default:																		//  icon set not known
+					$list[]	= $size;															//  forward size without modification
+			}
+		}
+		return $list;
+	}
+
+	protected function realizeStyle(){
+		$style	= $this->style ? $this->style : static::$defaultStyle;
+		$list	= array();
+		switch( strtolower( $this->set ) ){
+			case 'glyphicons':
+				if( $this->style === 'white' )
+					$list[]	= 'icon-white';
+				break;
+			case 'fontawesome5':
+				$style	= 'fas';
+				if( $this->style === 'regular' )
+					$style	= 'far';
+				else if( $this->style === 'light' )
+					$style	= 'fal';
+				else if( $this->style === 'brand' )
+					$style	= 'fab';
+				$list[]	= $style;
+				break;
+			case 'fontawesome4':
+			case 'fontawesome':
+				$list[]	= 'fa';
+				break;
+		}
+		return $list;
+	}
+
 	protected function resolve( $icon ){
 		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
 		$list		= array();
-		if( preg_match( '/^fa fa-/', $icon ) )
+		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
+		foreach( $this->realizeStyle() as $style )
+			$list[]	= $style;
 		foreach( $parts as $part ){
-			switch( strtolower( self::$iconSet ) ){
+			switch( strtolower( $this->set ) ){
 				case 'glyphicons':
 					$part	= "icon-".$part;
 					break;
+				case 'fontawesome5':
+					$part	= 'fa-'.$part;
+					break;
 				case 'fontawesome':
-					return 'fa fa-fw fa-'.$part;
+				case 'fontawesome4':
+					$part	= 'fa-'.$part;
 					break;
 			}
 			$list[]		= $part;
 		}
-		if( $this->white ){
-			switch( strtolower( self::$iconSet ) ){
-				case 'glyphicons':
-					$list[]	= 'icon-white';
-					break;
-			}
-		}
+		foreach( $this->realizeSizes() as $class )
+			$list[]	= $class;
 		return join( " ", $list );
+	}
+
+	/**
+	 *	Set icon by its icon class name plus modifying class names.
+	 *	@access		public
+	 *	@param		string		$icon 		Icon class name plus modifying class names
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setIcon( $icon ){
+		$this->icon		= $icon;
+		return $this;
+	}
+
+	/**
+	 *	Set icon set, like fontawesome[4|5] or glyphicons.
+	 *	@access		public
+	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setSet( $set ){
+		$this->set	= trim( $set );
+		return $this;
+	}
+
+	/**
+	 *	Set size or other modifiers by one or many class names.
+	 *
+	 *	FontAwesome 4 & 5:
+	 *	- fixed: fw (alias: fixed)
+	 *	- scale: 1x - 9x
+	 *	- modifiers: see FontAwesome doc
+	 *
+	 *	@access		public
+	 *	@param		string		$size 		One or many size or modifier class name
+	 *	@return		object		Own instance for chainability
+	 */
+	public function setSize( $sizes ){
+		$this->size		= array();
+		if( !is_array( $sizes ) ){
+			if( !is_string( $sizes ) )
+				throw new \InvalidArgumentException( 'Size must be of array or string' );
+			$sizes	= preg_split( "/\s+/", trim( $sizes ) );
+		}
+		foreach( $sizes as $size )
+			if( trim( $size ) )
+				$this->size[]	= trim( $size );
+		return $this;
+	}
+
+	/**
+	 *	Set icon set style to use for this icon.
+	 *	Default: none (use static defaultStyle)
+	 *
+	 *	FontAwesome 4:
+	 *	- white
+	 *
+	 *	FontAwesome 5 (fontawesome5:
+	 *	- solid (default)
+	 *	- regular
+	 *	- light
+	 *	- brand
+	 *
+	 *	@access		public
+	 *	@param		string		$style 		Icon set style
+	 *	@return		object		Own instance for chainability
+	 *	@todo		code doc
+	 */
+	public function setStyle( $style ){
+		$this->style	= trim( $style );
+		return $this;
 	}
 }
 ?>
