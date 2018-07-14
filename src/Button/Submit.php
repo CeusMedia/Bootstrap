@@ -9,6 +9,8 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
+use CeusMedia\Bootstrap\Component;
+use CeusMedia\Bootstrap\Icon;
 /**
  *	...
  *	@category		Library
@@ -18,7 +20,7 @@ namespace CeusMedia\Bootstrap\Button;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Submit extends \CeusMedia\Bootstrap\Component{
+class Submit extends Component{
 
 	protected $confirm;
 	protected $icon;
@@ -78,14 +80,14 @@ class Submit extends \CeusMedia\Bootstrap\Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@param		string			$icon 		Icon class name plus modifying class names
+	 *	@param		string			$style 		Icon set style (see code doc of Icon::setStyle)
+	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of Icon::setSize)
+	 *	@return		object			Own instance for chainability
 	 */
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof \CeusMedia\Bootstrap\Icon ) ){
-			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
-			$icon	= new \CeusMedia\Bootstrap\Icon( $icon, $white );
-		}
+	public function setIcon( $icon, $style = NULL, $size = NULL ){
+		if( is_string( $icon ) )
+			$icon	= new Icon( $icon, $style, $size );
 		$this->icon	= $icon;
 		return $this;
 	}

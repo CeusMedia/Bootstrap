@@ -78,7 +78,6 @@ class Button extends Component{
 	public function setIcon( $icon, $white = FALSE ){
 		if( $icon && !( $icon instanceof Icon ) ){
 			$class	= join( " ", $this->class );
-			$white	= preg_match( "/btn-(primary|danger|warning|info|inverse|success)/", $class );			//
 			$icon	= new Icon( $icon, $white );
 		}
 		$this->icon	= $icon;
