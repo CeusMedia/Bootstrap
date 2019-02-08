@@ -36,6 +36,8 @@ class Modal{
 	protected $buttonSubmitIconClass	= "";
 	protected $buttonSubmitLabel		= "submit";
 	protected $headerCloseButtonIcon	= '×';
+	protected $useFooter				= TRUE;
+	protected $useHeader				= TRUE;
 
 	/**
 	 *	Constructor.
@@ -108,6 +110,8 @@ class Modal{
 	}
 
 	protected function renderFooter(){
+		if( !$this->useFooter )
+			return;
 		$iconClose		= '';
 		$iconSubmit		= '';
 		if( $this->buttonCloseIconClass )
@@ -138,6 +142,8 @@ class Modal{
 	}
 
 	protected function renderHeader(){
+		if( !$this->useHeader )
+			return;
 		$buttonClose	= \UI_HTML_Tag::create( 'button', $this->headerCloseButtonIcon, array(
 			'type'			=> "button",
 			'class'			=> "close",
@@ -316,6 +322,30 @@ class Modal{
 	 */
 	public function setSubmitButtonLabel( $label ){
 		$this->buttonSubmitLabel	= $label;
+		return $this;
+	}
+
+	/**
+	 *	Enable or disable footer.
+	 *	@access		public
+	 *	@param		boolean		$use		Flag: use footer (default: yes)
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function useFooter( $use ){
+		$this->useFooter	= $use;
+		return $this;
+	}
+
+	/**
+	 *	Enable or disable header.
+	 *	@access		public
+	 *	@param		boolean		$use		Flag: use header (default: yes)
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function useHeader( $use ){
+		$this->useHeader	= $use;
 		return $this;
 	}
 }
