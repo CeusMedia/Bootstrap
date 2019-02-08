@@ -20,6 +20,8 @@ namespace CeusMedia\Bootstrap;
  */
 abstract class Component{
 
+	static protected $version	= "0.4.8";
+
 	protected $class	= array();
 	protected $content	= NULL;
 	protected $data		= array();
@@ -86,6 +88,28 @@ abstract class Component{
 			$action		= addslashes( join( '; ', $actions ) );
 			$attributes[$event]	= $action;
 		}
+	}
+
+	/**
+	 *	Returns version of installed library.
+	 *	@access		public
+	 *	@static
+	 *	@return		string		Version of installed library.
+	 */
+	public static function getVersion(){
+		return static::$version;
+	}
+
+	/**
+	 *	Indicates whether a version is supported by installed library.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$version		Version to check against
+	 *	@return		bool
+	 */
+	public static function supportsVersion( $version, $installVersion = NULL ){
+		$installVersion	= !is_null( $installVersion ) ? $installVersion : static::$version;
+		return version_compare( $version, $installVersion, '>=' );
 	}
 
 	/**
