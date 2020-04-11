@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Component;
+
 /**
  *	...
  *	@category		Library
@@ -24,9 +27,10 @@ class Link extends Component{
 	protected $url;
 
 	public function __construct( $url, $content, $class = NULL, $icon = NULL ){
+		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-		$this->setContent( $content );
-		$this->setClass( $class );
+//		$this->setContent( $content );
+//		$this->setClass( $class );
 		$this->setIcon( $icon );
 	}
 

@@ -4,7 +4,10 @@
 //namespace CeusMedia\Bootstrap;
 //use \CeusMedia\Bootstrap;
 
+error_reporting( E_ALL );
+ini_set( 'display_errors', TRUE );
 ob_start();
+
 print '<h1 class="muted">CeusMedia Component Demo</h1>';
 print '<h2>Bootstrap</h2>';
 
@@ -86,9 +89,9 @@ print '<br/>';
 print '<br/>';
 
 $page	= new UI_HTML_PageFrame();
-$page->addStylesheet( "http://cdn.int1a.net/css/bootstrap.min.css" );
-$page->addJavaScript( "http://cdn.int1a.net/js/jquery/1.10.2.min.js" );
-$page->addJavaScript( "http://cdn.int1a.net/js/bootstrap.min.js" );
+$page->addStylesheet( "https://cdn.ceusmedia.de/css/bootstrap.min.css" );
+$page->addJavaScript( "https://cdn.ceusmedia.de/js/jquery/1.10.2.min.js" );
+$page->addJavaScript( "https://cdn.ceusmedia.de/js/bootstrap.min.js" );
 $page->addBody( '<div class="container">'.ob_get_clean().'</div>' );
 
 print $page->build();

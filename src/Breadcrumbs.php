@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *	...
  *	@category		Library
@@ -18,13 +21,15 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Breadcrumbs{
-
+class Breadcrumbs extends Structure
+{
 	protected $crumbs;
 	protected $class;
 	protected $divider;
 
-	public function __construct( $divider = "/", $class = NULL ){
+	public function __construct( $divider = "/", $class = NULL )
+	{
+		parent::__construct();
 		$this->setDivider( $divider );
 		$this->setClass( $class );
 	}
@@ -33,7 +38,8 @@ class Breadcrumbs{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -47,7 +53,8 @@ class Breadcrumbs{
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
-	public function add( $label, $url = NULL, $class = NULL, $icon = NULL, $active = FALSE ){
+	public function add( $label, $url = NULL, $class = NULL, $icon = NULL, $active = FALSE ): self
+	{
 		$this->crumbs[]	= (object) array(
 			'label'		=> (string) $label,
 			'url'		=> (string) $url,
@@ -60,18 +67,20 @@ class Breadcrumbs{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addCurrent( $label, $icon = NULL ){
+	public function addCurrent( $label, $icon = NULL ): self
+	{
 		$this->add( $label, NULL, NULL, $icon, TRUE );
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addLink( Link $link ){
+	public function addLink( Link $link ): self
+	{
 		$this->add( $link, NULL, NULL, NULL, FALSE );
 		return $this;
 	}
@@ -80,7 +89,8 @@ class Breadcrumbs{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$list		= array();
 		$divider	= \UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
 		foreach( $this->crumbs as $nr => $crumb ){
@@ -110,18 +120,20 @@ class Breadcrumbs{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setClass( $class ){
+	public function setClass( $class ): self
+	{
 		$this->class	= $class;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setDivider( $divider ){
+	public function setDivider( $divider ): self
+	{
 		$this->divider	= $divider;
 		return $this;
 	}

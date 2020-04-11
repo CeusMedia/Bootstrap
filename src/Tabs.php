@@ -9,6 +9,9 @@
  *  @link           http://code.google.com/p/cmmodules/
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *  ...
  *	@category		Library
@@ -18,8 +21,8 @@ namespace CeusMedia\Bootstrap;
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           http://code.google.com/p/cmmodules/
  */
-class Tabs{
-
+class Tabs extends Structure
+{
 	protected $active		= 0;
 	protected $tabs			= array();
 
@@ -30,7 +33,9 @@ class Tabs{
 	 *	@param		integer		$active		Nr of active tab
 	 *	@return		void
 	 */
-	public function __construct( $id, $active = 0 ){
+	public function __construct( $id, $active = 0 )
+	{
+		parent::__construct();
 		$this->setId( $id );
 //		$this->setActive( $active );
 	}
@@ -39,7 +44,8 @@ class Tabs{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -58,9 +64,10 @@ class Tabs{
 	 *	@param		string		$label		Label of tab pane
 	 *	@param		string		$content	Content of tab pane, if tab is a fragment link
 	 *	@param		boolean		$disabled	Flag: Do not enable this tab by default
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function add( $id, $url, $label, $content = NULL, $disabled = FALSE ){
+	public function add( $id, $url, $label, $content = NULL, $disabled = FALSE ): self
+	{
 		$this->tabs[]	= (object) array(
 			'id'		=> $id,
 			'url'		=> $url,
@@ -75,9 +82,10 @@ class Tabs{
 	 *	Notes tab to be disabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to disable
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function disableTab( $idOrIndex ){
+	public function disableTab( $idOrIndex ): self
+	{
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
 			if( $item->id === $id )
@@ -89,9 +97,10 @@ class Tabs{
 	 *	Notes tab to be enabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to enable
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function enableTab( $idOrIndex ){
+	public function enableTab( $idOrIndex ): self
+	{
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
 			if( $item->id === $id )
@@ -99,7 +108,8 @@ class Tabs{
 		return $this;
 	}
 
-	protected function getIdByIndex( $index ){
+	protected function getIdByIndex( $index )
+	{
 		foreach( $this->tabs as $nr => $item ){
 			if( (int) $nr === (int) $index )
 				return $item->id;
@@ -107,7 +117,8 @@ class Tabs{
 		throw new \RangeException( sprintf( 'No tab available for index %d', $index ) );
 	}
 
-	protected function getTabById( $id ){
+	protected function getTabById( $id )
+	{
 		foreach( $this->tabs as $nr => $tab )
 			if( $tab->id === $id )
 				return $this->tabs[$nr];
@@ -119,15 +130,16 @@ class Tabs{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$listTabs	= array();
 		$listPanes	= array();
 		foreach( $this->tabs as $nr => $tab ){
-			$classesItem	= array();
+			$classesItem	= array( 'nav-item' );
 			$classesPane	= array( 'tab-pane' );
 			if( $tab->id === $this->active ){
 				$classesItem[]	= 'active';
-				$classesPane[]	= 'active';
+				$classesPane[]	= 'show active';
 			}
 			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
 			$attr			= array( 'href' => $tab->url );
@@ -136,7 +148,7 @@ class Tabs{
 			$link			= \UI_HTML_Tag::create( 'a', $label, $attr );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= \UI_HTML_Tag::create( 'a', $label, array() );
+				$link			= \UI_HTML_Tag::create( 'a', $label, array( 'class' => 'nav-link' ) );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
 			$listTabs[]		= \UI_HTML_Tag::create( 'li', $link, $attr );
@@ -152,9 +164,10 @@ class Tabs{
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to mark as active.
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setActive( $idOrIndex ){
+	public function setActive( $idOrIndex ): self
+	{
 		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		$tab	= $this->getTabById( $id );
 		if( $tab->disabled )
@@ -167,11 +180,11 @@ class Tabs{
 	 *	Set ID of tabs container.
 	 *	@access		public
 	 *	@param		string		$id			ID of tabs container
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setId( $id ){
+	public function setId( $id ): self
+	{
 		$this->id	= $id;
 		return $this;
 	}
 }
-?>

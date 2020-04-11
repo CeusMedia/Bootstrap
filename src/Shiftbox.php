@@ -12,6 +12,9 @@
  *	@see			http://bdmdesign.github.io/bootstrap-switch-BdMdesigN/examples.html		latest examples
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Component;
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
@@ -34,6 +37,7 @@ class Shiftbox extends Component{
 	protected $size;
 
 	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $data = array() ){
+		parent::__construct();
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setChecked( $checked );

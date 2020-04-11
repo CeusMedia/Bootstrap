@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *	...
  *	@category		Library
@@ -18,17 +21,21 @@ namespace CeusMedia\Bootstrap\Button;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Group{
+class Group extends Structure
+{
 	protected $buttons		= array();
 	protected $stacked		= FALSE;
 	protected $class		= "";
 
-	public function __construct( $buttons = array(), $stacked = FALSE ){
+	public function __construct( $buttons = array(), $stacked = FALSE )
+	{
+		parent::__construct();
 		$this->add( $buttons );
 		$this->setStacked( $stacked );
 	}
 
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -40,9 +47,10 @@ class Group{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function add( $button ){
+	public function add( $button ): self
+	{
 		if( is_array( $button ) )
 			foreach( $button as $item )
 				$this->add( $item );
@@ -55,7 +63,8 @@ class Group{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$classes		= array( 'btn-group' );
 		if( $this->stacked )
 			$classes[]	= 'btn-group-vertical';
@@ -67,20 +76,21 @@ class Group{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setClass( $class ){
+	public function setClass( $class ): self
+	{
 		$this->class	= $class;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setStacked( $stacked = TRUE ){
+	public function setStacked( $stacked = TRUE ): self
+	{
 		$this->stacked		= $stacked;
 		return $this;
 	}
 }
-?>

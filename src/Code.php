@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Component;
+
 /**
  *	...
  *	@category		Library
@@ -18,21 +21,24 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Code extends Component{
-
+class Code extends Component
+{
 	protected $convertTabsToWhitespace	= TRUE;
 	protected $scrollable				= FALSE;
 
 	static public $tabSize				= 4;
 
-	public function __construct( $content, $scrollable = FALSE, $class = NULL, $convertTabsToWhitespace = TRUE ){
-		$this->setContent( $content );
-		$this->setClass( $class );
+	public function __construct( $content, $scrollable = FALSE, $class = NULL, $convertTabsToWhitespace = TRUE )
+	{
+		parent::__construct( $content, $class );
+//		$this->setContent( $content );
+//		$this->setClass( $class );
 		$this->setScrollable( $scrollable );
 		$this->convertTabsToWhitespace	= $convertTabsToWhitespace;
 	}
 
-	protected function convertTabsToWhitespace( $content ){
+	protected function convertTabsToWhitespace( $content ): string
+	{
 		$lines	= array();
 		foreach( explode( "\n", $content ) as $line ){
 			$line	= trim( $line, "\r" );
@@ -52,7 +58,8 @@ class Code extends Component{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$attributes		= array( 'class' => join( " ", $this->class ) );
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
@@ -64,9 +71,10 @@ class Code extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setScrollable( $scrollable ){
+	public function setScrollable( $scrollable ): self
+	{
 		$this->scrollable	= (bool) $scrollable;
 		return $this;
 	}

@@ -9,6 +9,10 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use \UI_HTML_Tag as Tag;
+
 /**
  *	Modal layer generator.
  *	@category		Library
@@ -18,8 +22,8 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Modal{
-
+class Modal extends Structure
+{
 	protected $attributes				= array();
 	protected $id;
 	protected $fade						= TRUE;
@@ -38,13 +42,16 @@ class Modal{
 	protected $headerCloseButtonIcon	= '×';
 	protected $useFooter				= TRUE;
 	protected $useHeader				= TRUE;
+	protected $dialogClass				= '';
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$id				ID of modal dialog container
 	 */
-	public function __construct( $id = NULL ){
+	public function __construct( $id = NULL )
+	{
+		parent::__construct();
 		if( !is_null( $id ) )
 			$this->setId( $id );
 	}
@@ -53,7 +60,8 @@ class Modal{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -68,8 +76,9 @@ class Modal{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
-		$body		= \UI_HTML_Tag::create( 'div', $this->body, array(
+	public function render(): string
+	{
+		$body		= Tag::create( 'div', $this->body, array(
 			'class'	=> 'modal-body',
 		) );
 		$footer		= $this->renderFooter();
@@ -96,7 +105,12 @@ class Modal{
 					$attributes[$key]	= $value;
 			}
 		}
-		$modal		= \UI_HTML_Tag::create( 'div', array( $header, $body, $footer ), $attributes );
+		$content	= array( $header, $body, $footer );
+		if( version_compare( $this->bsVersion, 4, '>=' ) === TRUE ){
+			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-content' ) );
+			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.$this->dialogClass, 'role' => 'document' ) );
+		}
+		$modal	= Tag::create( 'div', array( $content ), $attributes );
 		if( $this->formAction ){
 			$attributes	= array_merge( $this->formAttributes, array(
 				'action'	=> $this->formAction,
@@ -104,20 +118,21 @@ class Modal{
 				'enctype'	=> $this->formIsUpload ? 'multipart/form-data' : NULL,
 				'onsubmit'	=> $this->formSubmit ? $this->formSubmit.'; return false;' : NULL,
 			) );
-			$modal	= \UI_HTML_Tag::create( 'form', $modal, $attributes );
+			$modal	= Tag::create( 'form', $modal, $attributes );
 		}
 		return $modal;
 	}
 
-	protected function renderFooter(){
+	protected function renderFooter(): string
+	{
 		if( !$this->useFooter )
-			return;
+			return '';
 		$iconClose		= '';
 		$iconSubmit		= '';
 		if( $this->buttonCloseIconClass )
-		 	$iconClose	= \UI_HTML_Tag::create( 'i', '', array( 'class' => $this->buttonCloseIconClass ) );
+		 	$iconClose	= Tag::create( 'i', '', array( 'class' => $this->buttonCloseIconClass ) );
 		if( $this->buttonSubmitIconClass )
-		 	$iconSubmit	= \UI_HTML_Tag::create( 'i', '', array( 'class' => $this->buttonSubmitIconClass ) );
+		 	$iconSubmit	= Tag::create( 'i', '', array( 'class' => $this->buttonSubmitIconClass ) );
 		$labelClose		= $iconClose.$this->buttonCloseLabel;
 		$labelSubmit	= $iconSubmit.$this->buttonSubmitLabel;
 		if( $iconClose && $this->buttonCloseLabel )
@@ -125,33 +140,34 @@ class Modal{
 		if( $iconSubmit && $this->buttonSubmitLabel )
 			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
 
-		$buttonClose	= \UI_HTML_Tag::create( 'button', $labelClose, array(
+		$buttonClose	= Tag::create( 'button', $labelClose, array(
 			'class'		=> $this->buttonCloseClass,
 			'data-dismiss'	=> 'modal',
 			'aria-hidden'	=> 'true',
 		) );
-		$buttonSubmit	= \UI_HTML_Tag::create( 'button', $labelSubmit, array(
+		$buttonSubmit	= Tag::create( 'button', $labelSubmit, array(
 			'class'		=> $this->buttonSubmitClass,
 			'type'		=> 'submit',
 		) );
 		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
-		$footer		= \UI_HTML_Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
+		$footer		= Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
 			'class'	=> 'modal-footer',
 		) );
 		return $footer;
 	}
 
-	protected function renderHeader(){
+	protected function renderHeader(): string
+	{
 		if( !$this->useHeader )
-			return;
-		$buttonClose	= \UI_HTML_Tag::create( 'button', $this->headerCloseButtonIcon, array(
+			return '';
+		$buttonClose	= Tag::create( 'button', $this->headerCloseButtonIcon, array(
 			'type'			=> "button",
 			'class'			=> "close",
 			'data-dismiss'	=> "modal",
 			'aria-hidden'	=> "true",
 		) );
-		$heading	= \UI_HTML_Tag::create( 'h3', $this->heading, array( 'id' => $this->id."-label" ) );
-		$header		= \UI_HTML_Tag::create( 'div', array( $buttonClose, $heading ), array(
+		$heading	= Tag::create( 'h3', $this->heading, array( 'id' => $this->id."-label" ) );
+		$header		= Tag::create( 'div', array( $heading, $buttonClose ), array(
 			'class'	=> 'modal-header',
 		) );
 		return $header;
@@ -165,7 +181,8 @@ class Modal{
 	 *	@param		array		$attributes		Map of button attributes
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes ){
+	public function setAttributes( $attributes ): self
+	{
 		$this->attributes	= $attributes;
 		return $this;
 	}
@@ -177,7 +194,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setBody( $body ){
+	public function setBody( $body ): self
+	{
 		$this->body		= $body;
 		return $this;
 	}
@@ -189,7 +207,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeaderCloseButtonIcon( $icon ){
+	public function setHeaderCloseButtonIcon( $icon ): self
+	{
 		$this->headerCloseButtonIcon	= $icon;
 		return $this;
 	}
@@ -201,7 +220,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonClass( $class ){
+	public function setCloseButtonClass( $class ): self
+	{
 		$this->buttonCloseClass	= $class;
 		return $this;
 	}
@@ -213,7 +233,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonIconClass( $class ){
+	public function setCloseButtonIconClass( $class ): self
+	{
 		$this->buttonCloseIconClass	= $class;
 		return $this;
 	}
@@ -225,8 +246,22 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonLabel( $label ){
+	public function setCloseButtonLabel( $label ): self
+	{
 		$this->buttonCloseLabel	= $label;
+		return $this;
+	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string		$class			...
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function setDialogClass( $class ): self
+	{
+		$this->dialogClass	= $class;
 		return $this;
 	}
 
@@ -237,7 +272,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setFade( $fade ){
+	public function setFade( $fade ): self
+	{
 		$this->fade		= $fade;
 		return $this;
 	}
@@ -249,18 +285,21 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setFormAction( $action, $attributes = array() ){
+	public function setFormAction( $action, $attributes = array() ): self
+	{
 		$this->formAction		= $action;
 		$this->formAttributes	= $attributes;
 		return $this;
 	}
 
-	public function setFormIsUpload( $isUpload = TRUE ){
+	public function setFormIsUpload( $isUpload = TRUE ): self
+	{
 		$this->formIsUpload		= (bool) $isUpload;
 		return $this;
 	}
 
-	public function setFormSubmit( $onSubmit ){
+	public function setFormSubmit( $onSubmit ): self
+	{
 		$this->formSubmit	= $onSubmit;
 		return $this;
 	}
@@ -272,7 +311,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeading( $heading ){
+	public function setHeading( $heading ): self
+	{
 		$this->heading		= $heading;
 		return $this;
 	}
@@ -284,7 +324,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setId( $id ){
+	public function setId( $id ): self
+	{
 		$this->id		= $id;
 		return $this;
 	}
@@ -296,7 +337,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonClass( $class ){
+	public function setSubmitButtonClass( $class ): self
+	{
 		$this->buttonSubmitClass	= $class;
 		return $this;
 	}
@@ -308,7 +350,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonIconClass( $class ){
+	public function setSubmitButtonIconClass( $class ): self
+	{
 		$this->buttonSubmitIconClass	= $class;
 		return $this;
 	}
@@ -320,7 +363,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonLabel( $label ){
+	public function setSubmitButtonLabel( $label ): self
+	{
 		$this->buttonSubmitLabel	= $label;
 		return $this;
 	}
@@ -332,7 +376,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function useFooter( $use ){
+	public function useFooter( $use ): self
+	{
 		$this->useFooter	= $use;
 		return $this;
 	}
@@ -344,7 +389,8 @@ class Modal{
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function useHeader( $use ){
+	public function useHeader( $use ): self
+	{
 		$this->useHeader	= $use;
 		return $this;
 	}

@@ -12,6 +12,9 @@
  *	@see			http://bdmdesign.github.io/bootstrap-switch-BdMdesigN/examples.html		latest examples
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
@@ -21,14 +24,16 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class Checkbox extends Component{
-
+class Checkbox extends Structure
+{
 	protected $name;
 	protected $value;
 	protected $options;
 	protected $label;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() ){
+	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() )
+	{
+		parent::__construct();
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setChecked( $checked );
@@ -42,7 +47,8 @@ class Checkbox extends Component{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$attributes	= array(
 			'type'		=> 'checkbox',
 			'name'		=> $this->name,
@@ -60,9 +66,10 @@ class Checkbox extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setChecked( $checked ){
+	public function setChecked( $checked ): self
+	{
 		$this->checked	= $checked;
 		return $this;
 	}
@@ -71,7 +78,8 @@ class Checkbox extends Component{
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
-	public function setName( $name ){
+	public function setName( $name ):self
+	{
 		$this->name		= $name;
 		$this->setId( $name ? 'input_'.$name : "" );
 		return $this;
@@ -81,9 +89,9 @@ class Checkbox extends Component{
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
-	public function setValue( $value ){
+	public function setValue( $value ): self
+	{
 		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 		return $this;
 	}
 }
-?>

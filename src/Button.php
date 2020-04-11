@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Component;
+
 /**
  *	...
  *	@category		Library
@@ -18,8 +21,8 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Button extends Component{
-
+class Button extends Component
+{
 	const CLASS_DANGER		= "btn-danger";
 	const CLASS_INVERSE		= "btn-inverse";
 	const CLASS_INFO		= "btn-info";
@@ -35,11 +38,13 @@ class Button extends Component{
 	protected $disabled;
 	protected $icon;
 	protected $name;
-	protected $type		= "button";
+	protected $type			= "button";
 
-	public function __construct( $content, $class = NULL, $icon = NULL, $disabled = FALSE ){
-		$this->setContent( $content );
-		$this->setClass( $class );
+	public function __construct( $content, $class = NULL, $icon = NULL, $disabled = FALSE )
+	{
+		parent::__construct( $content, $class );
+//		$this->setContent( $content );
+//		$this->setClass( $class );
 		$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
@@ -48,7 +53,8 @@ class Button extends Component{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$attributes	= array(
 			'name'		=> $this->name,
 			'id'		=> $this->id,
@@ -64,18 +70,20 @@ class Button extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setDisabled( $disabled = TRUE ){
+	public function setDisabled( $disabled = TRUE ): self
+	{
 		$this->disabled	= $disabled;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setIcon( $icon, $white = FALSE ){
+	public function setIcon( $icon, $white = FALSE ): self
+	{
 		if( $icon && !( $icon instanceof Icon ) ){
 			$class	= join( " ", $this->class );
 			$icon	= new Icon( $icon, $white );
@@ -86,11 +94,11 @@ class Button extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setName( $name ){
+	public function setName( $name ): self
+	{
 		$this->name	= $name;
 		return $this;
 	}
 }
-?>
