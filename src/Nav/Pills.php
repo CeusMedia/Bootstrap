@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *	...
  *	@category		Library
@@ -18,8 +21,8 @@ namespace CeusMedia\Bootstrap\Nav;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Pills{
-
+class Pills extends Structure
+{
 	protected $active	= -1;
 	protected $items	= array();
 
@@ -27,7 +30,8 @@ class Pills{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -39,9 +43,11 @@ class Pills{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function add( $url, $label, $class = NULL, $icon = NULL ){
+	public function add( $url, $label, $class = NULL, $icon = NULL ): self
+	{
+		$class	= 'nav-link'.( $class ? ' '.$class : '' );
 		$link	= new \CeusMedia\Bootstrap\Link( $url, $label, $class, $icon );
 		$this->addLink( $link );
 		return $this;
@@ -49,26 +55,35 @@ class Pills{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addLink( \CeusMedia\Bootstrap\Link $link ){
+	public function addLink( \CeusMedia\Bootstrap\Link $link ): self
+	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
 			'link'		=> $link,
+			'class'		=> 'nav-item',
 		);
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addDropdown( \CeusMedia\Bootstrap\Dropdown $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ){
+	public function addDropdown( \CeusMedia\Bootstrap\Dropdown $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
+	{
+		if( version_compare( static::$version, 4, '>=' ) )
+			$label		= \UI_HTML_Tag::create( 'a', $label, array(
+				'href'			=> '#',
+				'class'			=> 'nav-link dropdown-toggle',
+				'data-toggle'	=> 'dropdown',
+			) );
 		$this->items[]	= (object) array(
 			'type'			=> 'dropdown',
 			'label'			=> $label,
 			'content'		=> $dropdown,
-			'class'			=> $class,
+			'class'			=> 'nav-item'.( $class ? ' '.$class : '' ),
 			'icon'			=> $icon,
 			'iconActive'	=> $iconActive,
 		);
@@ -79,7 +94,8 @@ class Pills{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$items	= array();
 		foreach( $this->items as $nr => $item ){
 			$class		= $this->active === $nr ? "active" : NULL;
@@ -98,18 +114,20 @@ class Pills{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setActive( $nr ){
+	public function setActive( $nr ): self
+	{
 		$this->active	= $nr;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setStacked( $stacked = TRUE ){
+	public function setStacked( $stacked = TRUE ): self
+	{
 		$this->stacked	= (bool) $stacked;
 		return $this;
 	}

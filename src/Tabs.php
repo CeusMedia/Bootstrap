@@ -134,28 +134,43 @@ class Tabs extends Structure
 	{
 		$listTabs	= array();
 		$listPanes	= array();
+		if( !$this->active )
+			$this->setActive( 0 );
 		foreach( $this->tabs as $nr => $tab ){
 			$classesItem	= array( 'nav-item' );
+			$classesLink	= array( 'nav-link' );
 			$classesPane	= array( 'tab-pane' );
+			$dataLink		= array();
 			if( $tab->id === $this->active ){
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'show active';
 			}
 			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
 			$attr			= array( 'href' => $tab->url );
-			if( $tab->url === '#' || $tab->url === '#'.$tab->id )
-				$attr		= array( 'href' => '#'.$tab->id, 'data-toggle' => 'tab' );
-			$link			= \UI_HTML_Tag::create( 'a', $label, $attr );
+			if( $tab->url === '#' || $tab->url === '#'.$tab->id ){
+				$attr['href']		= '#'.$tab->id;
+				$dataLink['toggle'] = 'tab';
+			}
+			$attr['class']	= join( ' ', $classesLink );
+			$link			= \UI_HTML_Tag::create( 'a', $label, $attr, $dataLink );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
 				$link			= \UI_HTML_Tag::create( 'a', $label, array( 'class' => 'nav-link' ) );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
 			$listTabs[]		= \UI_HTML_Tag::create( 'li', $link, $attr );
-			$attr			= array( 'class' => join( ' ', $classesPane ), 'id' => $tab->id );
-			$listPanes[]	= \UI_HTML_Tag::create( 'div', $tab->content, $attr );
+			$listPanes[]	= \UI_HTML_Tag::create( 'div', $tab->content, array(
+				'class'	=> join( ' ', $classesPane ),
+				'id'	=> $tab->id,
+				'role'	=> 'tabpanel',
+			) );
 		}
-		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, array( 'class' => 'nav nav-tabs', 'id' => $this->id ) );
+		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, array(
+			'class'	=> 'nav nav-tabs',
+			'id'	=> $this->id,
+			'role'	=> 'tablist',
+		) );
+		$listTabs	= \UI_HTML_Tag::create( 'nav', $listTabs );
 		$listPanes	= \UI_HTML_Tag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
 		return $listTabs.$listPanes;
 	}

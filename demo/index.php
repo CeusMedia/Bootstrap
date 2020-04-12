@@ -4,8 +4,23 @@
 //namespace CeusMedia\Bootstrap;
 //use \CeusMedia\Bootstrap;
 
+use \UI_HTML_Tag as Tag;
+use \UI_HTML_Elements as Elements;
+
+use \Net_HTTP_Request_Receiver as Request;
+
+new \UI_DevOutput();
+$versions	= array(
+	'2.3.2',
+	'4.4.1',
+);
+
 $version	= "2.3.2";
-$version	= "4.4.1";
+//$version	= "4.4.1";
+
+$request	= new Request();
+if( $request->get( 'version' ) && in_array( $request->get( 'version' ), $versions ) )
+	$version	= $request->get( 'version' );
 
 CeusMedia\Bootstrap\Base\Component::$defaultBsVersion	= $version;
 CeusMedia\Bootstrap\Base\Structure::$defaultBsVersion	= $version;
@@ -15,8 +30,24 @@ ini_set( 'display_errors', TRUE );
 
 ob_start();
 
-print '<h1 class="muted">CeusMedia Component Demo</h1>';
-print '<h2>Bootstrap</h2>';
+print Tag::create( 'div', array(
+	Tag::create( 'h1', 'CeusMedia Component Demo', array( 'class' => 'muted' ) ),
+	Tag::create( 'h2', 'Bootstrap', array() ),
+), array( 'class' => 'not-bs2-hero-unit not-bs4-jumbotron' ) );
+
+print Tag::create( 'form', array(
+	Tag::create( 'div', array(
+		Tag::create( 'div', array(
+			Tag::create( 'select', Elements::Options( array_combine( $versions, $versions ), $version ), array(
+				'name'		=> 'version',
+				'class' 	=> 'bs2-span12 bs4-form-control',
+				'onchange'	=> 'this.form.submit()',
+			) ),
+		), array( 'class' => 'bs2-span3 bs4-form-group bs4-col-md-3' ) ),
+	), array( 'class' => 'bs2-row-fluid bs4-form-row' ) ),
+), array( 'action' => './', 'method' => 'GET' ) );
+
+CeusMedia\Bootstrap\Icon::$defaultSet	= 'fontawesome';
 
 $component	= new CeusMedia\Bootstrap\Breadcrumbs();
 $component->addLink( new CeusMedia\Bootstrap\Link( "#", "CeusMedia", NULL, "folder-open" ) );
@@ -62,12 +93,20 @@ print '<h3>Nav: Pills</h3>'.$component;
 
 
 $component	= new CeusMedia\Bootstrap\Button\Group();
-$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 1", "btn-danger", "star" ) );
-$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 2", "btn-warning", "star" ) );
-$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 3", "btn-success", "star" ) );
-$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 4", "btn-info", "star" ) );
-$component->add( new CeusMedia\Bootstrap\Button\Submit( "save", "Button 5", "btn-primary", "star" ) );
-$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 6", "btn-inverse", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Danger", "btn-danger", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Warning", "btn-warning", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Success", "btn-success", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Info", "btn-info", "star" ) );
+$component->add( new CeusMedia\Bootstrap\Button\Submit( "save", "Primary", "btn-primary", "star" ) );
+
+if( version_compare( $version, 4, '>=' ) )
+	$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Secondary", "btn-secondary", "star" ) );
+if( version_compare( $version, 4, '>=' ) ){
+	$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Light", "btn-light", "star" ) );
+	$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Dark", "btn-dark", "star" ) );
+}
+else
+	$component->add( new CeusMedia\Bootstrap\Button\Link( "#", "Button 6", "btn-inverse", "star" ) );
 print '<h3>Button Group</h3>'.$component;
 
 $component	= new CeusMedia\Bootstrap\Badge( "2", CeusMedia\Bootstrap\Badge::CLASS_INFO );
@@ -95,10 +134,49 @@ print '<h3>Modal</h3>'.$modalTrigger->render().$modal->render();
 print '<br/>';
 print '<br/>';
 
-$page	= new UI_HTML_PageFrame();
-$page->addStylesheet( "https://cdn.ceusmedia.de/css/bootstrap/".$version."/bootstrap.min.css" );
-$page->addJavaScript( "https://cdn.ceusmedia.de/js/jquery/1.10.2.min.js" );
-$page->addJavaScript( "https://cdn.ceusmedia.de/js/bootstrap/".$version."/bootstrap.min.js" );
-$page->addBody( '<div class="container">'.ob_get_clean().'</div>' );
+$content	= ob_get_clean();
+$content	= BootstrapVersionProcessor::process( $content, $version );
 
-print $page->build();
+$page	= new UI_HTML_PageFrame();
+$page->addStylesheet( 'https://cdn.ceusmedia.de/css/bootstrap/'.$version.'/bootstrap.min.css' );
+$page->addStylesheet( 'https://cdn.ceusmedia.de/fonts/FontAwesome/font-awesome.min.css' );
+$page->addStylesheet( 'style.css' );
+$page->addJavaScript( 'https://cdn.ceusmedia.de/js/jquery/1.10.2.min.js' );
+$page->addJavaScript( 'https://cdn.ceusmedia.de/js/bootstrap/'.$version.'/bootstrap.min.js' );
+$page->addBody( '<div class="container">'.$content.'</div>' );
+
+print $page->build( array(
+	'class'		=> join( ' ', array(
+		'bs-'.BootstrapVersionProcessor::getMajorVersion( $version ),
+	) ),
+) );
+
+
+class BootstrapVersionProcessor
+{
+	static public function getMajorVersion( $version ): string
+	{
+		$versionParts	= explode( '.', $version );
+		return (int) array_shift( $versionParts );
+	}
+
+	static public function process( $content, $version ): string
+	{
+		$majorVersion	= self::getMajorVersion( $version );
+		$cssPrefix		= 'bs'.$majorVersion.'-';
+		if( substr_count( $content, $cssPrefix ) ){
+			while( preg_match( '/ class="[^"]*'.$cssPrefix.'/', $content ) ){
+				$pattern	= '/(class=")([^"]*)?('.$cssPrefix.')([^ "]+)([^"]*)(")/';
+				$content	= preg_replace( $pattern, '\\1\\2\\4\\5\\6', $content );
+			}
+			$otherVersions	= array_diff( array( 2, 3, 4 ), array( $majorVersion ) );
+			foreach( $otherVersions as $version ){
+				$pattern	= '/(class=")([^"]*)(bs'.$version.'-[^ "]+)([^"]*)(")/';
+				$content	= preg_replace( $pattern, '\\1\\2\\4\\5', $content );
+			}
+			$content	= preg_replace( '/(class=")\s*([^ ]*)\s*(")/', '\\1\\2\\3', $content );
+			$content	= preg_replace( '/ class=""/', '', $content );
+		}
+		return $content;
+	}
+}

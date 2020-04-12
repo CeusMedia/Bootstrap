@@ -56,7 +56,7 @@ class Breadcrumbs extends Structure
 	public function add( $label, $url = NULL, $class = NULL, $icon = NULL, $active = FALSE ): self
 	{
 		$this->crumbs[]	= (object) array(
-			'label'		=> (string) $label,
+			'label'		=> $label,
 			'url'		=> (string) $url,
 			'class'		=> (string) $class,
 			'icon'		=> (string) $icon,
@@ -103,19 +103,24 @@ class Breadcrumbs extends Structure
 			else
 				$content	= $crumb->label;
 
-			if( $nr < count( $this->crumbs ) - 1 )
-				$content	.= ' '.$divider;
-			$attributes	= array( 'class' => $crumb->class );
+			if( version_compare( $this->bsVersion, 3, '<' ) )
+				if( $nr < count( $this->crumbs ) - 1 )
+					$content	.= ' '.$divider;
+			$classesItem	= array( 'breadcrumb-item' );
+			if( $crumb->class )
+				$classesItem[]	= $crumb->class;
 			if( $crumb->active )
-				$attributes['class']	.= ' active';
-			$icon	= "";
+				$classesItem[]	= 'active';
+			$attributes	= array( 'class' => join( ' ', $classesItem ) );
+			$icon		= "";
 			if( $crumb->icon instanceof Icon )
 				$icon	= $crumb->icon->render().' ';
 			else if( $crumb->icon )
 				$icon	= new Icon( $crumb->icon ).' ';
 			$list[]	= \UI_HTML_Tag::create( 'li', $icon.$content, $attributes );
 		}
-		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		$list	= \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		return \UI_HTML_Tag::create( 'nav', $list );
 	}
 
 	/**

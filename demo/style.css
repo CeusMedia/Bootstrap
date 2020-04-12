@@ -1,0 +1,27 @@
+.tab-content {
+	padding: 0.8em 1em;
+	margin-bottom: 1em;
+	border-width: 0 1px 1px 1px;
+	border-style: solid;
+	border-top: 0;
+	border-radius: 0 0 0.3em 0.3em;
+	}
+
+body.bs-2 .tab-content {
+		border-color: rgb(221, 221, 221);
+	}
+
+body.bs-4 .tab-content {
+		border-color: #dee2e6;
+	}
+
+.tab-content {
+	padding: 0.8em 1em;
+	margin-bottom: 1em;
+	border: 1px solid rgb(221, 221, 221);
+	border-top: 0;
+	border-radius: 0 0 0.3em 0.3em;
+	}
+.nav-tabs {
+	margin-bottom: 0;
+	}
