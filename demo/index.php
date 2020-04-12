@@ -4,8 +4,15 @@
 //namespace CeusMedia\Bootstrap;
 //use \CeusMedia\Bootstrap;
 
+$version	= "2.3.2";
+$version	= "4.4.1";
+
+CeusMedia\Bootstrap\Base\Component::$defaultBsVersion	= $version;
+CeusMedia\Bootstrap\Base\Structure::$defaultBsVersion	= $version;
+
 error_reporting( E_ALL );
 ini_set( 'display_errors', TRUE );
+
 ob_start();
 
 print '<h1 class="muted">CeusMedia Component Demo</h1>';
@@ -89,9 +96,9 @@ print '<br/>';
 print '<br/>';
 
 $page	= new UI_HTML_PageFrame();
-$page->addStylesheet( "https://cdn.ceusmedia.de/css/bootstrap.min.css" );
+$page->addStylesheet( "https://cdn.ceusmedia.de/css/bootstrap/".$version."/bootstrap.min.css" );
 $page->addJavaScript( "https://cdn.ceusmedia.de/js/jquery/1.10.2.min.js" );
-$page->addJavaScript( "https://cdn.ceusmedia.de/js/bootstrap.min.js" );
+$page->addJavaScript( "https://cdn.ceusmedia.de/js/bootstrap/".$version."/bootstrap.min.js" );
 $page->addBody( '<div class="container">'.ob_get_clean().'</div>' );
 
 print $page->build();
