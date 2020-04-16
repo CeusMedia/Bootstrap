@@ -11,6 +11,9 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
+use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 
 /**
  *	...
@@ -23,28 +26,36 @@ use CeusMedia\Bootstrap\Base\Component;
  */
 class Button extends Component
 {
-	const CLASS_DANGER		= "btn-danger";
-	const CLASS_INVERSE		= "btn-inverse";
-	const CLASS_INFO		= "btn-info";
-	const CLASS_SUCCESS		= "btn-success";
-	const CLASS_WARNING		= "btn-warning";
+	use IconAware, DisabledAware, AriaAware;
 
-	const CLASS_MINI		= "btn-mini";
-	const CLASS_SMALL		= "btn-small";
-	const CLASS_DEFAULT		= "";
-	const CLASS_LARGE		= "btn-large";
-	const CLASS_BLOCK		= "btn-block";
+	const STATE_DEFAULT		= '';
+	const STATE_PRIMARY		= 'btn-primary';
+	const STATE_SECONDARY	= 'btn-secondary';
+	const STATE_SUCCESS		= 'btn-success';
+	const STATE_DANGER		= 'btn-danger';
+	const STATE_WARNING		= 'btn-warning';
+	const STATE_INFO		= 'btn-info';
+	const STATE_INVERSE		= 'btn-inverse';
+	const STATE_LIGHT		= 'btn-light';
+	const STATE_DARK		= 'btn-dark';
+	const STATE_LINK		= 'btn-link';
 
-	protected $disabled;
-	protected $icon;
+	const SIZE_DEFAULT		= '';
+	const SIZE_MINI			= 'btn-mini';
+	const SIZE_SMALL		= 'btn-small btn-sm';
+	const SIZE_LARGE		= 'btn-large btn-lg';
+	const SIZE_BLOCK		= 'btn-block';
+
+	const TYPE_BUTTON		= 'button';
+	const TYPE_SUBMIT		= 'submit';
+	const TYPE_RESET		= 'reset';
+
 	protected $name;
-	protected $type			= "button";
+	protected $type			= 'button';
 
 	public function __construct( $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
-//		$this->setContent( $content );
-//		$this->setClass( $class );
 		$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
@@ -59,37 +70,13 @@ class Button extends Component
 			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'type'		=> $this->type,
-			'class'		=> "btn ".join( " ", $this->class ),
-			'disabled'	=> $this->disabled ? "disabled" : NULL,
+			'class'		=> 'btn '.join( ' ', $this->classes ),
+			'disabled'	=> $this->disabled ? 'disabled' : NULL,
 		);
 		$this->extendAttributesByEvents( $attributes );
 		$this->extendAttributesByData( $attributes );
-		$icon	= $this->icon ? $this->icon->render().' ' : "";
+		$icon	= $this->icon ? $this->icon->render().' ' : '';
 		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setDisabled( $disabled = TRUE ): self
-	{
-		$this->disabled	= $disabled;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setIcon( $icon, $white = FALSE ): self
-	{
-		if( $icon && !( $icon instanceof Icon ) ){
-			$class	= join( " ", $this->class );
-			$icon	= new Icon( $icon, $white );
-		}
-		$this->icon	= $icon;
-		return $this;
 	}
 
 	/**
@@ -99,6 +86,16 @@ class Button extends Component
 	public function setName( $name ): self
 	{
 		$this->name	= $name;
+		return $this;
+	}
+
+	/**
+	 *	@access		public
+	 *	@return		self		Own instance for chainability
+	 */
+	public function setType( $type ): self
+	{
+		$this->type	= $type;
 		return $this;
 	}
 }

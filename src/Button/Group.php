@@ -11,6 +11,8 @@
 namespace CeusMedia\Bootstrap\Button;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 
 /**
  *	...
@@ -23,13 +25,16 @@ use CeusMedia\Bootstrap\Base\Structure;
  */
 class Group extends Structure
 {
+	use ClassAware, AriaAware;
+
 	protected $buttons		= array();
 	protected $stacked		= FALSE;
-	protected $class		= "";
 
 	public function __construct( $buttons = array(), $stacked = FALSE )
 	{
 		parent::__construct();
+		$this->setRole( 'group' );
+//		$this->setClass( 'btn-group' );
 		$this->add( $buttons );
 		$this->setStacked( $stacked );
 	}
@@ -65,23 +70,14 @@ class Group extends Structure
 	 */
 	public function render(): string
 	{
-		$classes		= array( 'btn-group' );
+		$classes		= ['btn-group'];
 		if( $this->stacked )
 			$classes[]	= 'btn-group-vertical';
-		if( strlen( trim( $this->class ) ) )
-			$classes[]	= trim( $this->class );
-		$attributes		= array( 'class' => join( " ", $classes ) );
+		if( count( $this->classes ) )
+			$classes	= array_merge( $classes, $this->classes );
+		$attributes	= ['class' => join( ' ', $classes )];
+		$this->extendAttributesByAria( $attributes );
 		return \UI_HTML_Tag::create( 'div', $this->buttons, $attributes );
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setClass( $class ): self
-	{
-		$this->class	= $class;
-		return $this;
 	}
 
 	/**
@@ -90,7 +86,8 @@ class Group extends Structure
 	 */
 	public function setStacked( $stacked = TRUE ): self
 	{
-		$this->stacked		= $stacked;
+		$class		= 'btn-group-vertical';
+		$stacked	? $this->addClass( $class ) : $this->removeClass( $class );
 		return $this;
 	}
 }

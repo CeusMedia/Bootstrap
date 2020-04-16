@@ -11,6 +11,8 @@
 namespace CeusMedia\Bootstrap\Button;
 
 use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Icon;
 
 /**
@@ -21,23 +23,20 @@ use CeusMedia\Bootstrap\Icon;
  *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
+ *	@deprecated		use Button with type TYPE_SUBMIT instead
  */
 class Submit extends Component
 {
+	use IconAware, DisabledAware;
+
 	protected $confirm;
-	protected $icon;
 	protected $name;
 	protected $title;
-	protected $events		= array();
 
 	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{
-		parent::__construct( $content, $class );
-		$this->setName( $name );
-//		$this->setContent( $content );
-//		$this->setClass( $class );
-		$this->setIcon( $icon );
-		$this->setDisabled( $disabled );
+		$this->button	= new CeusMedia\Bootstrap\Button( $content, $class, $icon, $disabled );
+		$this->button->setName( $name );
 	}
 
 	/**
@@ -46,78 +45,6 @@ class Submit extends Component
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
-			'type'		=> 'submit',
-			'id'		=> $this->id,
-			'name'		=> $this->name,
-			'class'		=> "btn ".join( " ", $this->class ),
-			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
-		);
-		if( $this->confirm && !$this->disabled ){
-			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
-		}
-		if( $this->disabled ){
-			$attributes['class']	.= " disabled";
-			$attributes['disabled']	= 'disabled';
-		}
-		$this->extendAttributesByEvents( $attributes );
-		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setConfirm( $message = NULL ): self
-	{
-		$this->confirm	= $message;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setDisabled( $disabled = TRUE ): self
-	{
-		$this->disabled	= $disabled;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@param		string			$icon 		Icon class name plus modifying class names
-	 *	@param		string			$style 		Icon set style (see code doc of Icon::setStyle)
-	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of Icon::setSize)
-	 *	@return		self			Own instance for chainability
-	 */
-	public function setIcon( $icon, $style = NULL, $size = NULL ): self
-	{
-		if( is_string( $icon ) )
-			$icon	= new Icon( $icon, $style, $size );
-		$this->icon	= $icon;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setTitle( $title ): self
-	{
-		$this->title	= $title;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setName( $name ): self
-	{
-		$this->name		= $name;
-		return $this;
+		return $this->button->render();
 	}
 }
-?>

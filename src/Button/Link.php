@@ -11,6 +11,8 @@
 namespace CeusMedia\Bootstrap\Button;
 
 use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Icon;
 
 /**
@@ -24,18 +26,16 @@ use CeusMedia\Bootstrap\Icon;
  */
 class Link extends Component
 {
+	use IconAware, DisabledAware;
+
 	protected $confirm;
-	protected $icon;
 	protected $url;
 	protected $title;
-	protected $events		= array();
 
 	public function __construct( $url, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-//		$this->setContent( $content );
-//		$this->setClass( $class );
 		$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
@@ -48,9 +48,10 @@ class Link extends Component
 	{
 		$attributes	= array(
 			'id'		=> $this->id,
-			'class'		=> "btn ".join( " ", $this->class ),
+			'class'		=> "btn ".join( " ", $this->classes ),
 			'href'		=> $this->url,
 			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
+			'role'		=> 'button',
 			'onclick'	=> NULL,
 		);
 		if( $this->confirm ){
@@ -75,31 +76,6 @@ class Link extends Component
 	public function setConfirm( $message = NULL ): self
 	{
 		$this->confirm	= $message;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setDisabled( $disabled = TRUE ): self
-	{
-		$this->disabled	= $disabled;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@param		string			$icon 		Icon class name plus modifying class names
-	 *	@param		string			$style 		Icon set style (see code doc of Icon::setStyle)
-	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of Icon::setSize)
-	 *	@return		self			Own instance for chainability
-	 */
-	public function setIcon( $icon, $style = NULL, $size = NULL ): self
-	{
-		if( is_string( $icon ) )
-			$icon	= new Icon( $icon, $style, $size );
-		$this->icon	= $icon;
 		return $this;
 	}
 
