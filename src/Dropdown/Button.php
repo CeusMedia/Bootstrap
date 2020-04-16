@@ -17,6 +17,8 @@ namespace CeusMedia\Bootstrap\Dropdown;
  *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
+ *	@deprecated		use Dropdown\Trigger with asButton instead
+ *	@todo			te be removed in 0.5
  */
 class Button{
 
@@ -24,10 +26,11 @@ class Button{
 	protected $alignLeft	= TRUE;
 	protected $trigger		= NULL;
 
-	public function __construct( $label, \CeusMedia\Bootstrap\Dropdown $dropdown, $class = NULL, $icon = NULL, $caret = TRUE ){
+	public function __construct( $label, \CeusMedia\Bootstrap\Dropdown\Menu $dropdown, $class = NULL, $icon = NULL, $caret = TRUE ){
+		\trigger_error( 'Use base component instead', E_USER_DEPRECATED );
 		$this->label	= $label;
 		$this->dropdown	= $dropdown;
-		$this->class	= $class;
+		$this->classes	= $class;
 		$this->icon		= $icon;
 		$this->caret	= $caret;
 	}
@@ -51,7 +54,7 @@ class Button{
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
-		$trigger	= new Trigger\Button( $this->label, $this->class, $this->icon, $this->caret );
+		$trigger	= new Trigger\Button( $this->label, $this->classes, $this->icon, $this->caret );
 		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 

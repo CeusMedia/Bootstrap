@@ -9,6 +9,14 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\Aware\ContentAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
+use CeusMedia\Bootstrap\Dropdown\Trigger\Button as TriggerButton;
+use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+
 /**
  *	...
  *	@category		Library
@@ -18,25 +26,26 @@ namespace CeusMedia\Bootstrap\Dropdown;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger{
+class Trigger extends Structure
+{
+	use ContentAware, ClassAware, IconAware;
 
-	protected $label;
-	protected $class;
 	protected $caret;
 	protected $type		= "button";
 
 	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
-		$this->label	= $label;
-		$this->class	= $class;
+		$this->setContent( $label );
+		$this->setClass( $class );
+		$this->setIcon( $icon );
 		$this->caret	= $caret;
-		$this->icon		= $icon;
 	}
 
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -48,18 +57,20 @@ class Trigger{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function asButton( $asButton = TRUE ){
+	public function asButton( $asButton = TRUE ): self
+	{
 		$this->type		= (bool) $asButton ? "button" : "link";
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function asLink( $asLink = TRUE ){
+	public function asLink( $asLink = TRUE ): self
+	{
 		$this->type		= (bool) $asLink ? "link" : "button";
 		return $this;
 	}
@@ -68,16 +79,16 @@ class Trigger{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		switch( $this->type ){
 			case "button":
-				$trigger	= new \CeusMedia\Bootstrap\Dropdown\Trigger\Button( $this->label, $this->class, $this->icon, $this->caret );
+				$trigger	= new TriggerButton( $this->content, $this->classes, $this->icon, $this->caret );
 				break;
 			case "link":
 			default:
-				$trigger	= new \CeusMedia\Bootstrap\Dropdown\Trigger\Link( $this->label, $this->class, $this->icon, $this->caret );
+				$trigger	= new TriggerLink( $this->content, $this->classes, $this->icon, $this->caret );
 		}
 		return $trigger;
 	}
 }
-?>
