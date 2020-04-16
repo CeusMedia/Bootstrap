@@ -9,6 +9,12 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Modal;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
+use CeusMedia\Bootstrap\Base\Aware\IdAware;
+
 /**
  *	Modal trigger generator.
  *	@category		Library
@@ -18,16 +24,18 @@ namespace CeusMedia\Bootstrap\Modal;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger{
+class Trigger
+{
+
+	use IdAware, ClassAware, IconAware;
 
 	protected $attributes	= array();
 	protected $icon;
 	protected $iconSize;
 	protected $iconStyle;
-	protected $id;
 	protected $label;
 	protected $modalId;
-	protected $type		= "button";
+	protected $type			= "button";
 
 	/**
 	 *	Constructor.
@@ -36,11 +44,15 @@ class Trigger{
 	 *	@param		string		$label			Label of trigger
 	 *	@return		void
 	 */
-	public function __construct( $modalId = NULL, $label = NULL ){
+	public function __construct( $modalId = NULL, $label = NULL, $class = NULL, $icon = NULL ){
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
 		if( !is_null( $label ) )
 			$this->setLabel( $label );
+		if( !is_null( $class ) )
+			$this->setClass( $class );
+		if( !is_null( $icon ) )
+			$this->setIcon( $icon );
 	}
 	/**
 	 *	Create modal trigger object by static call.
@@ -91,7 +103,7 @@ class Trigger{
 			'id'			=> $this->id,
 			'href'			=> "#".$this->modalId,
 			'role'			=> "button",
-			'class'			=> "btn",
+			'class'			=> "btn ".join( ' ', $this->classes ),
 			'data-toggle'	=> "modal",
 		);
 		foreach( $this->attributes as $key => $value ){
@@ -152,18 +164,6 @@ class Trigger{
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$id				...
-	 *	@return		self
-	 *	@todo		code doc
-	 */
-	public function setId( $id ){
-		$this->id		= $id;
-		return $this;
-	}
-
-	/**
-	 *	...
-	 *	@access		public
 	 *	@param		string		$label			...
 	 *	@return		self
 	 *	@todo		code doc
@@ -185,4 +185,3 @@ class Trigger{
 		return $this;
 	}
 }
-?>

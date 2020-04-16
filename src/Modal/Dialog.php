@@ -8,9 +8,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Modal;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+
+use CeusMedia\Bootstrap\Button;
+use CeusMedia\Bootstrap\Icon;
+
 use \UI_HTML_Tag as Tag;
 
 /**
@@ -22,23 +28,33 @@ use \UI_HTML_Tag as Tag;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Modal extends Structure
+class Dialog extends Structure
 {
+	use IdAware, ClassAware;
+
+	const SIZE_DEFAULT					= '';
+	const SIZE_SMALL					= 'modal-sm';
+	const SIZE_MEDIUM					= '';
+	const SIZE_LARGE					= 'modal-lg';
+	const SIZE_EXTRA_LARGE				= 'modal-xl';
+
+	public static $defaultFade			= FALSE;
+	public static $defaultSize			= self::SIZE_MEDIUM;
+
 	protected $attributes				= array();
-	protected $id;
-	protected $fade						= TRUE;
+	protected $fade						= FALSE;
 	protected $heading;
 	protected $body;
 	protected $formAction;
 	protected $formAttributes			= array();
 	protected $formIsUpload				= FALSE;
 	protected $formSubmit;
-	protected $buttonCloseClass			= "btn";
-	protected $buttonCloseIconClass		= "";
-	protected $buttonCloseLabel			= "close";
-	protected $buttonSubmitClass		= "btn";
-	protected $buttonSubmitIconClass	= "";
-	protected $buttonSubmitLabel		= "submit";
+	protected $buttonCloseClass			= 'btn';
+	protected $buttonCloseIconClass		= '';
+	protected $buttonCloseLabel			= 'close';
+	protected $buttonSubmitClass		= 'btn';
+	protected $buttonSubmitIconClass	= '';
+	protected $buttonSubmitLabel		= 'submit';
 	protected $headerCloseButtonIcon	= '×';
 	protected $useFooter				= TRUE;
 	protected $useHeader				= TRUE;
@@ -54,6 +70,8 @@ class Modal extends Structure
 		parent::__construct();
 		if( !is_null( $id ) )
 			$this->setId( $id );
+		$this->setFade( static::$defaultFade );
+		$this->setSize( static::$defaultSize );
 	}
 
 	/**
@@ -108,7 +126,7 @@ class Modal extends Structure
 		$content	= array( $header, $body, $footer );
 		if( version_compare( $this->bsVersion, 4, '>=' ) === TRUE ){
 			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-content' ) );
-			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.$this->dialogClass, 'role' => 'document' ) );
+			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
 		}
 		$modal	= Tag::create( 'div', array( $content ), $attributes );
 		if( $this->formAction ){
@@ -123,55 +141,6 @@ class Modal extends Structure
 		return $modal;
 	}
 
-	protected function renderFooter(): string
-	{
-		if( !$this->useFooter )
-			return '';
-		$iconClose		= '';
-		$iconSubmit		= '';
-		if( $this->buttonCloseIconClass )
-		 	$iconClose	= Tag::create( 'i', '', array( 'class' => $this->buttonCloseIconClass ) );
-		if( $this->buttonSubmitIconClass )
-		 	$iconSubmit	= Tag::create( 'i', '', array( 'class' => $this->buttonSubmitIconClass ) );
-		$labelClose		= $iconClose.$this->buttonCloseLabel;
-		$labelSubmit	= $iconSubmit.$this->buttonSubmitLabel;
-		if( $iconClose && $this->buttonCloseLabel )
-			$labelClose = $iconClose.'&nbsp;'.$this->buttonCloseLabel;
-		if( $iconSubmit && $this->buttonSubmitLabel )
-			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
-
-		$buttonClose	= Tag::create( 'button', $labelClose, array(
-			'class'		=> $this->buttonCloseClass,
-			'data-dismiss'	=> 'modal',
-			'aria-hidden'	=> 'true',
-		) );
-		$buttonSubmit	= Tag::create( 'button', $labelSubmit, array(
-			'class'		=> $this->buttonSubmitClass,
-			'type'		=> 'submit',
-		) );
-		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
-		$footer		= Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
-			'class'	=> 'modal-footer',
-		) );
-		return $footer;
-	}
-
-	protected function renderHeader(): string
-	{
-		if( !$this->useHeader )
-			return '';
-		$buttonClose	= Tag::create( 'button', $this->headerCloseButtonIcon, array(
-			'type'			=> "button",
-			'class'			=> "close",
-			'data-dismiss'	=> "modal",
-			'aria-hidden'	=> "true",
-		) );
-		$heading	= Tag::create( 'h3', $this->heading, array( 'id' => $this->id."-label" ) );
-		$header		= Tag::create( 'div', array( $heading, $buttonClose ), array(
-			'class'	=> 'modal-header',
-		) );
-		return $header;
-	}
 
 	/**
 	 *	Sets additional modal attributes.
@@ -203,13 +172,14 @@ class Modal extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$body			...
+	 *	@param		boolean		$centered			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeaderCloseButtonIcon( $icon ): self
+	public function setCentered( $centered ): self
 	{
-		$this->headerCloseButtonIcon	= $icon;
+		$class	= 'modal-dialog-centered';
+		$centered ? $this->addClass( $class ) : $this->removeClass( $class );
 		return $this;
 	}
 
@@ -268,13 +238,13 @@ class Modal extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$fade			...
+	 *	@param		boolean		$fade			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
 	public function setFade( $fade ): self
 	{
-		$this->fade		= $fade;
+		$this->fade	= $fade;
 		return $this;
 	}
 
@@ -320,13 +290,30 @@ class Modal extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$id				...
+	 *	@param		string		$body			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setId( $id ): self
+	public function setHeaderCloseButtonIcon( $icon ): self
 	{
-		$this->id		= $id;
+		$this->headerCloseButtonIcon	= $icon;
+		return $this;
+	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string		$size		...
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function setSize( $size ): self
+	{
+		$this->removeClass( static::SIZE_SMALL );
+		$this->removeClass( static::SIZE_MEDIUM );
+		$this->removeClass( static::SIZE_LARGE );
+		$this->removeClass( static::SIZE_EXTRA_LARGE );
+		$this->addClass( $size );
 		return $this;
 	}
 
@@ -393,5 +380,52 @@ class Modal extends Structure
 	{
 		$this->useHeader	= $use;
 		return $this;
+	}
+
+	/*  --  PROTECTED  --  */
+
+	protected function renderFooter(): string
+	{
+		if( !$this->useFooter )
+			return '';
+		$iconClose		= '';
+		$iconSubmit		= '';
+		if( $this->buttonCloseIconClass )
+		 	$iconClose	= new Icon( $this->buttonCloseIconClass );
+		if( $this->buttonSubmitIconClass )
+		 	$iconSubmit	= new Icon( $this->buttonSubmitIconClass );
+		$labelClose		= $iconClose.$this->buttonCloseLabel;
+		$labelSubmit	= $iconSubmit.$this->buttonSubmitLabel;
+		if( $iconClose && $this->buttonCloseLabel )
+			$labelClose = $iconClose.'&nbsp;'.$this->buttonCloseLabel;
+		if( $iconSubmit && $this->buttonSubmitLabel )
+			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
+
+		$buttonClose	= new Button( $labelClose, $this->buttonCloseClass );
+		$buttonClose->setData( 'dismiss', 'modal' )->setAria( 'hidden', 'true' );
+		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
+		$buttonSubmit->setType( Button::TYPE_SUBMIT );
+		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
+		$footer		= Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
+			'class'	=> 'modal-footer',
+		) );
+		return $footer;
+	}
+
+	protected function renderHeader(): string
+	{
+		if( !$this->useHeader )
+			return '';
+		$buttonClose	= Tag::create( 'button', $this->headerCloseButtonIcon, array(
+			'type'			=> 'button',
+			'class'			=> 'close',
+			'data-dismiss'	=> 'modal',
+			'aria-hidden'	=> 'true',
+		) );
+		$heading	= Tag::create( 'h3', $this->heading, array( 'id' => $this->id.'-label' ) );
+		$header		= Tag::create( 'div', array( $heading, $buttonClose ), array(
+			'class'	=> 'modal-header',
+		) );
+		return $header;
 	}
 }
