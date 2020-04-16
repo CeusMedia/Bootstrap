@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -17,7 +17,7 @@ use CeusMedia\Bootstrap\Base\Structure;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -36,7 +36,8 @@ class PageControl extends Structure
 	const SIZE_DEFAULT		= "";
 	const SIZE_LARGE		= "large";
 
-	public function __construct( $baseUrl, $page, $pages ){
+	public function __construct( $baseUrl, $page, $pages )
+	{
 		$this->baseUrl			= $baseUrl;
 		$this->page				= abs( (int) $page );
 		$this->pages			= abs( (int) $pages );

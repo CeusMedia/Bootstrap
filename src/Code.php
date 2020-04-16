@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -17,7 +17,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -31,8 +31,6 @@ class Code extends Component
 	public function __construct( $content, $scrollable = FALSE, $class = NULL, $convertTabsToWhitespace = TRUE )
 	{
 		parent::__construct( $content, $class );
-//		$this->setContent( $content );
-//		$this->setClass( $class );
 		$this->setScrollable( $scrollable );
 		$this->convertTabsToWhitespace	= $convertTabsToWhitespace;
 	}
@@ -79,4 +77,3 @@ class Code extends Component
 		return $this;
 	}
 }
-?>

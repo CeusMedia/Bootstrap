@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  *	@link			https://github.com/nostalgiaz/bootstrap-switch	requires Bootstrap Switch URL description
@@ -20,12 +20,12 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2018 {@link http://ceusmedia.de/ Ceus Media}
+ *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class Shiftbox extends Component{
-
+class Shiftbox extends Component
+{
 	const SIZE_DEFAULT		= "";
 	const SIZE_LARGE		= "large";
 	const SIZE_MINI			= "mini";
@@ -36,7 +36,8 @@ class Shiftbox extends Component{
 	protected $options;
 	protected $size;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $data = array() ){
+	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $data = array() )
+	{
 		parent::__construct();
 		$this->setName( $name );
 		$this->setValue( $value );
@@ -49,7 +50,8 @@ class Shiftbox extends Component{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$attributes	= array(
 			'type'		=> 'checkbox',
 			'id'		=> 'input_'.$this->name,
@@ -69,18 +71,20 @@ class Shiftbox extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setChecked( $checked ){
+	public function setChecked( $checked ): self
+	{
 		$this->checked	= $checked;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setName( $name ){
+	public function setName( $name ): self
+	{
 		$this->name		= $name;
 		$this->setId( $name ? 'input_'.$name : "" );
 		return $this;
@@ -88,11 +92,11 @@ class Shiftbox extends Component{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setValue( $value ){
+	public function setValue( $value ): self
+	{
 		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 		return $this;
 	}
 }
-?>
