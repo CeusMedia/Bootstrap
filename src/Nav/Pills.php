@@ -11,6 +11,10 @@
 namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Link;
+use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
+use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+use UI_HTML_Tag as Tag;
 
 /**
  *	...
@@ -48,7 +52,7 @@ class Pills extends Structure
 	public function add( $url, $label, $class = NULL, $icon = NULL ): self
 	{
 		$class	= 'nav-link'.( $class ? ' '.$class : '' );
-		$link	= new \CeusMedia\Bootstrap\Link( $url, $label, $class, $icon );
+		$link	= new Link( $url, $label, $class, $icon );
 		$this->addLink( $link );
 		return $this;
 	}
@@ -57,8 +61,9 @@ class Pills extends Structure
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function addLink( \CeusMedia\Bootstrap\Link $link ): self
+	public function addLink( Link $link ): self
 	{
+		$link->addClass( 'nav-link' );
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
 			'link'		=> $link,
@@ -70,20 +75,21 @@ class Pills extends Structure
 	/**
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
+	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( \CeusMedia\Bootstrap\Dropdown $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
+	public function addDropdown( DropdownMenu $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
 	{
-		if( version_compare( static::$version, 4, '>=' ) )
+/*		if( version_compare( $this->bsVersion, 4, '>=' ) )
 			$label		= \UI_HTML_Tag::create( 'a', $label, array(
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
-			) );
+			) );*/
 		$this->items[]	= (object) array(
 			'type'			=> 'dropdown',
 			'label'			=> $label,
 			'content'		=> $dropdown,
-			'class'			=> 'nav-item'.( $class ? ' '.$class : '' ),
+			'class'			=> 'nav-link'.( $class ? ' '.$class : '' ),
 			'icon'			=> $icon,
 			'iconActive'	=> $iconActive,
 		);
@@ -101,15 +107,15 @@ class Pills extends Structure
 			$class		= $this->active === $nr ? "active" : NULL;
 			if( $item->type === "dropdown" ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
-				$trigger	= new \CeusMedia\Bootstrap\Dropdown\Trigger\Link( $item->label, $item->class, $icon );
-				$item		= \UI_HTML_Tag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
+				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
+				$item		= Tag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
 			}
 			else{
-				$item	= \UI_HTML_Tag::create( 'li', (string) $item->link, array( 'class' => $class ) );
+				$item	= Tag::create( 'li', (string) $item->link, array( 'class' => $class ) );
 			}
 			$items[]	= $item;
 		}
-		return \UI_HTML_Tag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
+		return Tag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
 	}
 
 	/**

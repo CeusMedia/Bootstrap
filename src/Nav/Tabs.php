@@ -8,7 +8,7 @@
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           http://code.google.com/p/cmmodules/
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
 
