@@ -11,6 +11,8 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Link;
 
 /**
  *	...
@@ -23,8 +25,9 @@ use CeusMedia\Bootstrap\Base\Structure;
  */
 class Breadcrumbs extends Structure
 {
+	use ClassAware;
+
 	protected $crumbs;
-	protected $class;
 	protected $divider;
 
 	public function __construct( $divider = "/", $class = NULL )
@@ -97,8 +100,8 @@ class Breadcrumbs extends Structure
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
 			else if( strlen( trim( $crumb->url ) ) ){
-				$attributes	= array( 'href' => $crumb->url );
-				$content	= \UI_HTML_Tag::create( 'a', $crumb->label, $attributes );
+				$link		= new Link( $crumb->url, $crumb->label );
+				$content	= $link->render();
 			}
 			else
 				$content	= $crumb->label;
@@ -127,20 +130,9 @@ class Breadcrumbs extends Structure
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setClass( $class ): self
-	{
-		$this->class	= $class;
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
 	public function setDivider( $divider ): self
 	{
 		$this->divider	= $divider;
 		return $this;
 	}
 }
-?>

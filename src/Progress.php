@@ -9,6 +9,10 @@
  *	@link			http://code.google.com/p/cmmodules/
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+
 /**
  *	...
  *	@category		Library
@@ -18,31 +22,37 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class ProgressBar{
+class Progress extends Structure
+{
+	use ClassAware;
 
-	const CLASS_ACTIVE		= "active";
-	const CLASS_DANGER		= "progress-danger";
-	const CLASS_INFO		= "progress-info";
-	const CLASS_STRIPED		= "progress_striped";
-	const CLASS_SUCCESS		= "progress-success";
-	const CLASS_WARNING		= "progress-warning";
+	const CLASS_ACTIVE		= 'active';
+	const CLASS_DANGER		= 'progress-danger';
+	const CLASS_INFO		= 'progress-info';
+	const CLASS_STRIPED		= 'progress-striped';
+	const CLASS_SUCCESS		= 'progress-success';
+	const CLASS_WARNING		= 'progress-warning';
 
-	const BAR_CLASS_DANGER	= "bar-danger";
-	const BAR_CLASS_INFO	= "bar-info";
-	const BAR_CLASS_SUCCESS	= "bar-success";
-	const BAR_CLASS_WARNING	= "bar-warning";
+	const BAR_CLASS_SUCCESS	= 'bar-success bg-success';
+	const BAR_CLASS_INFO	= 'bar-info bg-info';
+	const BAR_CLASS_WARNING	= 'bar-warning bg-warning';
+	const BAR_CLASS_DANGER	= 'bar-danger bg-danger';
+	const BAR_CLASS_STRIPED	= 'progress-bar-striped';
 
 	protected $bars		= array();
 
-	public function __construct( $class = NULL ){
-		$this->class	= $class;
+	public function __construct( $class = NULL )
+	{
+		$this->setClass( 'progress' );
+		$this->addClass( $class );
 	}
 
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -54,9 +64,10 @@ class ProgressBar{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addBar( $width, $class = NULL, $label = NULL ){
+	public function addBar( $width, $class = NULL, $label = NULL ): self
+	{
 		$this->bars[]	= (object) array(
 			'width'		=> $width,
 			'class'		=> $class,
@@ -69,12 +80,17 @@ class ProgressBar{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$list	= array();
 		foreach( $this->bars as $bar ){
 			$attributes	= array(
-				'class'		=> "bar",
-				'style'		=> 'width: '.$bar->width.'%',
+				'class'			=> 'bar progress-bar',
+				'style'			=> 'width: '.$bar->width.'%',
+				'role'			=> 'progressbar',
+				'aria-valuemin'	=> 0,
+				'aria-valuemax'	=> 100,
+				'aria-valuenow'	=> round( $bar->width ),
 			);
 			if( $bar->class ){
 				$class	= is_array( $bar->class ) ? join( ' ', $bar->class ) : $bar->class;
@@ -82,11 +98,6 @@ class ProgressBar{
 			}
 			$list[]	= \UI_HTML_Tag::create( 'div', $bar->label, $attributes );
 		}
-		$class	= 'progress';
-		if( $this->class ){
-			$class	.= ' '.( is_array( $this->class ) ? join( ' ', $this->class ) : $this->class );	//
-		}
-		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => $class ) );
+		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => join( ' ', $this->classes ) ) );
 	}
 }
-?>

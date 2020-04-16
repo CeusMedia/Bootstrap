@@ -9,6 +9,9 @@
  *	@link			http://code.google.com/p/cmmodules/
  */
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Bootstrap\Base\Structure;
+
 /**
  *	...
  *	@category		Library
@@ -18,8 +21,8 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class PageControl{
-
+class PageControl extends Structure
+{
 	public $baseUrl;
 	public $page;
 	public $pages;
@@ -46,7 +49,8 @@ class PageControl{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
@@ -56,7 +60,8 @@ class PageControl{
 		}
 	}
 
-	protected function getUrl( $page = 0 ){
+	protected function getUrl( $page = 0 ): string
+	{
 		$fragment	= $this->fragment ? "#".$this->fragment : "";
 		$part		= sprintf( $this->patternUrl, $page );
 		if( !$page && $this->patternUrl == "/%s" )
@@ -68,7 +73,8 @@ class PageControl{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		if( $this->pages <= 1 )
 			return "";
 		$size	= $this->size ? 'btn-'.$this->size : NULL;
@@ -120,4 +126,3 @@ class PageControl{
 		return (string) $group;
 	}
 }
-?>

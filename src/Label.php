@@ -35,8 +35,8 @@ class Label extends Component{
 	 */
 	public function render(){
 		$class	= 'label';
-		if( count( $this->class ) )
-			$class	.= ' '.join( " ", $this->class );
+		if( count( $this->$classes ) )
+			$class	.= ' '.join( " ", $this->classes );
 		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
 	}
 }

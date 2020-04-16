@@ -60,7 +60,7 @@ class Code extends Component
 	 */
 	public function render(): string
 	{
-		$attributes		= array( 'class' => join( " ", $this->class ) );
+		$attributes		= array( 'class' => join( " ", $this->classes ) );
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
 		$content	= $this->content;

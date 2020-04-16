@@ -11,6 +11,8 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
 /**
  *	...
@@ -21,16 +23,15 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link extends Component{
+class Link extends Component
+{
+	use AriaAware, IconAware;
 
-	protected $icon;
 	protected $url;
 
 	public function __construct( $url, $content, $class = NULL, $icon = NULL ){
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-//		$this->setContent( $content );
-//		$this->setClass( $class );
 		$this->setIcon( $icon );
 	}
 
@@ -41,22 +42,12 @@ class Link extends Component{
 	public function render(){
 		$attributes		= array(
 			'href'		=> $this->url,
-			'class'		=> $this->class,
+			'class'		=> $this->classes,
 		);
 		$this->extendAttributesByData( $attributes );
+		$this->extendAttributesByAria( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
 		return \UI_HTML_Tag::create( 'a', $icon.$this->content, $attributes );
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		object		Own instance for chainability
-	 */
-	public function setIcon( $icon, $white = FALSE ){
-		if( $icon && !( $icon instanceof Icon ) )
-			$icon	= new Icon( $icon, $white );
-		$this->icon	= $icon;
-		return $this;
 	}
 
 	/**

@@ -17,18 +17,20 @@ namespace CeusMedia\Bootstrap;
  *	@copyright		2012-2018 {@link http://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
+ *	@deprecated		use base component instead
  */
 abstract class Component{
 
 	static protected $version	= "0.4.8";
 
-	protected $class	= array();
+	protected $classes	= array();
 	protected $content	= NULL;
 	protected $data		= array();
 	protected $events	= array();
 	protected $id		= NULL;
 
 	public function __construct( $content, $class = NULL ){
+		\trigger_error( 'Use base component instead', E_USER_DEPRECATED );
 		$this->setClass( $class );
 		$this->setContent( $content );
 	}
@@ -61,8 +63,8 @@ abstract class Component{
 		if( !is_array( $class ) )
 			$class	= explode( " ", $class );
 		foreach( $class as $item )
-			if( !in_array( $item, $this->class ) )
-				$this->class[]	= $item;
+			if( !in_array( $item, $this->classes ) )
+				$this->classes[]	= $item;
 		return $this;
 	}
 
@@ -118,9 +120,9 @@ abstract class Component{
 	 *	@return		object		Own instance for chainability
 	 */
 	public function removeClass( $class ){
-		$index	= array_search( trim( $class ), $this->class );
+		$index	= array_search( trim( $class ), $this->classes );
 		if( $index !== FALSE )
-			unset( $this->class[$index] );
+			unset( $this->classes[$index] );
 		return $this;
 	}
 
@@ -139,7 +141,7 @@ abstract class Component{
 	 *	@return		object		Own instance for chainability
 	 */
 	public function setClass( $class ){
-		$this->class	= array();
+		$this->classes	= array();
 		return $this->addClass( $class );
 	}
 
