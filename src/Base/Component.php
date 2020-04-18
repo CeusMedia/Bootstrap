@@ -29,8 +29,8 @@ abstract class Component
 {
 	use ClassAware, DataAware, EventAware, ContentAware, IdAware;
 
+	static public $version			= "0.5.0";
 	static public $defaultBsVersion	= "2.3.2";
-	static public $version			= "0.4.8";
 
 	protected $bsVersion;
 

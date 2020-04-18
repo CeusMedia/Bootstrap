@@ -21,7 +21,7 @@ namespace CeusMedia\Bootstrap;
  */
 abstract class Component{
 
-	static protected $version	= "0.4.8";
+	static protected $version	= "0.5.0";
 
 	protected $classes	= array();
 	protected $content	= NULL;

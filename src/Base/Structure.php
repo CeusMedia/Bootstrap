@@ -21,7 +21,7 @@ namespace CeusMedia\Bootstrap\Base;
  */
 abstract class Structure
 {
-	static public $version			= "0.4.8";
+	static public $version			= "0.5.0";
 	static public $defaultBsVersion	= "2.3.2";
 
 	protected $bsVersion;
