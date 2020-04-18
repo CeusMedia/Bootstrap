@@ -13,6 +13,7 @@ namespace CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Base\Component;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
+use CeusMedia\Bootstrap\Button as BaseButton;
 use CeusMedia\Bootstrap\Icon;
 
 /**
@@ -35,7 +36,7 @@ class Submit extends Component
 
 	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{
-		$this->button	= new CeusMedia\Bootstrap\Button( $content, $class, $icon, $disabled );
+		$this->button	= new BaseButton( $content, $class, $icon, $disabled );
 		$this->button->setName( $name );
 	}
 
