@@ -37,6 +37,7 @@ class Submit extends Component
 	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{
 		$this->button	= new BaseButton( $content, $class, $icon, $disabled );
+		$this->button->setType( 'submit' );
 		$this->button->setName( $name );
 	}
 
