@@ -33,21 +33,6 @@ class Toolbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString()
-	{
-		try{
-			return $this->render();
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
-	/**
-	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
 	public function add( $group ): self
