@@ -10,6 +10,7 @@
  */
 namespace CeusMedia\Bootstrap;
 
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Component;
 
 /**
@@ -21,13 +22,11 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Badge extends Component
+class Row extends Component
 {
-	const CLASS_IMPORTANT	= "badge-important";
-	const CLASS_INVERSE		= "badge-inverse";
-	const CLASS_INFO		= "badge-info";
-	const CLASS_SUCCESS		= "badge-success";
-	const CLASS_WARNING		= "badge-warning";
+	use AriaAware;
+
+	protected $fluid	= FALSE;
 
 	/**
 	 *	@access		public
@@ -35,9 +34,22 @@ class Badge extends Component
 	 */
 	public function render(): string
 	{
-		$class	= 'badge';
-		if( count( $this->classes ) )
-			$class	.= ' '.join( ' ', $this->classes );
-		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		$attributes		= array(
+			'class'		=> 'row'.( $this->fluid ? '-fluid' : ''),
+		);
+		$this->extendAttributesByData( $attributes );
+		$this->extendAttributesByAria( $attributes );
+		return \UI_HTML_Tag::create( 'div', $this->content, $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@param		boolean		$fluid		Flag: set row to be fluid or not
+	 *	@return		self		Own instance for chainability
+	 */
+	public function setFluid( bool $fluid ): self
+	{
+		$this->fluid	= $fluid;
+		return $this;
 	}
 }

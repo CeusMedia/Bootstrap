@@ -10,6 +10,7 @@
  */
 namespace CeusMedia\Bootstrap;
 
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Component;
 
 /**
@@ -21,13 +22,11 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Badge extends Component
+class Column extends Component
 {
-	const CLASS_IMPORTANT	= "badge-important";
-	const CLASS_INVERSE		= "badge-inverse";
-	const CLASS_INFO		= "badge-info";
-	const CLASS_SUCCESS		= "badge-success";
-	const CLASS_WARNING		= "badge-warning";
+	use AriaAware;
+
+	protected $size	= 12;
 
 	/**
 	 *	@access		public
@@ -35,9 +34,23 @@ class Badge extends Component
 	 */
 	public function render(): string
 	{
-		$class	= 'badge';
-		if( count( $this->classes ) )
-			$class	.= ' '.join( ' ', $this->classes );
-		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		$classes	= array_merge( $this->classes, array( 'span'.$this->size ) );
+		$attributes		= array(
+			'class'		=> join( ' ', $classes ),
+		);
+		$this->extendAttributesByData( $attributes );
+		$this->extendAttributesByAria( $attributes );
+		return \UI_HTML_Tag::create( 'div', $this->content, $attributes );
+	}
+
+	/**
+	 *	@access		public
+	 *	@param		integer		$size		Size of column (1-12)
+	 *	@return		self		Own instance for chainability
+	 */
+	public function setSize( int $size ): self
+	{
+		$this->size		= $size;
+		return $this;
 	}
 }
