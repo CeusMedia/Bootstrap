@@ -7,18 +7,18 @@
     {
       "name": "Christian Würker",
       "email": "christian.wuerker@ceusmedia.de",
-      "homepage": "http://ceusmedia.de",
+      "homepage": "https://ceusmedia.de",
       "role": "Developer"
     }
   ],
   "support": {
-    "email": "office@ceusmedia.de",
-    "jabber": "ceus-media@jabber.org"
+    "email": "christian.wuerker@ceusmedia.de",
+    "jabber": "cwuerker@ceusmedia.de"
   },
   "minimum-stability": "dev",
   "require": {
-    "php": "^5.3 || ^7",
-    "ceus-media/common": "^0.8",
+    "php": "^7",
+    "ceus-media/common": "^0.8 | dev-master",
     "nostalgiaz/bootstrap-switch": "^3.3"
   },
   "require-dev": {

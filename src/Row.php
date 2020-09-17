@@ -21,6 +21,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
+ *	@todo			support Bootstrap 3+
  */
 class Row extends Component
 {
