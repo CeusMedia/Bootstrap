@@ -140,8 +140,8 @@ class Menu extends Structure
 			'class'		=> "dropdown-menu",
 		);
 		if( !$this->alignLeft ){
-			$attributes['class']	= ' '.( version_compare( $this->bsVersion, 4, '>=' ) ? 'dropdown-menu-right' : 'pull-right' );
-//			$attributes['class']	= $attributes['class'].' pull-right';
+			$additionalClass		= version_compare( $this->bsVersion, 4, '>=' ) ? 'dropdown-menu-right' : 'pull-right';
+			$attributes['class']	= $attributes['class'].' '.$additionalClass;
 		}
 		return \UI_HTML_Tag::create( 'ul', $list, $attributes );
 	}
