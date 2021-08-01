@@ -1,6 +1,10 @@
 <?php
 namespace CeusMedia\Bootstrap\Base\Aware;
 
+use function is_bool;
+use function htmlentities;
+use function strtolower;
+
 trait AriaAware
 {
 	protected $ariaAttributes	= array();
@@ -12,8 +16,8 @@ trait AriaAware
 	 */
 	public function setAria( $key, $value ): self
 	{
-		$key	= \strtolower( $key );
-		if( \is_bool( $value ) )
+		$key	= strtolower( $key );
+		if( is_bool( $value ) )
 			$value	= $value ? 'true' : 'false';
 		$this->ariaAttributes[$key]	= $value;
 		return $this;
@@ -25,14 +29,14 @@ trait AriaAware
 	 */
 	public function setRole( $role ): self
 	{
-		$this->role	= \strtolower( $role );
+		$this->role	= strtolower( $role );
 		return $this;
 	}
 
 	protected function extendAttributesByAria( &$attributes ): self
 	{
 		foreach( $this->ariaAttributes as $key => $value ){
-			$attributes['on'.$event]	= addslashes( join( '; ', $actions ) );
+			$attributes['aria-'.$key]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 		}
 		if( $this->role )
 			$attributes['role']	= $this->role;

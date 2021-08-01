@@ -10,7 +10,9 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	...
@@ -21,13 +23,21 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Label extends Component
+class Label extends Element
 {
-	const CLASS_IMPORTANT	= "label-important";
-	const CLASS_INVERSE		= "label-inverse";
-	const CLASS_INFO		= "label-info";
-	const CLASS_SUCCESS		= "label-success";
-	const CLASS_WARNING		= "label-warning";
+	const CLASS_IMPORTANT	= 'label-important';
+	const CLASS_INVERSE		= 'label-inverse';
+	const CLASS_INFO		= 'label-info';
+	const CLASS_SUCCESS		= 'label-success';
+	const CLASS_WARNING		= 'label-warning';
+
+	const CLASSES			= [
+		self::CLASS_IMPORTANT,
+		self::CLASS_INVERSE,
+		self::CLASS_INFO,
+		self::CLASS_SUCCESS,
+		self::CLASS_WARNING,
+	];
 
 	/**
 	 *	@access		public
@@ -36,8 +46,8 @@ class Label extends Component
 	public function render(): string
 	{
 		$class	= 'label';
-		if( count( $this->$classes ) )
-			$class	.= ' '.join( " ", $this->classes );
-		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		if( count( $this->classes ) )
+			$class	.= ' '.join( ' ', $this->classes );
+		return HtmlTag::create( 'span', $this->content, ['class' => $class] );
 	}
 }

@@ -10,6 +10,12 @@
  */
 namespace CeusMedia\Bootstrap\Base;
 
+use Alg_Object_Factory as ObjectFactory;
+
+use Exception;
+
+use function func_get_args;
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -31,12 +37,6 @@ abstract class Structure
 		$this->bsVersion		= static::$defaultBsVersion;
 	}
 
-	public function setBsVersion( $bsVersion ): self
-	{
-		$this->bsVersion	= $bsVersion;
-		return $this;
-	}
-
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
@@ -46,13 +46,25 @@ abstract class Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			$message	= '... failed: '.$e->getMessage();
 			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
 //			print $e->getMessage();																//  if app is still alive: print exception message
 //			exit;																				//  if app is still alive: exit application
 			return '';
 		}
+	}
+
+	/**
+	 *	Create icon object by static call.
+	 *	For arguments see code doc of contructor.
+	 *	@static
+	 *	@access		public
+	 *	@return		self		Icon instance for chainability
+	 */
+	static public function create(): self
+	{
+		return ObjectFactory::createObject( static::class, func_get_args() );
 	}
 
 	/**
@@ -85,4 +97,10 @@ abstract class Structure
 	 *	@return		string		Rendered HTML of component
 	 */
 	abstract public function render();
+
+	public function setBsVersion( string $bsVersion ): self
+	{
+		$this->bsVersion	= $bsVersion;
+		return $this;
+	}
 }

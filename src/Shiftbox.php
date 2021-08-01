@@ -13,7 +13,10 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
+use CeusMedia\Bootstrap\Base\Aware\NameAware;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	Replacement for checkbox inputs.
@@ -24,21 +27,23 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class Shiftbox extends Component
+class Shiftbox extends Element
 {
-	const SIZE_DEFAULT		= "";
-	const SIZE_LARGE		= "large";
-	const SIZE_MINI			= "mini";
-	const SIZE_SMALL		= "small";
+	use NameAware;
 
-	protected $name;
+	const SIZE_DEFAULT		= '';
+	const SIZE_LARGE		= 'large';
+	const SIZE_MINI			= 'mini';
+	const SIZE_SMALL		= 'small';
+
 	protected $value;
 	protected $options;
 	protected $size;
+	protected $checked;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $data = array() )
+	public function __construct( string $name = NULL, string $value = NULL, bool $checked = NULL, array $data = array() )
 	{
-		parent::__construct();
+		parent::__construct( '' );
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setChecked( $checked );
@@ -58,22 +63,17 @@ class Shiftbox extends Component
 			'name'		=> $this->name,
 			'value'		=> $this->value,
 			'class'		=> 'shiftbox',
-			'checked'	=> $this->checked ? "checked" : NULL,
+			'checked'	=> $this->checked ? 'checked' : NULL,
 		);
 		$this->extendAttributesByData( $attributes );
-		$input			= \UI_HTML_Tag::create( 'input', NULL, $attributes );
-		return $input;
-		$attributes	= array();
-		$attributes['class']	= "make-switch";
-//		$this->extendAttributesByData( $attributes );
-		return \UI_HTML_Tag::create( 'div', $input, $attributes );
+		return HtmlTag::create( 'input', NULL, $attributes );
 	}
 
 	/**
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setChecked( $checked ): self
+	public function setChecked( bool $checked ): self
 	{
 		$this->checked	= $checked;
 		return $this;
@@ -83,18 +83,7 @@ class Shiftbox extends Component
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setName( $name ): self
-	{
-		$this->name		= $name;
-		$this->setId( $name ? 'input_'.$name : "" );
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setValue( $value ): self
+	public function setValue( string $value ): self
 	{
 		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 		return $this;

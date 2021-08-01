@@ -10,7 +10,7 @@
  */
 namespace CeusMedia\Bootstrap\Button;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
@@ -26,13 +26,13 @@ use CeusMedia\Bootstrap\Icon;
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@deprecated		use Button with type TYPE_SUBMIT instead
  */
-class Submit extends Component
+class Submit extends Element
 {
 	use IconAware, DisabledAware;
 
-	protected $confirm;
-	protected $name;
-	protected $title;
+	protected $button;
+#	protected $confirm;
+#	protected $title;
 
 	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
 	{

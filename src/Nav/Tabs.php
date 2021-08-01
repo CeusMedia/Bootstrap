@@ -11,6 +11,7 @@
 namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\IdAware;
 
 /**
  *  ...
@@ -23,6 +24,8 @@ use CeusMedia\Bootstrap\Base\Structure;
  */
 class Tabs extends Structure
 {
+	use IdAware;
+
 	protected $active		= 0;
 	protected $tabs			= array();
 
@@ -30,29 +33,13 @@ class Tabs extends Structure
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$id			ID of tabs container
-	 *	@param		integer		$active		Nr of active tab
 	 *	@return		void
 	 */
-	public function __construct( $id, $active = 0 )
+	public function __construct( $id/*, $active = 0*/ )
 	{
 		parent::__construct();
 		$this->setId( $id );
 //		$this->setActive( $active );
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
 	}
 
 	/**
@@ -188,18 +175,6 @@ class Tabs extends Structure
 		if( $tab->disabled )
 			throw new \RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
 		$this->active	= $id;
-		return $this;
-	}
-
-	/**
-	 *	Set ID of tabs container.
-	 *	@access		public
-	 *	@param		string		$id			ID of tabs container
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setId( $id ): self
-	{
-		$this->id	= $id;
 		return $this;
 	}
 }

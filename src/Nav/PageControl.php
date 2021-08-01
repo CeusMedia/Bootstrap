@@ -8,9 +8,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Button;
+use CeusMedia\Bootstrap\Button\Group as ButtonGroup;
+use CeusMedia\Bootstrap\Button\Link as ButtonLink;
+use CeusMedia\Bootstrap\Icon;
 
 /**
  *	...
@@ -30,20 +34,21 @@ class PageControl extends Structure
 	public $patternUrl;
 	public $patternIndicator;
 	public $size;
+	public $fragment;
 
-	const SIZE_MINI			= "mini";
-	const SIZE_SMALL		= "small";
-	const SIZE_DEFAULT		= "";
-	const SIZE_LARGE		= "large";
+	const SIZE_MINI			= 'mini';
+	const SIZE_SMALL		= 'small';
+	const SIZE_DEFAULT		= '';
+	const SIZE_LARGE		= 'large';
 
-	public function __construct( $baseUrl, $page, $pages )
+	public function __construct( string $baseUrl, int $page, int $pages )
 	{
 		$this->baseUrl			= $baseUrl;
-		$this->page				= abs( (int) $page );
-		$this->pages			= abs( (int) $pages );
-		$this->patternUrl		= "/%s";
-		$this->patternIndicator	= "<b>%s</b> / %s";
-		$this->fragment			= "";
+		$this->page				= abs( $page );
+		$this->pages			= abs( $pages );
+		$this->patternUrl		= '/%s';
+		$this->patternIndicator	= '<b>%s</b> / %s';
+		$this->fragment			= '';
 	}
 
 	/**
@@ -61,7 +66,7 @@ class PageControl extends Structure
 		}
 	}
 
-	protected function getUrl( $page = 0 ): string
+	protected function getUrl( int $page = 0 ): string
 	{
 		$fragment	= $this->fragment ? "#".$this->fragment : "";
 		$part		= sprintf( $this->patternUrl, $page );
@@ -115,10 +120,10 @@ class PageControl extends Structure
 				'disabled'	=> $this->page === $this->pages - 1,
 			),
 		);
-		$group		= new Button\Group();
+		$group		= new ButtonGroup();
 		foreach( $buttons as $button ){
 			if( isset( $button->url ) )
-				$button	= new Button\Link( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
+				$button	= new ButtonLink( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
 			else
 				$button	= new Button( $button->label, $button->class, $button->icon, $button->disabled );
 			$group->add( $button );

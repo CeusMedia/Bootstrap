@@ -8,11 +8,16 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
+
+use UI_HTML_Tag as HtmlTag;
+
+use Exception;
 
 /**
  *	...
@@ -46,7 +51,7 @@ class Breadcrumbs extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -54,9 +59,9 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function add( $label, $url = NULL, $class = NULL, $icon = NULL, $active = FALSE ): self
+	public function add( string $label, ?string $url = NULL, $class = NULL, $icon = NULL, bool $active = FALSE ): self
 	{
 		$this->crumbs[]	= (object) array(
 			'label'		=> $label,
@@ -95,7 +100,7 @@ class Breadcrumbs extends Structure
 	public function render(): string
 	{
 		$list		= array();
-		$divider	= \UI_HTML_Tag::create( 'span', "/", array( 'class' => 'divider' ) );
+		$divider	= HtmlTag::create( 'span', "/", array( 'class' => 'divider' ) );
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
@@ -120,10 +125,10 @@ class Breadcrumbs extends Structure
 				$icon	= $crumb->icon->render().' ';
 			else if( $crumb->icon )
 				$icon	= new Icon( $crumb->icon ).' ';
-			$list[]	= \UI_HTML_Tag::create( 'li', $icon.$content, $attributes );
+			$list[]	= HtmlTag::create( 'li', $icon.$content, $attributes );
 		}
-		$list	= \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
-		return \UI_HTML_Tag::create( 'nav', $list );
+		$list	= HtmlTag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		return HtmlTag::create( 'nav', $list );
 	}
 
 	/**

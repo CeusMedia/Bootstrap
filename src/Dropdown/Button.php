@@ -9,6 +9,9 @@
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown;
+
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+
 /**
  *	...
  *	@category		Library
@@ -22,15 +25,21 @@ namespace CeusMedia\Bootstrap\Dropdown;
  */
 class Button{
 
+	use ClassAware;
+
 	protected $items		= array();
 	protected $alignLeft	= TRUE;
 	protected $trigger		= NULL;
+	protected $label;
+	protected $dropdown;
+	protected $caret;
+	protected $icon;
 
 	public function __construct( $label, \CeusMedia\Bootstrap\Dropdown\Menu $dropdown, $class = NULL, $icon = NULL, $caret = TRUE ){
 		\trigger_error( 'Use base component instead', E_USER_DEPRECATED );
 		$this->label	= $label;
 		$this->dropdown	= $dropdown;
-		$this->classes	= $class;
+		$this->setClass( $class );
 		$this->icon		= $icon;
 		$this->caret	= $caret;
 	}

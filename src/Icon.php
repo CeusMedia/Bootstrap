@@ -12,6 +12,20 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
 
+use Exception;
+use InvalidArgumentException;
+use UI_HTML_Tag as HtmlTag;
+
+use function explode;
+use function is_array;
+use function is_string;
+use function join;
+use function preg_match;
+use function preg_split;
+use function strtolower;
+use function trigger_error;
+use function trim;
+
 /**
  *	...
  *	@category		Library
@@ -27,6 +41,7 @@ class Icon extends Structure
 	static $defaultSize		= array();
 	static $defaultStyle	= '';
 
+	protected $icon;
 	protected $set		= NULL;
 	protected $size		= array();
 	protected $style	= FALSE;
@@ -35,13 +50,12 @@ class Icon extends Structure
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string			$icon 		Icon class name plus modifying class names
-	 *	@param		string			$style 		Icon set style (see code doc of setStyle)
+	 *	@param		string|NULL		$style 		Icon set style (see code doc of setStyle)
 	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
-	public function __construct( $icon, $style = NULL, $size = NULL )
+	public function __construct( string $icon, ?string $style = NULL, $size = NULL )
 	{
-		$style	= $style === TRUE ? 'white' : $style;												//  legacy: glyphicons white @todo remove
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
 		$this->setStyle( $style ? $style : static::$defaultStyle );
@@ -51,42 +65,12 @@ class Icon extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			$string	= $this->render();
-			return $string;
-		}
-		catch( \Exception $e ){
-			$message	= '... failed: '.$e->getMessage();
-			\trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );							//  trigger recoverable user error
-//			print $e->getMessage();																	//  if app is still alive: print exception message
-//			exit;																					//  if app is still alive: exit application
-		}
-	}
-
-	/**
-	 *	Create icon object by static call.
-	 *	For arguments see code doc of contructor.
-	 *	@static
-	 *	@access		public
-	 *	@return		object		Icon instance for chainability
-	 */
-	static public function create(): self
-	{
-		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
-	}
-
-	/**
-	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
 		$class		= $this->resolve( $this->icon );
-		return \UI_HTML_Tag::create( 'i', "", array( 'class' => $class ) );
+		return HtmlTag::create( 'i', '', array( 'class' => $class ) );
 	}
 
 	/**
@@ -107,7 +91,7 @@ class Icon extends Structure
 	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setSet( $set ): self
+	public function setSet( string $set ): self
 	{
 		$this->set	= trim( $set );
 		return $this;
@@ -122,19 +106,15 @@ class Icon extends Structure
 	 *	- modifiers: see FontAwesome doc
 	 *
 	 *	@access		public
-	 *	@param		string		$size 		One or many size or modifier class name
+	 *	@param		string		$sizes 		One or many size or modifier class name
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setSize( $sizes ): self
+	public function setSize( string $sizes ): self
 	{
 		$this->size		= array();
-		if( !is_array( $sizes ) ){
-			if( !is_string( $sizes ) )
-				throw new \InvalidArgumentException( 'Size must be of array or string' );
-			$sizes	= preg_split( "/\s+/", trim( $sizes ) );
-		}
+		$sizes	= preg_split( "/\s+/", trim( $sizes ) );
 		foreach( $sizes as $size )
-			if( trim( $size ) )
+			if( strlen( trim( $size ) ) > 0 )
 				$this->size[]	= trim( $size );
 		return $this;
 	}
@@ -157,7 +137,7 @@ class Icon extends Structure
 	 *	@return		self		Own instance for chainability
 	 *	@todo		code doc
 	 */
-	public function setStyle( $style ): self
+	public function setStyle( string $style ): self
 	{
 		$this->style	= trim( $style );
 		return $this;

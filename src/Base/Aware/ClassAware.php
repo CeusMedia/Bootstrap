@@ -32,6 +32,7 @@ trait ClassAware
 			$index	= array_search( trim( $class ), $this->classes );
 			if( $index !== FALSE )
 				unset( $this->classes[$index] );
+			$this->classes	= array_values( $this->classes );
 		}
 		return $this;
 	}
@@ -47,5 +48,11 @@ trait ClassAware
 	{
 		$this->classes	= array();
 		return $this->addClass( $class );
+	}
+
+	protected function extendAttributesByClass( &$attributes ): self
+	{
+		$attributes['class']	= join( ' ', $this->classes );
+		return $this;
 	}
 }

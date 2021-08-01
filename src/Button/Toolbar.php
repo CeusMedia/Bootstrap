@@ -11,6 +11,9 @@
 namespace CeusMedia\Bootstrap\Button;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	...
@@ -23,9 +26,11 @@ use CeusMedia\Bootstrap\Base\Structure;
  */
 class Toolbar extends Structure
 {
+	use ClassAware;
+
 	protected $groups		= array();
 
-	public function __construct( $groups = array() )
+	public function __construct( array $groups = array() )
 	{
 		parent::__construct();
 		$this->add( $groups );
@@ -51,7 +56,8 @@ class Toolbar extends Structure
 	 */
 	public function render(): string
 	{
-		$attributes		= array( 'class' => 'btn-toolbar' );
-		return \UI_HTML_Tag::create( 'div', $this->groups, $attributes );
+		$classes	= array_merge( ['btn-toolbar'], $this->classes );
+		$attributes	= ['class' => join( ' ', $classes )];
+		return HtmlTag::create( 'div', $this->groups, $attributes );
 	}
 }

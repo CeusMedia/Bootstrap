@@ -8,7 +8,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Nav;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Link;
+
+use UI_HTML_Tag as HtmlTag;
+
 /**
  *	...
  *	@category		Library
@@ -18,33 +24,21 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
-class TabbableNavbar{
-
+class TabbableNavbar extends Structure
+{
 	protected $active		= NULL;
 	protected $tabs			= array();
 	protected $contents		= array();
 	protected $classNavBar	= "navbar";
 	protected $brand		= NULL;
-
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(){
-		try{
-			return $this->render();
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
+	protected $index		= [];
 
 	/**
 	 *	@access		public
 	 *	@return		object		Own instance for chainability
 	 */
-	public function add( $id, $label, $content ){
+	public function add( string $id, string $label, string $content )
+	{
 		$this->index[]			= $id;
 		$this->tabs[$id]		= $label;
 		$this->contents[$id]	= $content;
@@ -55,7 +49,8 @@ class TabbableNavbar{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$index = $this->index;
 		$active	= $this->active;
 		if( is_null( $active ) )
@@ -69,12 +64,12 @@ class TabbableNavbar{
 			);
 			$label	= $this->tabs[$id];
 #			$label	= htmlentities( $label, ENT_QUOTES, 'UTF-8' );
-			$link	= \UI_HTML_Tag::create( 'a', $label, $attributes );
+			$link	= HtmlTag::create( 'a', $label, $attributes );
 			$attributes	= array( 'class' => $active == $id ? "active" : NULL );
-			$listTabs[]	= \UI_HTML_Tag::create( 'li', $link, $attributes );
+			$listTabs[]	= HtmlTag::create( 'li', $link, $attributes );
 		}
 		$attributes	= array( 'class' => "nav" );
-		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, $attributes );
+		$listTabs	= HtmlTag::create( 'ul', $listTabs, $attributes );
 
 		$listDivs	= array();
 		foreach( $this->index as $id ){
@@ -82,43 +77,45 @@ class TabbableNavbar{
 				'id'	=> $id,
 				'class'	=> $active == $id ? "tab-pane active" : "tab-pane",
 			);
-			$listDivs[]	= \UI_HTML_Tag::create( 'div', $this->contents[$id], $attributes );
+			$listDivs[]	= HtmlTag::create( 'div', $this->contents[$id], $attributes );
 		}
 		$attributes	= array( 'class' => "tab-content" );
-		$listDivs	= \UI_HTML_Tag::create( 'div', $listDivs, $attributes );
+		$listDivs	= HtmlTag::create( 'div', $listDivs, $attributes );
 
-		$toggleSpan	= \UI_HTML_Tag::create( 'span', "", array( 'class' => 'icon-bar' ) );
+		$toggleSpan	= HtmlTag::create( 'span', "", array( 'class' => 'icon-bar' ) );
 		$attributes	= array(
 			'data-toggle'	=> 'collapse',
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
 		);
-		$toggler	= \UI_HTML_Tag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
-		$collapse	= \UI_HTML_Tag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
-		$container	= \UI_HTML_Tag::create( 'div', $toggler.$this->brand.$collapse, array( 'class' => "container" ) );
+		$toggler	= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
+		$collapse	= HtmlTag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
+		$container	= HtmlTag::create( 'div', $toggler.$this->brand.$collapse, array( 'class' => "container" ) );
 
-		$tabs		= \UI_HTML_Tag::create( 'div', $container, array( 'class' => "navbar-inner" ) );	//
-		$navbar		= \UI_HTML_Tag::create( 'div', $tabs, array( 'class' => $this->classNavBar) );			//
-		return \UI_HTML_Tag::create( 'div', $navbar.$listDivs, array( 'class' => "tabbable" ) );		//
+		$tabs		= HtmlTag::create( 'div', $container, array( 'class' => "navbar-inner" ) );	//
+		$navbar		= HtmlTag::create( 'div', $tabs, array( 'class' => $this->classNavBar) );			//
+		return HtmlTag::create( 'div', $navbar.$listDivs, array( 'class' => "tabbable" ) );		//
 	}
 
 	/**
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer		$nr			Number of tab to mark as active.
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setActive( $nr ){
+	public function setActive( $nr ): self
+	{
 		$this->active	= $nr;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setBrand( $label, $url = NULL ){
-		$this->brand	= \UI_HTML_Tag::create( 'span', $label, array( 'class' => 'brand' ) );
+	public function setBrand( string $label, string $url = NULL ): self
+	{
+		$this->brand	= HtmlTag::create( 'span', $label, array( 'class' => 'brand' ) );
 		if( $url )
 			$this->brand	= new Link( $url, $label, "brand" );
 		return $this;
@@ -126,9 +123,10 @@ class TabbableNavbar{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setFixed( $position = NULL ){
+	public function setFixed( string $position = NULL ): self
+	{
 		switch( $position ){
 			case 'top':
 				$this->classNavBar	= "navbar navbar-fixed-top";
@@ -143,4 +141,3 @@ class TabbableNavbar{
 		return $this;
 	}
 }
-?>

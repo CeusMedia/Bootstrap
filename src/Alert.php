@@ -10,7 +10,9 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	...
@@ -21,7 +23,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Alert extends Component
+class Alert extends Element
 {
 	const CLASS_PRIMARY		= "alert-primary";			// only BS4
 	const CLASS_SECONDARY	= "alert-secondary";		// only BS4
@@ -37,6 +39,8 @@ class Alert extends Component
 
 	const CLASS_ERROR		= "alert-error";			// BS2, not BS4 - fallback for DANGER
 
+	protected $useDismiss	= FALSE;
+
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
@@ -46,9 +50,29 @@ class Alert extends Component
 		$class	= 'alert';
 		if( count( $this->classes ) )
 			$class	.= ' '.join( ' ', $this->classes );
-		return \UI_HTML_Tag::create( 'div', $this->content, array(
+
+		$dismiss	= '';
+		if( $this->useDismiss ){
+			$dismiss = HtmlTag::create( 'a', '&times;', [
+				'href'	=> '#',
+				'class'	=> 'close',
+			], ['dismiss' => 'alert'] );
+		}
+		return HtmlTag::create( 'div', $dismiss.$this->content, [
 			'class'	=> $class,
 			'role'	=> 'alert',
-		) );
+		] );
+	}
+
+	/**
+	 *	Enables or disables dismiss button, which is disabled by default.
+	 *	@access		public
+	 *	@param		boolean		$use		Flag: enable or disable dismiss button, default: enable
+	 *	@return		self		Own instance for chainability
+	 */
+	public function useDismiss( bool $use = TRUE ): self
+	{
+		$this->useDismiss = $use;
+		return $this;
 	}
 }

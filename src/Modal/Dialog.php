@@ -11,13 +11,18 @@
 namespace CeusMedia\Bootstrap\Modal;
 
 use CeusMedia\Bootstrap\Base\Structure;
-use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\Aware\DataAware;
+use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
-use \UI_HTML_Tag as Tag;
+use UI_HTML_Tag as Tag;
+
+use RangeException;
 
 /**
  *	Modal layer generator.
@@ -30,13 +35,21 @@ use \UI_HTML_Tag as Tag;
  */
 class Dialog extends Structure
 {
-	use IdAware, ClassAware;
+	use AriaAware, ClassAware, DataAware, IdAware, SizeAware;
 
 	const SIZE_DEFAULT					= '';
 	const SIZE_SMALL					= 'modal-sm';
-	const SIZE_MEDIUM					= '';
+	const SIZE_MEDIUM					= 'modal-md';
 	const SIZE_LARGE					= 'modal-lg';
 	const SIZE_EXTRA_LARGE				= 'modal-xl';
+
+	const SIZES							= [
+		self::SIZE_DEFAULT,
+		self::SIZE_SMALL,
+		self::SIZE_MEDIUM,
+		self::SIZE_LARGE,
+		self::SIZE_EXTRA_LARGE,
+	];
 
 	public static $defaultFade			= FALSE;
 	public static $defaultSize			= self::SIZE_MEDIUM;
@@ -290,30 +303,13 @@ class Dialog extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$body			...
+	 *	@param		string		$icon			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
 	public function setHeaderCloseButtonIcon( $icon ): self
 	{
 		$this->headerCloseButtonIcon	= $icon;
-		return $this;
-	}
-
-	/**
-	 *	...
-	 *	@access		public
-	 *	@param		string		$size		...
-	 *	@return		self
-	 *	@todo		code doc
-	 */
-	public function setSize( $size ): self
-	{
-		$this->removeClass( static::SIZE_SMALL );
-		$this->removeClass( static::SIZE_MEDIUM );
-		$this->removeClass( static::SIZE_LARGE );
-		$this->removeClass( static::SIZE_EXTRA_LARGE );
-		$this->addClass( $size );
 		return $this;
 	}
 
@@ -402,7 +398,7 @@ class Dialog extends Structure
 			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
 
 		$buttonClose	= new Button( $labelClose, $this->buttonCloseClass );
-		$buttonClose->setData( 'dismiss', 'modal' )->setAria( 'hidden', 'true' );
+		$buttonClose->setAria( 'hidden', 'true' )->setData( 'dismiss', 'modal' );
 		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
 		$buttonSubmit->setType( Button::TYPE_SUBMIT );
 		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';

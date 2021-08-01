@@ -10,7 +10,9 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	...
@@ -21,13 +23,21 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Badge extends Component
+class Badge extends Element
 {
-	const CLASS_IMPORTANT	= "badge-important";
-	const CLASS_INVERSE		= "badge-inverse";
-	const CLASS_INFO		= "badge-info";
-	const CLASS_SUCCESS		= "badge-success";
-	const CLASS_WARNING		= "badge-warning";
+	const CLASS_IMPORTANT	= 'badge-important';
+	const CLASS_INVERSE		= 'badge-inverse';
+	const CLASS_INFO		= 'badge-info';
+	const CLASS_SUCCESS		= 'badge-success';
+	const CLASS_WARNING		= 'badge-warning';
+
+	const CLASSES			= [
+		self::CLASS_IMPORTANT,
+		self::CLASS_INVERSE,
+		self::CLASS_INFO,
+		self::CLASS_SUCCESS,
+		self::CLASS_WARNING,
+	];
 
 	/**
 	 *	@access		public
@@ -38,6 +48,6 @@ class Badge extends Component
 		$class	= 'badge';
 		if( count( $this->classes ) )
 			$class	.= ' '.join( ' ', $this->classes );
-		return \UI_HTML_Tag::create( 'span', $this->content, array( 'class' => $class ) );			//
+		return HtmlTag::create( 'span', $this->content, ['class' => $class] );
 	}
 }

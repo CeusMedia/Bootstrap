@@ -29,6 +29,7 @@ class Pills extends Structure
 {
 	protected $active	= -1;
 	protected $items	= array();
+	protected $stacked	= FALSE;
 
 	/**
 	 *	@access		public
@@ -132,10 +133,9 @@ class Pills extends Structure
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setStacked( $stacked = TRUE ): self
+	public function setStacked( bool $stacked = TRUE ): self
 	{
-		$this->stacked	= (bool) $stacked;
+		$this->stacked	= $stacked;
 		return $this;
 	}
 }
-?>

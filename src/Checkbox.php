@@ -14,6 +14,11 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Base\Aware\DataAware;
+use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Bootstrap\Base\Aware\NameAware;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	Replacement for checkbox inputs.
@@ -26,10 +31,13 @@ use CeusMedia\Bootstrap\Base\Structure;
  */
 class Checkbox extends Structure
 {
-	protected $name;
+	use DataAware, IdAware, NameAware;
+
 	protected $value;
 	protected $options;
 	protected $label;
+	protected $icon;
+	protected $checked;
 
 	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() )
 	{
@@ -52,16 +60,16 @@ class Checkbox extends Structure
 		$attributes	= array(
 			'type'		=> 'checkbox',
 			'name'		=> $this->name,
-			'id'		=> 'input_'.$this->name,
+			'id'		=> $this->id,
 			'value'		=> $this->value,
 			'checked'	=> $this->checked ? "checked" : NULL,
 		);
 		$this->extendAttributesByData( $attributes );
-		$input			= \UI_HTML_Tag::create( 'input', NULL, $attributes );
-		$icon			= \UI_HTML_Tag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
-		$overlay		= \UI_HTML_Tag::create( 'span', $icon, array( 'class' => "cr" ) );
-		$label			= \UI_HTML_Tag::create( 'label', $input.$overlay.$this->label );
-		return \UI_HTML_Tag::create( 'div', $label, array( 'class' => 'checkbox' ) );
+		$input			= HtmlTag::create( 'input', NULL, $attributes );
+		$icon			= HtmlTag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
+		$overlay		= HtmlTag::create( 'span', $icon, array( 'class' => "cr" ) );
+		$label			= HtmlTag::create( 'label', $input.$overlay.$this->label );
+		return HtmlTag::create( 'div', $label, array( 'class' => 'checkbox' ) );
 	}
 
 	/**
@@ -76,18 +84,7 @@ class Checkbox extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
-	 */
-	public function setName( $name ):self
-	{
-		$this->name		= $name;
-		$this->setId( $name ? 'input_'.$name : "" );
-		return $this;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
 	public function setValue( $value ): self
 	{

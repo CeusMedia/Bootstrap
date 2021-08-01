@@ -10,6 +10,7 @@
  */
 namespace CeusMedia\Bootstrap\Dropdown;
 
+use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
 
@@ -24,6 +25,8 @@ use CeusMedia\Bootstrap\Link;
  */
 class Menu extends Structure
 {
+	use AriaAware;
+
 	protected $items		= array();
 	protected $alignLeft	= TRUE;
 
@@ -51,7 +54,7 @@ class Menu extends Structure
 	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
-			'content'	=> new Link( $url, $label, $class, $icon, $disabled ),
+			'content'	=> new Link( $url, $label, $class, $icon ),
 /*			'class'		=> $class,
 			'icon'		=> $icon,*/
 			'disabled'	=> $disabled,
@@ -140,7 +143,7 @@ class Menu extends Structure
 			'class'		=> "dropdown-menu",
 		);
 		if( !$this->alignLeft ){
-			$additionalClass		= version_compare( $this->bsVersion, 4, '>=' ) ? 'dropdown-menu-right' : 'pull-right';
+			$additionalClass		= version_compare( $this->bsVersion, '4', '>=' ) ? 'dropdown-menu-right' : 'pull-right';
 			$attributes['class']	= $attributes['class'].' '.$additionalClass;
 		}
 		return \UI_HTML_Tag::create( 'ul', $list, $attributes );

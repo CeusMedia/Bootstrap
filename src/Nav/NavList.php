@@ -8,7 +8,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-namespace CeusMedia\Bootstrap;
+namespace CeusMedia\Bootstrap\Nav;
+
+use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Bootstrap\Link;
+
+use UI_HTML_Tag as HtmlTag;
+use Exception;
+
 /**
  *	...
  *	@category		Library
@@ -18,19 +26,21 @@ namespace CeusMedia\Bootstrap;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class NavList{
-
+class NavList extends Structure
+{
 	protected $current;
+	protected $items		= [];
 
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -38,9 +48,10 @@ class NavList{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function add( $url, $label, $icon = NULL, $class = NULL, $attr = array(), $data = array(), $events = array() ){
+	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = array(), $data = array(), $events = array()*/ ): self
+	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
 			'url'		=> $url,
@@ -53,9 +64,10 @@ class NavList{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addDivider(){
+	public function addDivider(): self
+	{
 		$this->items[]	= (object) array(
 			'type'		=> 'divider',
 		);
@@ -64,9 +76,10 @@ class NavList{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addHeader( $label, $icon = NULL, $class = NULL ){
+	public function addHeader( string $label, $icon = NULL, string $class = NULL ): self
+	{
 		$this->items[]	= (object) array(
 			'type'		=> 'header',
 			'label'		=> $label,
@@ -78,9 +91,10 @@ class NavList{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function addNavList( NavList $list ){
+	public function addNavList( NavList $list ): self
+	{
 		$this->items[]	= (object) array(
 			'type'		=> 'navlist',
 			'list'		=> $list,
@@ -92,17 +106,19 @@ class NavList{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
+		$list	= [];
 		foreach( $this->items as $item ){
 			switch( $item->type ){
 				case 'divider':
-					$list[]	= \UI_HTML_Tag::create( 'li', "", array( 'class' => 'divider' ) );
+					$list[]	= HtmlTag::create( 'li', "", array( 'class' => 'divider' ) );
 					break;
 				case 'header':
 					$label	= $item->label;
 					if( $item->icon )
 						$label	= new Icon( $item->icon ).' '.$label;
-					$list[]	= \UI_HTML_Tag::create( 'li', $label, array( 'class' => $item->class) );
+					$list[]	= HtmlTag::create( 'li', $label, array( 'class' => $item->class) );
 					break;
 				case 'navlist':
 					$list[]	= $item->list->render();
@@ -120,20 +136,20 @@ class NavList{
 					$link	= new Link( $item->url, $item->label, 'autocut' );
 					$link->setIcon( $item->icon, $invert );
 					$attr['class']	= join( " ", $attr['class'] );
-					$list[]	= \UI_HTML_Tag::create( 'li', $link, $attr );
+					$list[]	= HtmlTag::create( 'li', $link, $attr );
 					break;
 			}
 		}
-		return \UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
+		return HtmlTag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		self		Own instance for chainability
 	 */
-	public function setCurrent( $url ){
+	public function setCurrent( string $url ): self
+	{
 		$this->current	= $url;
 		return $this;
 	}
 }
-?>

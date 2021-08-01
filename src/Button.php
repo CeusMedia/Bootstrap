@@ -10,10 +10,16 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
-use CeusMedia\Bootstrap\Base\Aware\IconAware;
-use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
+use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
+use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
+use CeusMedia\Bootstrap\Base\Aware\IconAware;
+use CeusMedia\Bootstrap\Base\Aware\NameAware;
+use CeusMedia\Bootstrap\Base\Aware\SizeAware;
+
+use UI_HTML_Tag as HtmlTag;
+
+use RangeException;
 
 /**
  *	...
@@ -24,9 +30,9 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Button extends Component
+class Button extends Element
 {
-	use IconAware, DisabledAware, AriaAware;
+	use AriaAware, DisabledAware, IconAware, NameAware, SizeAware;
 
 	const STATE_DEFAULT		= '';
 	const STATE_PRIMARY		= 'btn-primary';
@@ -44,16 +50,27 @@ class Button extends Component
 	const SIZE_MINI			= 'btn-mini';
 	const SIZE_SMALL		= 'btn-small btn-sm';
 	const SIZE_LARGE		= 'btn-large btn-lg';
-	const SIZE_BLOCK		= 'btn-block';
+
+	const SIZES				= [
+		self::SIZE_DEFAULT,
+		self::SIZE_MINI,
+		self::SIZE_SMALL,
+		self::SIZE_LARGE,
+	];
 
 	const TYPE_BUTTON		= 'button';
 	const TYPE_SUBMIT		= 'submit';
 	const TYPE_RESET		= 'reset';
 
-	protected $name;
+	const TYPES				= [
+		self::TYPE_BUTTON,
+		self::TYPE_SUBMIT,
+		self::TYPE_RESET,
+	];
+
 	protected $type			= 'button';
 
-	public function __construct( $content, $class = NULL, $icon = NULL, $disabled = FALSE )
+	public function __construct( string $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setIcon( $icon );
@@ -66,26 +83,23 @@ class Button extends Component
 	 */
 	public function render(): string
 	{
+		$classes	= array_merge( ['btn'], $this->classes );
 		$attributes	= array(
 			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'type'		=> $this->type,
-			'class'		=> 'btn '.join( ' ', $this->classes ),
+			'class'		=> join( ' ', $classes ),
 			'disabled'	=> $this->disabled ? 'disabled' : NULL,
 		);
 		$this->extendAttributesByEvents( $attributes );
 		$this->extendAttributesByData( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : '';
-		return \UI_HTML_Tag::create( 'button', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'button', $icon.$this->content, $attributes );
 	}
 
-	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
-	 */
-	public function setName( $name ): self
+	public function setBlock( bool $block = TRUE ): self
 	{
-		$this->name	= $name;
+		$block ? $this->addClass( 'btn-block' ): $this->removeClass( 'btn-block' );
 		return $this;
 	}
 
@@ -93,8 +107,10 @@ class Button extends Component
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function setType( $type ): self
+	public function setType( string $type ): self
 	{
+		if( !in_array( $type, self::TYPES, TRUE ) )
+			throw new RangeException( 'Invalid type' );
 		$this->type	= $type;
 		return $this;
 	}

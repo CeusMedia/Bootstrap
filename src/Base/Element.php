@@ -16,6 +16,9 @@ use CeusMedia\Bootstrap\Base\Aware\EventAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 
+use Alg_Object_Factory as ObjectFactory;
+use Exception;
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -25,9 +28,9 @@ use CeusMedia\Bootstrap\Base\Aware\IdAware;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Component
+abstract class Element
 {
-	use ClassAware, DataAware, EventAware, ContentAware, IdAware;
+	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
 	static public $version			= "0.5.0";
 	static public $defaultBsVersion	= "2.3.2";
@@ -37,8 +40,8 @@ abstract class Component
 	public function __construct( $content, $class = NULL )
 	{
 		$this->bsVersion		= static::$defaultBsVersion;
-		$this->setClass( $class );
 		$this->setContent( $content );
+		$this->setClass( $class );
 	}
 
 	/**
@@ -50,7 +53,7 @@ abstract class Component
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			$message	= '... failed: '.$e->getMessage();
 			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
 //			print $e->getMessage();																//  if app is still alive: print exception message
@@ -64,11 +67,11 @@ abstract class Component
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		object		Component instance for chainability
+	 *	@return		self		Component instance for chainability
 	 */
 	static public function create(): self
 	{
-		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
+		return ObjectFactory::createObject( static::class, func_get_args() );
 	}
 
 	/**

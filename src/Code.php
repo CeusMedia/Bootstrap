@@ -10,7 +10,7 @@
  */
 namespace CeusMedia\Bootstrap;
 
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
 
 /**
  *	...
@@ -21,7 +21,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Code extends Component
+class Code extends Element
 {
 	protected $convertTabsToWhitespace	= TRUE;
 	protected $scrollable				= FALSE;

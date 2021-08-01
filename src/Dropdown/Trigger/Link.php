@@ -23,6 +23,7 @@ class Link{
 	protected $label;
 	protected $class;
 	protected $caret;
+	protected $icon;
 
 	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
 		$this->label	= $label;

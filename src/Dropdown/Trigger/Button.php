@@ -15,7 +15,10 @@ use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
-use UI_HTML_Tag as Tag;
+
+use UI_HTML_Tag as HtmlTag;
+
+use Exception;
 
 /**
  *	...
@@ -34,12 +37,12 @@ class Button extends Structure
 	protected $class;
 	protected $caret;
 
-	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE )
+	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
 	{
 		$this->setContent( $label );
 		$this->setClass( $class );
 		$this->setIcon( $icon );
-		$this->toggleCaret( $caret );
+		$this->useCaret( $caret );
 	}
 
 	/**
@@ -51,7 +54,7 @@ class Button extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -63,7 +66,7 @@ class Button extends Structure
 	 */
 	public function render(): string
 	{
-		$caret	= $this->caret ? ' '.Tag::create( 'span', '', ['class' => 'caret'] ) : '';
+		$caret	= $this->caret ? ' '.HtmlTag::create( 'span', '', ['class' => 'caret'] ) : '';
 		$button	= new BaseButton( $this->content.$caret, $this->classes, $this->icon );
 		$button->addClass( 'dropdown-toggle' );
 		$button->setData( 'toggle', 'dropdown' );
@@ -74,10 +77,9 @@ class Button extends Structure
 	 *	@access		public
 	 *	@return		self		Own instance for chainability
 	 */
-	public function toggleCaret( $useCaret = TRUE ): self
+	public function useCaret( bool $useCaret = TRUE ): self
 	{
-		$this->caret	= (bool) $useCaret;
+		$this->caret	= $useCaret;
 		return $this;
 	}
 }
-?>

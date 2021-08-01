@@ -11,7 +11,7 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
 
 /**
  *	...
@@ -23,7 +23,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@todo			support Bootstrap 3+
  */
-class Row extends Component
+class Row extends Element
 {
 	use AriaAware;
 

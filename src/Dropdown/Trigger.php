@@ -10,8 +10,8 @@
  */
 namespace CeusMedia\Bootstrap\Dropdown;
 
-use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Button as TriggerButton;

@@ -14,6 +14,16 @@ use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Bootstrap\Icon;
+
+use Alg_Object_Factory as ObjectFactory;
+use UI_HTML_Tag as HtmlTag;
+
+use Exception;
+use RangeException;
+use RuntimeException;
+
+use function sprintf;
 
 /**
  *	Modal trigger generator.
@@ -26,7 +36,6 @@ use CeusMedia\Bootstrap\Base\Aware\IdAware;
  */
 class Trigger
 {
-
 	use IdAware, ClassAware, IconAware;
 
 	protected $attributes	= array();
@@ -59,32 +68,36 @@ class Trigger
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		object		Modal trigger instance for chainability
+	 *	@return		self		Modal trigger instance for chainability
 	 */
-	static public function create(){
-		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
+	public static function create(): self
+	{
+		return ObjectFactory::createObject( static::class, func_get_args() );
 	}
 
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
 	}
 
-	public function asButton( $asButton = TRUE ){
+	public function asButton( $asButton = TRUE ): self
+	{
 		$this->type		= (bool) $asButton ? "button" : "link";
 		return $this;
 	}
 
-	public function asLink( $asLink = TRUE ){
+	public function asLink( $asLink = TRUE ): self
+	{
 		$this->type		= (bool) $asLink ? "link" : "button";
 		return $this;
 	}
@@ -93,12 +106,16 @@ class Trigger
 	 *	Returns rendered component.
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
+	 *	@throws		RuntimeException		if no label is set
+	 *	@throws		RuntimeException		if no modal ID is set
+	 *	@throws		RangeException			if set type is not supported
 	 */
-	public function render(){
+	public function render(): string
+	{
 		if( !$this->label )
-			throw new \RuntimeException( 'No label set' );
+			throw new RuntimeException( 'No label set' );
 		if( !$this->modalId )
-			throw new \RuntimeException( 'No modal ID set' );
+			throw new RuntimeException( 'No modal ID set' );
 		$attributes	= array(
 			'id'			=> $this->id,
 			'href'			=> "#".$this->modalId,
@@ -124,7 +141,7 @@ class Trigger
 		if( $this->icon ){
 			$icon	= $this->icon;
 			if( !is_object( $icon ) )
-				$icon	= \CeusMedia\Bootstrap\Icon::create(
+				$icon	= Icon::create(
 					$icon,
 					$this->iconStyle,
 					$this->iconSize
@@ -133,12 +150,12 @@ class Trigger
 		}
 
 		if( $this->type === 'link' )
-			return \UI_HTML_Tag::create( 'a', $label, $attributes );
+			return HtmlTag::create( 'a', $label, $attributes );
 		if( $this->type === 'button' ){
 			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
-			return \UI_HTML_Tag::create( 'button', $label, $attributes );
+			return HtmlTag::create( 'button', $label, $attributes );
 		}
-		throw new \RangeException( sprinf( 'Unsupported type: %s', $this->type ) );
+		throw new RangeException( sprintf( 'Unsupported type: %s', $this->type ) );
 	}
 
 	/**
@@ -149,12 +166,14 @@ class Trigger
 	 *	@param		array		$attributes		Map of button attributes
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes ){
+	public function setAttributes( $attributes ): self
+	{
 		$this->attributes	= $attributes;
 		return $this;
 	}
 
-	public function setIcon( $icon, $style = NULL, $size = NULL ){
+	public function setIcon( $icon, $style = NULL, $size = NULL ): self
+	{
 		$this->icon			= $icon;
 		$this->iconStyle	= $style;
 		$this->iconSize		= $size;
@@ -168,7 +187,8 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setLabel( $label ){
+	public function setLabel( $label ): self
+	{
 		$this->label	= $label;
 		return $this;
 	}
@@ -180,7 +200,8 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setModalId( $modalId ){
+	public function setModalId( $modalId ): self
+	{
 		$this->modalId	= $modalId;
 		return $this;
 	}

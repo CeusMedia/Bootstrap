@@ -11,7 +11,9 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
-use CeusMedia\Bootstrap\Base\Component;
+use CeusMedia\Bootstrap\Base\Element;
+
+use UI_HTML_Tag as HtmlTag;
 
 /**
  *	...
@@ -23,7 +25,7 @@ use CeusMedia\Bootstrap\Base\Component;
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@todo			support Bootstrap 3+
  */
-class Column extends Component
+class RowSpan extends Element
 {
 	use AriaAware;
 
@@ -35,13 +37,13 @@ class Column extends Component
 	 */
 	public function render(): string
 	{
-		$classes	= array_merge( $this->classes, array( 'span'.$this->size ) );
+		$classes	= array_merge( $this->classes, array( 'span'.$this->size.' bs4-col-md-'.$this->size ) );
 		$attributes		= array(
 			'class'		=> join( ' ', $classes ),
 		);
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
-		return \UI_HTML_Tag::create( 'div', $this->content, $attributes );
+		return HtmlTag::create( 'div', $this->content, $attributes );
 	}
 
 	/**

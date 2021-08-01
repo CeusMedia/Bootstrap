@@ -1,6 +1,8 @@
 <?php
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
 
+error_reporting( E_ALL );
+ini_set( 'display_errors', 'On' );
 //namespace CeusMedia\Bootstrap;
 //use \CeusMedia\Bootstrap;
 
@@ -24,11 +26,12 @@ $version	= "2.3.2";
 if( $request->get( 'version' ) && in_array( $request->get( 'version' ), $versions ) )
 	$version	= $request->get( 'version' );
 $isBs4	= version_compare( $version, 4, '>=' );
-CeusMedia\Bootstrap\Base\Component::$defaultBsVersion	= $version;
+CeusMedia\Bootstrap\Base\Element::$defaultBsVersion		= $version;
 CeusMedia\Bootstrap\Base\Structure::$defaultBsVersion	= $version;
 CeusMedia\Bootstrap\Icon::$defaultSet	= 'fontawesome';
 
 $parts	= [
+#	'link',
 	'alert',
 	'breadcrumbs',
 	'progress',
