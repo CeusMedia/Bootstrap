@@ -23,6 +23,6 @@ namespace CeusMedia\Bootstrap\Base;
  *	@deprecated		only a legacy class, do not use it
  *	@todo			remove in 0.6
  */
-class Component extends Element
+abstract class Component extends Element
 {
 }
