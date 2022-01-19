@@ -32,7 +32,7 @@ abstract class Element
 {
 	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
-	static public $version			= "0.5.0";
+	static public $version			= "0.5.2";
 	static public $defaultBsVersion	= "2.3.2";
 
 	protected $bsVersion;

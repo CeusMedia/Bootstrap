@@ -27,7 +27,7 @@ use function func_get_args;
  */
 abstract class Structure
 {
-	static public $version			= "0.5.0";
+	static public $version			= "0.5.2";
 	static public $defaultBsVersion	= "2.3.2";
 
 	protected $bsVersion;
