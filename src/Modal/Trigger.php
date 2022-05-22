@@ -53,7 +53,8 @@ class Trigger
 	 *	@param		string		$label			Label of trigger
 	 *	@return		void
 	 */
-	public function __construct( $modalId = NULL, $label = NULL, $class = NULL, $icon = NULL ){
+	public function __construct( $modalId = NULL, $label = NULL, $class = NULL, $icon = NULL )
+	{
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
 		if( !is_null( $label ) )
@@ -63,6 +64,7 @@ class Trigger
 		if( !is_null( $icon ) )
 			$this->setIcon( $icon );
 	}
+
 	/**
 	 *	Create modal trigger object by static call.
 	 *	For arguments see code doc of contructor.

@@ -20,6 +20,7 @@ use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
+use Alg_Object_Factory as ObjectFactory;
 use UI_HTML_Tag as Tag;
 
 use RangeException;
@@ -100,6 +101,18 @@ class Dialog extends Structure
 			print $e->getMessage();
 			exit;
 		}
+	}
+
+	/**
+	 *	Create modal trigger object by static call.
+	 *	For arguments see code doc of contructor.
+	 *	@static
+	 *	@access		public
+	 *	@return		self		Modal trigger instance for chainability
+	 */
+	public static function create(): self
+	{
+		return ObjectFactory::createObject( static::class, func_get_args() );
 	}
 
 	/**
