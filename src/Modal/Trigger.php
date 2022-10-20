@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -16,8 +16,8 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Icon;
 
-use Alg_Object_Factory as ObjectFactory;
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 use RangeException;
@@ -30,7 +30,7 @@ use function sprintf;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -70,7 +70,7 @@ class Trigger
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for chainability
+	 *	@return		self		Modal trigger instance for method chaining
 	 */
 	public static function create(): self
 	{

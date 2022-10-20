@@ -7,7 +7,7 @@ trait IdAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setId( $id ): self
 	{

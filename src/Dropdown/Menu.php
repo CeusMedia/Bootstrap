@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -13,13 +13,14 @@ namespace CeusMedia\Bootstrap\Dropdown;
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -48,7 +49,7 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( $url, $label, $class = NULL, $icon = NULL, $disabled = FALSE ): self
 	{
@@ -64,7 +65,7 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addDivider(): self
 	{
@@ -77,7 +78,7 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 *	@deprecated				not supported in Bootstrap 4.4, so disabled for all others, too
 	 */
 	public function addDropdown( $label, Menu $dropdown, $class = NULL, $icon = NULL, $disabled = FALSE ): self
@@ -100,7 +101,7 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addLink( $link, $disabled = FALSE ): self
 	{
@@ -137,7 +138,7 @@ class Menu extends Structure
 			}
 			if( !empty( $item->disabled ) )
 				$attributes['class']	.= ' disabled';
-			$list[]	= \UI_HTML_Tag::create( 'li', $item->content, $attributes );
+			$list[]	= HtmlTag::create( 'li', $item->content, $attributes );
 		}
 		$attributes	= array(
 			'class'		=> "dropdown-menu",
@@ -146,12 +147,12 @@ class Menu extends Structure
 			$additionalClass		= version_compare( $this->bsVersion, '4', '>=' ) ? 'dropdown-menu-right' : 'pull-right';
 			$attributes['class']	= $attributes['class'].' '.$additionalClass;
 		}
-		return \UI_HTML_Tag::create( 'ul', $list, $attributes );
+		return HtmlTag::create( 'ul', $list, $attributes );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setAlign( $left = TRUE ): self
 	{
@@ -161,7 +162,7 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setAriaLabel( $label ): self
 	{

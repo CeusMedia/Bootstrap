@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -14,7 +14,7 @@ use CeusMedia\Bootstrap\Base\Structure;
 
 use Exception;
 use InvalidArgumentException;
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function explode;
 use function is_array;
@@ -31,7 +31,7 @@ use function trim;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -77,7 +77,7 @@ class Icon extends Structure
 	 *	Set icon by its icon class name plus modifying class names.
 	 *	@access		public
 	 *	@param		string		$icon 		Icon class name plus modifying class names
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setIcon( $icon ): self
 	{
@@ -89,7 +89,7 @@ class Icon extends Structure
 	 *	Set icon set, like fontawesome[4|5] or glyphicons.
 	 *	@access		public
 	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setSet( string $set ): self
 	{
@@ -107,7 +107,7 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string		$sizes 		One or many size or modifier class name
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setSize( string $sizes ): self
 	{
@@ -134,7 +134,7 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string		$style 		Icon set style
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 *	@todo		code doc
 	 */
 	public function setStyle( string $style ): self

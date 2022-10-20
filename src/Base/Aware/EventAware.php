@@ -7,7 +7,7 @@ trait EventAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setEvent( $event, $action ): self
 	{

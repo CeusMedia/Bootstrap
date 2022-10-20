@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -15,7 +15,7 @@ use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 
@@ -24,7 +24,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -59,7 +59,7 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( string $label, ?string $url = NULL, $class = NULL, $icon = NULL, bool $active = FALSE ): self
 	{
@@ -75,7 +75,7 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addCurrent( $label, $icon = NULL ): self
 	{
@@ -85,7 +85,7 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addLink( Link $link ): self
 	{
@@ -111,7 +111,7 @@ class Breadcrumbs extends Structure
 			else
 				$content	= $crumb->label;
 
-			if( version_compare( $this->bsVersion, 3, '<' ) )
+			if( version_compare( $this->bsVersion, '3', '<' ) )
 				if( $nr < count( $this->crumbs ) - 1 )
 					$content	.= ' '.$divider;
 			$classesItem	= array( 'breadcrumb-item' );
@@ -133,7 +133,7 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setDivider( $divider ): self
 	{

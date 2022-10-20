@@ -9,7 +9,7 @@ trait ClassAware
 	 *	Appends new class names to prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addClass( $class ): self
 	{
@@ -24,7 +24,7 @@ trait ClassAware
 	/**
 	 *	@access		public
 	 *	@param		string		$class		Class to be removed
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function removeClass( $class ): self
 	{
@@ -42,7 +42,7 @@ trait ClassAware
 	 *	Clears prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setClass( $class ): self
 	{

@@ -4,20 +4,21 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown;
 
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@deprecated		use Dropdown\Trigger with asButton instead
@@ -64,12 +65,12 @@ class Button{
 	 */
 	public function render(){
 		$trigger	= new Trigger\Button( $this->label, $this->classes, $this->icon, $this->caret );
-		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
+		return HtmlTag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		object		Own instance for method chaining
 	 */
 	public function setAlign( $left = TRUE ){
 		$this->alignLeft	= $left;

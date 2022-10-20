@@ -9,7 +9,7 @@ trait IconAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setIcon( $icon, $white = FALSE ): self
 	{

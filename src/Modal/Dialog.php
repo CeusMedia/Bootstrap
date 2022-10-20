@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -20,8 +20,8 @@ use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
-use Alg_Object_Factory as ObjectFactory;
-use UI_HTML_Tag as Tag;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use RangeException;
 
@@ -30,7 +30,7 @@ use RangeException;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -108,7 +108,7 @@ class Dialog extends Structure
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for chainability
+	 *	@return		self		Modal trigger instance for method chaining
 	 */
 	public static function create(): self
 	{
@@ -122,7 +122,7 @@ class Dialog extends Structure
 	 */
 	public function render(): string
 	{
-		$body		= Tag::create( 'div', $this->body, array(
+		$body		= HtmlTag::create( 'div', $this->body, array(
 			'class'	=> 'modal-body',
 		) );
 		$footer		= $this->renderFooter();
@@ -150,11 +150,11 @@ class Dialog extends Structure
 			}
 		}
 		$content	= array( $header, $body, $footer );
-		if( version_compare( $this->bsVersion, 4, '>=' ) === TRUE ){
-			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-content' ) );
-			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
+		if( version_compare( $this->bsVersion, '4', '>=' ) === TRUE ){
+			$content	= HtmlTag::create( 'div', $content, array( 'class' => 'modal-content' ) );
+			$content	= HtmlTag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
 		}
-		$modal	= Tag::create( 'div', array( $content ), $attributes );
+		$modal	= HtmlTag::create( 'div', array( $content ), $attributes );
 		if( $this->formAction ){
 			$attributes	= array_merge( $this->formAttributes, array(
 				'action'	=> $this->formAction,
@@ -162,7 +162,7 @@ class Dialog extends Structure
 				'enctype'	=> $this->formIsUpload ? 'multipart/form-data' : NULL,
 				'onsubmit'	=> $this->formSubmit ? $this->formSubmit.'; return false;' : NULL,
 			) );
-			$modal	= Tag::create( 'form', $modal, $attributes );
+			$modal	= HtmlTag::create( 'form', $modal, $attributes );
 		}
 		return $modal;
 	}
@@ -415,7 +415,7 @@ class Dialog extends Structure
 		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
 		$buttonSubmit->setType( Button::TYPE_SUBMIT );
 		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
-		$footer		= Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
+		$footer		= HtmlTag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
 			'class'	=> 'modal-footer',
 		) );
 		return $footer;
@@ -425,14 +425,14 @@ class Dialog extends Structure
 	{
 		if( !$this->useHeader )
 			return '';
-		$buttonClose	= Tag::create( 'button', $this->headerCloseButtonIcon, array(
+		$buttonClose	= HtmlTag::create( 'button', $this->headerCloseButtonIcon, array(
 			'type'			=> 'button',
 			'class'			=> 'close',
 			'data-dismiss'	=> 'modal',
 			'aria-hidden'	=> 'true',
 		) );
-		$heading	= Tag::create( 'h3', $this->heading, array( 'id' => $this->id.'-label' ) );
-		$header		= Tag::create( 'div', array( $heading, $buttonClose ), array(
+		$heading	= HtmlTag::create( 'h3', $this->heading, array( 'id' => $this->id.'-label' ) );
+		$header		= HtmlTag::create( 'div', array( $heading, $buttonClose ), array(
 			'class'	=> 'modal-header',
 		) );
 		return $header;

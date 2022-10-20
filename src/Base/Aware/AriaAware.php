@@ -12,7 +12,7 @@ trait AriaAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setAria( $key, $value ): self
 	{
@@ -25,7 +25,7 @@ trait AriaAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setRole( $role ): self
 	{

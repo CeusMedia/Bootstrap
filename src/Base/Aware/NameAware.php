@@ -21,7 +21,7 @@ trait NameAware
 	 *	Sets name of input element.
 	 *	Also sets its ID to 'input_{{name}}' if not a button. Use setId to set a custom ID.
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setName( ?string $name = NULL ): self
 	{

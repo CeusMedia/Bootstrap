@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -16,7 +16,7 @@ use CeusMedia\Bootstrap\Base\Aware\EventAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 
-use Alg_Object_Factory as ObjectFactory;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use Exception;
 
 /**
@@ -24,7 +24,7 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -32,8 +32,8 @@ abstract class Element
 {
 	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
-	static public $version			= "0.5.2";
-	static public $defaultBsVersion	= "2.3.2";
+	public static $version			= "0.5.2";
+	public static $defaultBsVersion	= "2.3.2";
 
 	protected $bsVersion;
 
@@ -67,9 +67,9 @@ abstract class Element
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Component instance for chainability
+	 *	@return		self		Component instance for method chaining
 	 */
-	static public function create(): self
+	public static function create(): self
 	{
 		return ObjectFactory::createObject( static::class, func_get_args() );
 	}

@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -12,13 +12,14 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -64,7 +65,7 @@ class Progress extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addBar( $width, $class = NULL, $label = NULL ): self
 	{
@@ -96,8 +97,8 @@ class Progress extends Structure
 				$class	= is_array( $bar->class ) ? join( ' ', $bar->class ) : $bar->class;
 				$attributes['class']	.= ' '.$class;
 			}
-			$list[]	= \UI_HTML_Tag::create( 'div', $bar->label, $attributes );
+			$list[]	= HtmlTag::create( 'div', $bar->label, $attributes );
 		}
-		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => join( ' ', $this->classes ) ) );
+		return HtmlTag::create( 'div', $list, array( 'class' => join( ' ', $this->classes ) ) );
 	}
 }

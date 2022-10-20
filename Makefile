@@ -22,16 +22,16 @@ dev-test-unit:	#composer-install-dev
 	@./vendor/bin/phpunit test
 
 dev-phpstan:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --xdebug || true
+	@vendor/bin/phpstan analyse --configuration util/phpstan.neon --xdebug || true
 
 dev-phpstan-save-baseline:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --generate-baseline phpstan-baseline.neon || true
+	@vendor/bin/phpstan analyse --configuration util/phpstan.neon --generate-baseline util/phpstan-baseline.neon || true
 
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev composer-update-dev
 	@rm -Rf doc
-	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=util/doc-creator.xml
 
 
 # --  GIT  ----------------------------------------------------------------

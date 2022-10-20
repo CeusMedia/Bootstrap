@@ -4,17 +4,20 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -51,7 +54,7 @@ class Link{
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
-		$caret	= ' '.\UI_HTML_Tag::create( 'span', "", array( 'class' => 'caret' ) );
+		$caret	= ' '.HtmlTag::create( 'span', "", array( 'class' => 'caret' ) );
 		if( !$this->caret )
 			$caret	= '';
 		$link	= new \CeusMedia\Bootstrap\Link( "#", $this->label.$caret );
@@ -63,7 +66,7 @@ class Link{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		object		Own instance for method chaining
 	 */
 	public function toggleCaret( $useCaret = TRUE ){
 		$this->caret	= (bool) $useCaret;

@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -13,14 +13,14 @@ namespace CeusMedia\Bootstrap\Nav;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
@@ -35,7 +35,7 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for chainability
+	 *	@return		object		Own instance for method chaining
 	 */
 	public function add( string $id, string $label, string $content )
 	{
@@ -101,7 +101,7 @@ class TabbableNavbar extends Structure
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer		$nr			Number of tab to mark as active.
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setActive( $nr ): self
 	{
@@ -111,7 +111,7 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setBrand( string $label, string $url = NULL ): self
 	{
@@ -123,7 +123,7 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setFixed( string $position = NULL ): self
 	{

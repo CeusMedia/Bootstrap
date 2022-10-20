@@ -4,13 +4,13 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Base;
 
-use Alg_Object_Factory as ObjectFactory;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 
 use Exception;
 
@@ -21,14 +21,14 @@ use function func_get_args;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 abstract class Structure
 {
-	static public $version			= "0.5.2";
-	static public $defaultBsVersion	= "2.3.2";
+	public static $version			= "0.5.2";
+	public static $defaultBsVersion	= "2.3.2";
 
 	protected $bsVersion;
 
@@ -60,9 +60,9 @@ abstract class Structure
 	 *	For arguments see code doc of contructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Icon instance for chainability
+	 *	@return		self		Icon instance for method chaining
 	 */
-	static public function create(): self
+	public static function create(): self
 	{
 		return ObjectFactory::createObject( static::class, func_get_args() );
 	}

@@ -16,7 +16,7 @@ namespace CeusMedia\Bootstrap;
 use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	Replacement for checkbox inputs.
@@ -71,7 +71,7 @@ class Shiftbox extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setChecked( bool $checked ): self
 	{
@@ -81,7 +81,7 @@ class Shiftbox extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setValue( string $value ): self
 	{

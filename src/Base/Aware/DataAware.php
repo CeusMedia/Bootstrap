@@ -1,18 +1,20 @@
 <?php
 namespace CeusMedia\Bootstrap\Base\Aware;
 
+use CeusMedia\Common\Alg\Text\CamelCase;
+
 trait DataAware
 {
 	protected $data		= array();
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 *	@throws		\DomainException		if key is already set and strict mode is enabled
 	 */
 	public function setData( $key, $value, $strict = TRUE ): self
 	{
-		$key	= \Alg_Text_CamelCase::decode( $key );
+		$key	= CamelCase::decode( $key );
 		$key	= str_replace( ' ', '-', strtolower( $key ) );
 		if( $strict && array_key_exists( $key, $this->data ) )
 			throw new \DomainException( 'Data for key "'.$key.'" already set' );

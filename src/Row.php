@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -12,13 +12,14 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Element;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2022 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@todo			support Bootstrap 3+
@@ -40,13 +41,13 @@ class Row extends Element
 		);
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
-		return \UI_HTML_Tag::create( 'div', $this->content, $attributes );
+		return HtmlTag::create( 'div', $this->content, $attributes );
 	}
 
 	/**
 	 *	@access		public
 	 *	@param		boolean		$fluid		Flag: set row to be fluid or not
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setFluid( bool $fluid ): self
 	{

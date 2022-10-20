@@ -4,7 +4,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2013-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *  @copyright      2013-2022 {@link https://ceusmedia.de/ Ceus Media}
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           http://code.google.com/p/cmmodules/
  */
@@ -12,13 +12,14 @@ namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *  ...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2013-2020 {@link https://ceusmedia.de/ Ceus Media}
+ *  @copyright      2013-2022 {@link https://ceusmedia.de/ Ceus Media}
  *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *  @link           http://code.google.com/p/cmmodules/
  */
@@ -51,7 +52,7 @@ class Tabs extends Structure
 	 *	@param		string		$label		Label of tab pane
 	 *	@param		string		$content	Content of tab pane, if tab is a fragment link
 	 *	@param		boolean		$disabled	Flag: Do not enable this tab by default
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( $id, $url, $label, $content = NULL, $disabled = FALSE ): self
 	{
@@ -69,7 +70,7 @@ class Tabs extends Structure
 	 *	Notes tab to be disabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to disable
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function disableTab( $idOrIndex ): self
 	{
@@ -84,7 +85,7 @@ class Tabs extends Structure
 	 *	Notes tab to be enabled.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to enable
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function enableTab( $idOrIndex ): self
 	{
@@ -139,26 +140,26 @@ class Tabs extends Structure
 				$dataLink['toggle'] = 'tab';
 			}
 			$attr['class']	= join( ' ', $classesLink );
-			$link			= \UI_HTML_Tag::create( 'a', $label, $attr, $dataLink );
+			$link			= HtmlTag::create( 'a', $label, $attr, $dataLink );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= \UI_HTML_Tag::create( 'a', $label, array( 'class' => 'nav-link' ) );
+				$link			= HtmlTag::create( 'a', $label, array( 'class' => 'nav-link' ) );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
-			$listTabs[]		= \UI_HTML_Tag::create( 'li', $link, $attr );
-			$listPanes[]	= \UI_HTML_Tag::create( 'div', $tab->content, array(
+			$listTabs[]		= HtmlTag::create( 'li', $link, $attr );
+			$listPanes[]	= HtmlTag::create( 'div', $tab->content, array(
 				'class'	=> join( ' ', $classesPane ),
 				'id'	=> $tab->id,
 				'role'	=> 'tabpanel',
 			) );
 		}
-		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, array(
+		$listTabs	= HtmlTag::create( 'ul', $listTabs, array(
 			'class'	=> 'nav nav-tabs',
 			'id'	=> $this->id,
 			'role'	=> 'tablist',
 		) );
-		$listTabs	= \UI_HTML_Tag::create( 'nav', $listTabs );
-		$listPanes	= \UI_HTML_Tag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
+		$listTabs	= HtmlTag::create( 'nav', $listTabs );
+		$listPanes	= HtmlTag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
 		return $listTabs.$listPanes;
 	}
 
@@ -166,7 +167,7 @@ class Tabs extends Structure
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to mark as active.
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setActive( $idOrIndex ): self
 	{

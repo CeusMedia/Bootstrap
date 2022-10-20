@@ -1,7 +1,7 @@
 <?php
 namespace CeusMedia\Bootstrap\Base\Aware;
 
-use Alg_Object_Constant as ClassConstantReflector;
+use CeusMedia\Common\Alg\Obj\Constant as ClassConstantReflector;
 
 use RangeException;
 
