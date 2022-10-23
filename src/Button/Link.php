@@ -13,7 +13,6 @@ namespace CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
-use CeusMedia\Bootstrap\Icon;
 
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
@@ -33,11 +32,11 @@ class Link extends Element
 {
 	use DisabledAware, IconAware;
 
-	protected $confirm;
-	protected $url;
-	protected $title;
+	protected ?string $confirm;
+	protected string $url;
+	protected string $title;
 
-	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct( string $url, $content, ?string $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
@@ -78,6 +77,7 @@ class Link extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		string|NULL		$message
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setConfirm( ?string $message = NULL ): self
@@ -88,6 +88,7 @@ class Link extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		string		$title
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setTitle( string $title ): self
@@ -98,6 +99,7 @@ class Link extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		string		$url
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setUrl( string $url ): self

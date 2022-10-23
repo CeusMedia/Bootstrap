@@ -3,13 +3,13 @@ namespace CeusMedia\Bootstrap\Base\Aware;
 
 trait IdAware
 {
-	protected $id		= NULL;
+	protected ?string $id		= NULL;
 
 	/**
 	 *	@access		public
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setId( $id ): self
+	public function setId( ?string $id ): self
 	{
 		$this->id		= $id;
 		return $this;

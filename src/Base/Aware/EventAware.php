@@ -3,7 +3,7 @@ namespace CeusMedia\Bootstrap\Base\Aware;
 
 trait EventAware
 {
-	protected $events	= array();
+	protected $events	= [];
 
 	/**
 	 *	@access		public
@@ -13,7 +13,7 @@ trait EventAware
 	{
 		$event	= strtolower( trim( $event ) );
 		if( !isset( $this->events[$event] ) )
-			$this->events[$event]	= array();
+			$this->events[$event]	= [];
 		$this->events[$event][]	= $action;
 		return $this;
 	}

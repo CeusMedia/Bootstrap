@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -13,6 +14,8 @@ namespace CeusMedia\Bootstrap\Nav;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
 
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
@@ -26,18 +29,21 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  */
 class TabbableNavbar extends Structure
 {
-	protected $active		= NULL;
-	protected $tabs			= array();
-	protected $contents		= array();
-	protected $classNavBar	= "navbar";
-	protected $brand		= NULL;
-	protected $index		= [];
+	protected ?int $active			= NULL;
+	protected array $tabs			= [];
+	protected array $contents		= [];
+	protected string $classNavBar	= "navbar";
+
+	/** @var Renderable|string|NULL $brand */
+	protected $brand				= NULL;
+
+	protected array $index			= [];
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for method chaining
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function add( string $id, string $label, string $content )
+	public function add( string $id, string $label, string $content ): self
 	{
 		$this->index[]			= $id;
 		$this->tabs[$id]		= $label;
@@ -56,7 +62,7 @@ class TabbableNavbar extends Structure
 		if( is_null( $active ) )
 			$active	= array_shift( $index );
 
-		$listTabs	= array();
+		$listTabs	= [];
 		foreach( $this->index as $id ){
 			$attributes	= array(
 				'href'			=> '#'.$id,
@@ -71,7 +77,7 @@ class TabbableNavbar extends Structure
 		$attributes	= array( 'class' => "nav" );
 		$listTabs	= HtmlTag::create( 'ul', $listTabs, $attributes );
 
-		$listDivs	= array();
+		$listDivs	= [];
 		foreach( $this->index as $id ){
 			$attributes	= array(
 				'id'	=> $id,
@@ -103,7 +109,7 @@ class TabbableNavbar extends Structure
 	 *	@param		integer		$nr			Number of tab to mark as active.
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setActive( $nr ): self
+	public function setActive( int $nr ): self
 	{
 		$this->active	= $nr;
 		return $this;
@@ -111,12 +117,14 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		Renderable|string	$label
+	 *	@param		URL|string|NULL		$url
+	 *	@return		self				Own instance for method chaining
 	 */
-	public function setBrand( string $label, string $url = NULL ): self
+	public function setBrand( $label, $url = NULL ): self
 	{
 		$this->brand	= HtmlTag::create( 'span', $label, array( 'class' => 'brand' ) );
-		if( $url )
+		if( $url !== NULL )
 			$this->brand	= new Link( $url, $label, "brand" );
 		return $this;
 	}

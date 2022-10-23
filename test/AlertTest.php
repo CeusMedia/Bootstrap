@@ -1,7 +1,10 @@
 <?php
-use CeusMedia\Bootstrap\Alert;
+namespace CeusMedia\BootstrapTest;
 
-class AlertTest extends PHPUnit\Framework\TestCase
+use CeusMedia\Bootstrap\Alert;
+use PHPUnit\Framework\TestCase;
+
+class AlertTest extends TestCase
 {
 	public function testConstruct()
 	{
@@ -9,12 +12,12 @@ class AlertTest extends PHPUnit\Framework\TestCase
 		$class	= Alert::CLASS_SUCCESS;
 		$alert	= new UnprotectedAlert( $label, $class );
 
-		$this->assertEquals( $label, $alert->getContent() );
-		$this->assertEquals( explode( ' ', $class ), $alert->getClasses() );
+		self::assertEquals( $label, $alert->getContent() );
+		self::assertEquals( explode( ' ', $class ), $alert->getClasses() );
 
 		$class	= Alert::CLASS_ERROR;
 		$alert	= new UnprotectedAlert( $label, $class );
-		$this->assertEquals( explode( ' ', $class ), $alert->getClasses() );
+		self::assertEquals( explode( ' ', $class ), $alert->getClasses() );
 	}
 
 	/**
@@ -28,12 +31,12 @@ class AlertTest extends PHPUnit\Framework\TestCase
 		$alert->useDismiss( TRUE );
 
 		$expected	= '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Alert Message</div>';
-		$this->assertEquals( $expected, $alert->render() );
+		self::assertEquals( $expected, $alert->render() );
 
 		$alert->useDismiss( FALSE );
 
 		$expected	= '<div class="alert alert-success" role="alert">Alert Message</div>';
-		$this->assertEquals( $expected, $alert->render() );
+		self::assertEquals( $expected, $alert->render() );
 	}
 }
 

@@ -31,10 +31,10 @@ class Group extends Structure
 {
 	use AriaAware, ClassAware;
 
-	protected $buttons		= array();
-	protected $stacked		= FALSE;
+	protected array $buttons		= [];
+	protected bool $stacked			= FALSE;
 
-	public function __construct( array $buttons = array(), bool $stacked = FALSE )
+	public function __construct( array $buttons = [], bool $stacked = FALSE )
 	{
 		parent::__construct();
 		$this->setRole( 'group' );
@@ -45,13 +45,15 @@ class Group extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		array|object|string		$button
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( $button ): self
 	{
-		if( is_array( $button ) )
+		if( is_array( $button ) ){
 			foreach( $button as $item )
 				$this->add( $item );
+		}
 		else if( $button )
 			$this->buttons[]	= $button;
 		return $this;

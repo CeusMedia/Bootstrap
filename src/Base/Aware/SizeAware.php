@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Bootstrap\Base\Aware;
 
 use CeusMedia\Common\Alg\Obj\Constant as ClassConstantReflector;
@@ -46,7 +47,7 @@ trait SizeAware
 	 *	@param		string		$size		...
 	 *	@return		self
 	 */
-	public function setSize( $size ): self
+	public function setSize( string $size ): self
 	{
 		if( !in_array( $size, static::SIZES, TRUE ) )
 			throw new RangeException( 'Invalid size' );

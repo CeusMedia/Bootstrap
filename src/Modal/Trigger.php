@@ -38,7 +38,7 @@ class Trigger
 {
 	use IdAware, ClassAware, IconAware;
 
-	protected $attributes	= array();
+	protected $attributes	= [];
 	protected $icon;
 	protected $iconSize;
 	protected $iconStyle;
@@ -67,7 +67,7 @@ class Trigger
 
 	/**
 	 *	Create modal trigger object by static call.
-	 *	For arguments see code doc of contructor.
+	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
 	 *	@return		self		Modal trigger instance for method chaining

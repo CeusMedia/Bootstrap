@@ -28,9 +28,9 @@ class Toolbar extends Structure
 {
 	use ClassAware;
 
-	protected $groups		= array();
+	protected array $groups		= [];
 
-	public function __construct( array $groups = array() )
+	public function __construct( array $groups = [] )
 	{
 		parent::__construct();
 		$this->add( $groups );
@@ -38,13 +38,15 @@ class Toolbar extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		array|Group|string		$group
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( $group ): self
 	{
-		if( is_array( $group ) )
-			foreach( $group as $item )
-				$this->add( $item );
+		if( is_array( $group ) ) {
+			foreach ($group as $item)
+				$this->add($item);
+		}
 		else if( $group )
 			$this->groups[]	= $group;
 		return $this;

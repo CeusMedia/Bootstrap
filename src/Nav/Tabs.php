@@ -28,7 +28,7 @@ class Tabs extends Structure
 	use IdAware;
 
 	protected $active		= 0;
-	protected $tabs			= array();
+	protected $tabs			= [];
 
 	/**
 	 *	Constructor.
@@ -120,15 +120,15 @@ class Tabs extends Structure
 	 */
 	public function render(): string
 	{
-		$listTabs	= array();
-		$listPanes	= array();
+		$listTabs	= [];
+		$listPanes	= [];
 		if( !$this->active )
 			$this->setActive( 0 );
 		foreach( $this->tabs as $nr => $tab ){
 			$classesItem	= array( 'nav-item' );
 			$classesLink	= array( 'nav-link' );
 			$classesPane	= array( 'tab-pane' );
-			$dataLink		= array();
+			$dataLink		= [];
 			if( $tab->id === $this->active ){
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'show active';

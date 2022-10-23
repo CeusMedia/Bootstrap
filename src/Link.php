@@ -15,6 +15,7 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
@@ -30,9 +31,16 @@ class Link extends Element
 {
 	use AriaAware, DisabledAware, IconAware;
 
-	protected $url;
+	protected string $url;
 
-	public function __construct( $url, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
+	/**
+	 *	@param		string					$url
+	 *	@param		Renderable|string|NULL	$label
+	 *	@param		string|NULL				$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@param		bool					$disabled
+	 */
+	public function __construct( string $url, $content, ?string $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
@@ -46,10 +54,10 @@ class Link extends Element
 	 */
 	public function render(): string
 	{
-		$attributes		= array(
+		$attributes		= [
 			'href'		=> $this->url,
 			'class'		=> $this->classes,
-		);
+		];
 		$this->extendAttributesByClass( $attributes );
 		$this->extendAttributesByAria( $attributes );
 		$this->extendAttributesByEvents( $attributes );

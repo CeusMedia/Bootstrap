@@ -37,29 +37,30 @@ use function trim;
  */
 class Icon extends Structure
 {
-	static $defaultSet		= 'glyphicons';
-	static $defaultSize		= array();
-	static $defaultStyle	= '';
+	public static $defaultSet		= 'glyphicons';
+	public static $defaultSize		= [];
+	public static $defaultStyle		= '';
 
-	protected $icon;
-	protected $set		= NULL;
-	protected $size		= array();
-	protected $style	= FALSE;
+	protected string $icon;
+	protected ?string $set		= NULL;
+	protected array $size		= [];
+	protected string $style;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$icon 		Icon class name plus modifying class names
-	 *	@param		string|NULL		$style 		Icon set style (see code doc of setStyle)
-	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of setSize)
+	 *	@param		string				$icon 		Icon class name plus modifying class names
+	 *	@param		string|NULL			$style 		Icon set style (see code doc of setStyle)
+	 *	@param		array|string|NULL	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
 	public function __construct( string $icon, ?string $style = NULL, $size = NULL )
 	{
+		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
 		$this->setStyle( $style ? $style : static::$defaultStyle );
-		if( $size )
+		if( $size !== NULL )
 			$this->setSize( $size );
 	}
 
@@ -79,7 +80,7 @@ class Icon extends Structure
 	 *	@param		string		$icon 		Icon class name plus modifying class names
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setIcon( $icon ): self
+	public function setIcon( string $icon ): self
 	{
 		$this->icon		= $icon;
 		return $this;
@@ -106,13 +107,14 @@ class Icon extends Structure
 	 *	- modifiers: see FontAwesome doc
 	 *
 	 *	@access		public
-	 *	@param		string		$sizes 		One or many size or modifier class name
+	 *	@param		array|string	$sizes 		One or many size or modifier class name
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setSize( string $sizes ): self
+	public function setSize( $sizes ): self
 	{
-		$this->size		= array();
-		$sizes	= preg_split( "/\s+/", trim( $sizes ) );
+		$this->size		= [];
+		if( is_string( $sizes ) )
+			$sizes	= preg_split( "/\s+/", trim( $sizes ) );
 		foreach( $sizes as $size )
 			if( strlen( trim( $size ) ) > 0 )
 				$this->size[]	= trim( $size );
@@ -148,7 +150,7 @@ class Icon extends Structure
 	protected function realizeSizes(): array
 	{
 		$sizes	= $this->size ? $this->size : static::$defaultSize;
-		$list	= array();
+		$list	= [];
 		foreach( $sizes as $size ){
 			switch( strtolower( $this->set ) ){
 				case 'fontawesome':
@@ -169,7 +171,7 @@ class Icon extends Structure
 	protected function realizeStyle(): array
 	{
 		$style	= $this->style ? $this->style : static::$defaultStyle;
-		$list	= array();
+		$list	= [];
 		switch( strtolower( $this->set ) ){
 			case 'glyphicons':
 				if( $this->style === 'white' )
@@ -196,7 +198,7 @@ class Icon extends Structure
 	protected function resolve( $icon ): string
 	{
 		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
-		$list		= array();
+		$list		= [];
 		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
 		foreach( $this->realizeStyle() as $style )

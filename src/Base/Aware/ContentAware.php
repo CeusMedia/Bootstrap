@@ -1,9 +1,13 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Bootstrap\Base\Aware;
+
+use CeusMedia\Common\Renderable;
 
 trait ContentAware
 {
-	protected $content	= NULL;
+	/**	@var	Renderable|string|NULL		$content  */
+	protected ?string $content	= NULL;
 
 	/**
 	 *	Returns set content or NULL.
@@ -17,9 +21,10 @@ trait ContentAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		Renderable|string|NULL		$content
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function setContent( $content ): self
+	public function setContent( ?string $content ): self
 	{
 		$this->content	= $content;
 		return $this;

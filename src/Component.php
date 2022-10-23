@@ -28,10 +28,10 @@ abstract class Component
 {
 	protected static string $version	= "0.5.0";
 
-	protected array $classes	= array();
+	protected array $classes	= [];
 	protected $content			= NULL;
-	protected array $data		= array();
-	protected array $events		= array();
+	protected array $data		= [];
+	protected array $events		= [];
 	protected ?string $id		= NULL;
 
 	public function __construct( $content, ?string $class = NULL )
@@ -158,7 +158,7 @@ abstract class Component
 	 */
 	public function setClass( string $class ): self
 	{
-		$this->classes	= array();
+		$this->classes	= [];
 		return $this->addClass( $class );
 	}
 
@@ -189,7 +189,7 @@ abstract class Component
 	public function setEvent( $event, $action ): self
 	{
 		if( !isset( $this->events[$event] ) )
-			$this->events[$event]	= array();
+			$this->events[$event]	= [];
 		$this->events[$event][]	= $action;
 		return $this;
 	}

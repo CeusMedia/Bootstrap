@@ -18,6 +18,7 @@ use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
@@ -33,13 +34,27 @@ class Checkbox extends Structure
 {
 	use DataAware, IdAware, NameAware;
 
+	/** @var	string|int|float|NULL		$value */
 	protected $value;
-	protected $options;
-	protected $label;
-	protected $icon;
-	protected $checked;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() )
+	/** @var	Renderable|string|NULL		$label */
+	protected $label;
+
+	/** @var	string						$label */
+	protected string $icon;
+
+	/** @var	bool						$checked */
+	protected bool $checked;
+
+	/**
+	 *	@param		string|NULL				$name
+	 *	@param		string|int|float|NULL	$value
+	 *	@param		bool					$checked
+	 *	@param		Renderable|string|NULL	$label
+	 *	@param		string					$icon
+	 *	@param		array					$data
+	 */
+	public function __construct( ?string $name = NULL, $value = NULL, bool $checked = FALSE, $label = NULL, string $icon = 'fa fa-check', array $data = [] )
 	{
 		parent::__construct();
 		$this->setName( $name );
@@ -57,13 +72,13 @@ class Checkbox extends Structure
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'type'		=> 'checkbox',
 			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'value'		=> $this->value,
 			'checked'	=> $this->checked ? "checked" : NULL,
-		);
+		];
 		$this->extendAttributesByData( $attributes );
 		$input			= HtmlTag::create( 'input', NULL, $attributes );
 		$icon			= HtmlTag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
@@ -74,9 +89,10 @@ class Checkbox extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$checked
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setChecked( $checked ): self
+	public function setChecked( bool $checked ): self
 	{
 		$this->checked	= $checked;
 		return $this;
@@ -84,11 +100,14 @@ class Checkbox extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string|int|float		$value
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setValue( $value ): self
 	{
-		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+		if( is_string( $value ) )
+			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+		$this->value	= $value;
 		return $this;
 	}
 }

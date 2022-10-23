@@ -7,14 +7,16 @@ use function strtolower;
 
 trait AriaAware
 {
-	protected $ariaAttributes	= array();
-	protected $role;
+	protected array $ariaAttributes	= [];
+	protected string $role;
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		string			$key		...
+	 *	@param		string|bool		$value		...
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function setAria( $key, $value ): self
+	public function setAria( string $key, $value ): self
 	{
 		$key	= strtolower( $key );
 		if( is_bool( $value ) )
@@ -27,13 +29,13 @@ trait AriaAware
 	 *	@access		public
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setRole( $role ): self
+	public function setRole( string $role ): self
 	{
 		$this->role	= strtolower( $role );
 		return $this;
 	}
 
-	protected function extendAttributesByAria( &$attributes ): self
+	protected function extendAttributesByAria( array &$attributes ): self
 	{
 		foreach( $this->ariaAttributes as $key => $value ){
 			$attributes['aria-'.$key]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );

@@ -99,7 +99,7 @@ class Breadcrumbs extends Structure
 	 */
 	public function render(): string
 	{
-		$list		= array();
+		$list		= [];
 		$divider	= HtmlTag::create( 'span', "/", array( 'class' => 'divider' ) );
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )

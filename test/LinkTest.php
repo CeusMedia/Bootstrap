@@ -1,7 +1,10 @@
 <?php
-use CeusMedia\Bootstrap\Link;
+namespace CeusMedia\BootstrapTest;
 
-class LinkTest extends PHPUnit\Framework\TestCase
+use CeusMedia\Bootstrap\Link;
+use PHPUnit\Framework\TestCase;
+
+class LinkTest extends TestCase
 {
 	public function testConstruct()
 	{
@@ -10,9 +13,9 @@ class LinkTest extends PHPUnit\Framework\TestCase
 		$class	= 'btn btn-small btn-danger';
 		$link	= new UnprotectedLink( $href, $label, $class );
 
-		$this->assertEquals( $href, $link->getUrl() );
-		$this->assertEquals( $label, $link->getContent() );
-		$this->assertEquals( explode( ' ', $class ), $link->getClasses() );
+		self::assertEquals( $href, $link->getUrl() );
+		self::assertEquals( $label, $link->getContent() );
+		self::assertEquals( explode( ' ', $class ), $link->getClasses() );
 	}
 }
 

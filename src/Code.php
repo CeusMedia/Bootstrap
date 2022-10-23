@@ -24,33 +24,16 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  */
 class Code extends Element
 {
-	protected $convertTabsToWhitespace	= TRUE;
-	protected $scrollable				= FALSE;
+	protected bool $convertTabsToWhitespace	= TRUE;
+	protected bool $scrollable				= FALSE;
 
-	public static $tabSize				= 4;
+	public static int $tabSize				= 4;
 
 	public function __construct( $content, $scrollable = FALSE, $class = NULL, $convertTabsToWhitespace = TRUE )
 	{
 		parent::__construct( $content, $class );
 		$this->setScrollable( $scrollable );
 		$this->convertTabsToWhitespace	= $convertTabsToWhitespace;
-	}
-
-	protected function convertTabsToWhitespace( $content ): string
-	{
-		$lines	= array();
-		foreach( explode( "\n", $content ) as $line ){
-			$line	= trim( $line, "\r" );
-			while( substr_count( $line, "\t" ) ){
-				$pos	= strpos( $line, "\t" );
-				$indent	= static::$tabSize - ( $pos % static::$tabSize );
-				$subst	= str_repeat( " ", $indent );
-//				$line	= substr( $line, 0, $pos ).$subst.substr( $line, $pos + 1 );
-				$line	= preg_replace( "/\t/", $subst, $line, 1 );
-			}
-			$lines[]	= $line;
-		}
-		return join( "\n", $lines );
 	}
 
 	/**
@@ -70,11 +53,33 @@ class Code extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$scrollable
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setScrollable( $scrollable ): self
+	public function setScrollable( bool $scrollable ): self
 	{
-		$this->scrollable	= (bool) $scrollable;
+		$this->scrollable	= $scrollable;
 		return $this;
+	}
+
+	/**
+	 *	@param		string		$content
+	 *	@return		string
+	 */
+	protected function convertTabsToWhitespace( $content ): string
+	{
+		$lines	= [];
+		foreach( explode( "\n", $content ) as $line ){
+			$line	= trim( $line, "\r" );
+			while( substr_count( $line, "\t" ) ){
+				$pos	= strpos( $line, "\t" );
+				$indent	= static::$tabSize - ( $pos % static::$tabSize );
+				$subst	= str_repeat( " ", $indent );
+//				$line	= substr( $line, 0, $pos ).$subst.substr( $line, $pos + 1 );
+				$line	= preg_replace( "/\t/", $subst, $line, 1 );
+			}
+			$lines[]	= $line;
+		}
+		return join( "\n", $lines );
 	}
 }

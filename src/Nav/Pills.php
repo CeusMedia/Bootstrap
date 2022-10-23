@@ -11,10 +11,13 @@
 namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as Tag;
+use Exception;
 
 /**
  *	...
@@ -27,9 +30,9 @@ use CeusMedia\Common\UI\HTML\Tag as Tag;
  */
 class Pills extends Structure
 {
-	protected $active	= -1;
-	protected $items	= array();
-	protected $stacked	= FALSE;
+	protected int $active	= -1;
+	protected array $items	= [];
+	protected bool $stacked	= FALSE;
 
 	/**
 	 *	@access		public
@@ -40,7 +43,7 @@ class Pills extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -48,9 +51,13 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		string					$url
+	 *	@param		Renderable|string|NULL	$label
+	 *	@param		string|NULL				$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@return		self					Own instance for method chaining
 	 */
-	public function add( $url, $label, $class = NULL, $icon = NULL ): self
+	public function add( string $url, $label, ?string $class = NULL, $icon = NULL ): self
 	{
 		$class	= 'nav-link'.( $class ? ' '.$class : '' );
 		$link	= new Link( $url, $label, $class, $icon );
@@ -103,7 +110,7 @@ class Pills extends Structure
 	 */
 	public function render(): string
 	{
-		$items	= array();
+		$items	= [];
 		foreach( $this->items as $nr => $item ){
 			$class		= $this->active === $nr ? "active" : NULL;
 			if( $item->type === "dropdown" ){
@@ -121,9 +128,10 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		int			$nr
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setActive( $nr ): self
+	public function setActive( int $nr ): self
 	{
 		$this->active	= $nr;
 		return $this;
@@ -131,6 +139,7 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$stacked
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setStacked( bool $stacked = TRUE ): self

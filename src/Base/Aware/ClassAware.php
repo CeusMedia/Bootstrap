@@ -3,13 +3,14 @@ namespace CeusMedia\Bootstrap\Base\Aware;
 
 trait ClassAware
 {
-	protected $classes	= array();
+	protected array $classes	= [];
 	/**
 	 *	Sets one or many HTML/CSS class names, given by string or array.
 	 *	Appends new class names to prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		string|array	$class
+	 *	@return		self			Own instance for method chaining
 	 */
 	public function addClass( $class ): self
 	{
@@ -26,9 +27,9 @@ trait ClassAware
 	 *	@param		string		$class		Class to be removed
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function removeClass( $class ): self
+	public function removeClass( string $class ): self
 	{
-		if( strlen( trim( $class ) ) ){
+		if( strlen( trim( $class ) ) !== 0 ){
 			$index	= array_search( trim( $class ), $this->classes );
 			if( $index !== FALSE )
 				unset( $this->classes[$index] );
@@ -42,15 +43,20 @@ trait ClassAware
 	 *	Clears prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
+	 *	@param		string|array	$class
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setClass( $class ): self
 	{
-		$this->classes	= array();
+		$this->classes	= [];
 		return $this->addClass( $class );
 	}
 
-	protected function extendAttributesByClass( &$attributes ): self
+	/**
+	 *	@param		array		$attributes
+	 *	@return		self
+	 */
+	protected function extendAttributesByClass( array &$attributes ): self
 	{
 		$attributes['class']	= join( ' ', $this->classes );
 		return $this;

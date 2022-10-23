@@ -28,7 +28,7 @@ class Button{
 
 	use ClassAware;
 
-	protected $items		= array();
+	protected $items		= [];
 	protected $alignLeft	= TRUE;
 	protected $trigger		= NULL;
 	protected $label;

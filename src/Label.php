@@ -25,13 +25,13 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  */
 class Label extends Element
 {
-	const CLASS_IMPORTANT	= 'label-important';
-	const CLASS_INVERSE		= 'label-inverse';
-	const CLASS_INFO		= 'label-info';
-	const CLASS_SUCCESS		= 'label-success';
-	const CLASS_WARNING		= 'label-warning';
+	public const CLASS_IMPORTANT	= 'label-important';
+	public const CLASS_INVERSE		= 'label-inverse';
+	public const CLASS_INFO		= 'label-info';
+	public const CLASS_SUCCESS		= 'label-success';
+	public const CLASS_WARNING		= 'label-warning';
 
-	const CLASSES			= [
+	public const CLASSES			= [
 		self::CLASS_IMPORTANT,
 		self::CLASS_INVERSE,
 		self::CLASS_INFO,

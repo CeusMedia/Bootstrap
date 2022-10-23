@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -12,8 +14,10 @@ namespace CeusMedia\Bootstrap\Base;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 
+use CeusMedia\Common\Renderable;
 use Exception;
 
+use ReflectionException;
 use function func_get_args;
 
 /**
@@ -25,12 +29,12 @@ use function func_get_args;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Structure
+abstract class Structure implements Renderable
 {
-	public static $version			= "0.5.2";
-	public static $defaultBsVersion	= "2.3.2";
+	public static string $version			= "0.5.2";
+	public static string $defaultBsVersion	= "2.3.2";
 
-	protected $bsVersion;
+	protected string $bsVersion;
 
 	public function __construct()
 	{
@@ -57,14 +61,18 @@ abstract class Structure
 
 	/**
 	 *	Create icon object by static call.
-	 *	For arguments see code doc of contructor.
+	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
 	 *	@return		self		Icon instance for method chaining
+	 *	@throws		ReflectionException
 	 */
 	public static function create(): self
 	{
-		return ObjectFactory::createObject( static::class, func_get_args() );
+		/** @noinspection PhpUnhandledExceptionInspection */
+		/** @var self $structure */
+		$structure	= ObjectFactory::createObject( static::class, func_get_args() );
+		return $structure;
 	}
 
 	/**
@@ -82,10 +90,11 @@ abstract class Structure
 	 *	Indicates whether a version is supported by installed library.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$version		Version to check against
+	 *	@param		string			$version			Version to check against
+	 *	@param		string|NULL		$installVersion		Version to check against
 	 *	@return		bool
 	 */
-	public static function supportsVersion( $version, $installVersion = NULL ): bool
+	public static function supportsVersion( string $version, ?string $installVersion = NULL ): bool
 	{
 		$installVersion	= !is_null( $installVersion ) ? $installVersion : static::$version;
 		return version_compare( $version, $installVersion, '>=' );
@@ -96,7 +105,7 @@ abstract class Structure
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	abstract public function render();
+	abstract public function render(): string;
 
 	public function setBsVersion( string $bsVersion ): self
 	{

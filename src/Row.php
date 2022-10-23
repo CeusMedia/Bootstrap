@@ -28,7 +28,7 @@ class Row extends Element
 {
 	use AriaAware;
 
-	protected $fluid	= FALSE;
+	protected bool $fluid	= FALSE;
 
 	/**
 	 *	@access		public

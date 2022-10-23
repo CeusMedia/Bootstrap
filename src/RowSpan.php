@@ -29,7 +29,7 @@ class RowSpan extends Element
 {
 	use AriaAware;
 
-	protected $size	= 12;
+	protected int $size	= 12;
 
 	/**
 	 *	@access		public

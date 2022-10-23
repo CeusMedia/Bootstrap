@@ -28,7 +28,7 @@ class Menu extends Structure
 {
 	use AriaAware;
 
-	protected $items		= array();
+	protected $items		= [];
 	protected $alignLeft	= TRUE;
 
 	/**
@@ -119,7 +119,7 @@ class Menu extends Structure
 	 */
 	public function render(): string
 	{
-		$list	= array();
+		$list	= [];
 		foreach( $this->items as $item ){
 			$attributes	= array( 'class' => NULL );# 'class' => 'active' );
 			switch( $item->type ){

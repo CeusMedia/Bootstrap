@@ -31,17 +31,15 @@ class Shiftbox extends Element
 {
 	use NameAware;
 
-	const SIZE_DEFAULT		= '';
-	const SIZE_LARGE		= 'large';
-	const SIZE_MINI			= 'mini';
-	const SIZE_SMALL		= 'small';
+	public const SIZE_DEFAULT	= '';
+	public const SIZE_LARGE		= 'large';
+	public const SIZE_MINI		= 'mini';
+	public const SIZE_SMALL		= 'small';
 
-	protected $value;
-	protected $options;
-	protected $size;
-	protected $checked;
+	protected string $value;
+	protected bool $checked;
 
-	public function __construct( string $name = NULL, string $value = NULL, bool $checked = NULL, array $data = array() )
+	public function __construct( string $name = NULL, string $value = NULL, bool $checked = NULL, array $data = [] )
 	{
 		parent::__construct( '' );
 		$this->setName( $name );
@@ -71,6 +69,7 @@ class Shiftbox extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$checked
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setChecked( bool $checked ): self
@@ -81,6 +80,7 @@ class Shiftbox extends Element
 
 	/**
 	 *	@access		public
+	 *	@param		string		$value
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setValue( string $value ): self

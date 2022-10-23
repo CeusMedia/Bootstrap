@@ -50,7 +50,7 @@ class NavList extends Structure
 	 *	@access		public
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = array(), $data = array(), $events = array()*/ ): self
+	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): self
 	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
