@@ -43,13 +43,14 @@ abstract class Element implements Renderable
 
 	/**
 	 *	@param		Renderable|string|NULL		$content
-	 *	@param		array|string|NULL		$class
+	 *	@param		array|string|NULL			$class
 	 */
 	public function __construct( $content, $class = NULL )
 	{
 		$this->bsVersion	= static::$defaultBsVersion;
 		$this->setContent( $content );
-		$this->setClass( $class );
+		if( NULL !== $class )
+			$this->setClass( $class );
 	}
 
 	/**

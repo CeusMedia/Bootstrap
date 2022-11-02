@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -35,7 +36,7 @@ class Link extends Element
 
 	/**
 	 *	@param		string					$url
-	 *	@param		Renderable|string|NULL	$label
+	 *	@param		Renderable|string|NULL	$content
 	 *	@param		string|NULL				$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
@@ -44,7 +45,8 @@ class Link extends Element
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-		$this->setIcon( $icon );
+		if( NULL !== $icon )
+			$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
 

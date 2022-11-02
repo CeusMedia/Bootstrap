@@ -8,7 +8,7 @@ use function strtolower;
 trait AriaAware
 {
 	protected array $ariaAttributes	= [];
-	protected string $role;
+	protected ?string $role			= NULL;
 
 	/**
 	 *	@access		public
@@ -40,7 +40,7 @@ trait AriaAware
 		foreach( $this->ariaAttributes as $key => $value ){
 			$attributes['aria-'.$key]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
 		}
-		if( $this->role )
+		if( NULL !== $this->role )
 			$attributes['role']	= $this->role;
 		return $this;
 	}

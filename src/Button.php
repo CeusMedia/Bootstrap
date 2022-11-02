@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -17,6 +18,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use RangeException;
@@ -70,7 +72,13 @@ class Button extends Element
 
 	protected string $type			= self::TYPE_BUTTON;
 
-	public function __construct( string $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	/**
+	 *	@param		Renderable|string|NULL		$content
+	 *	@param		array|string|NULL			$class
+	 *	@param		Icon|string|NULL			$icon
+	 *	@param		boolean						$disabled
+	 */
+	public function __construct( $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setIcon( $icon );

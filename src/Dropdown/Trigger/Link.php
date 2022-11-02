@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -10,7 +11,9 @@
  */
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
 
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Exception;
 
 /**
  *	...
@@ -21,14 +24,24 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link{
+class Link
+{
+	protected string $label;
 
-	protected $label;
-	protected $class;
-	protected $caret;
+	protected ?string $class;
+
+	protected bool $caret;
+
+	/** @var	Icon|string|NULL	$icon */
 	protected $icon;
 
-	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
+	/**
+	 *	@param		string				$label
+	 *	@param		string|NULL			$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		boolean				$caret
+	 */
+	public function __construct( string $label, ?string $class = NULL, $icon = NULL, bool $caret = TRUE ){
 		$this->label	= $label;
 		$this->class	= $class;
 		$this->icon		= $icon;
@@ -39,11 +52,12 @@ class Link{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
 	 */
-	public function __toString(){
+	public function __toString(): string
+	{
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -53,7 +67,8 @@ class Link{
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
-	public function render(){
+	public function render(): string
+	{
 		$caret	= ' '.HtmlTag::create( 'span', "", array( 'class' => 'caret' ) );
 		if( !$this->caret )
 			$caret	= '';
@@ -66,11 +81,12 @@ class Link{
 
 	/**
 	 *	@access		public
-	 *	@return		object		Own instance for method chaining
+	 *	@param		boolean		$useCaret
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function toggleCaret( $useCaret = TRUE ){
-		$this->caret	= (bool) $useCaret;
+	public function toggleCaret( bool $useCaret = TRUE ): self
+	{
+		$this->caret	= $useCaret;
 		return $this;
 	}
 }
-?>

@@ -3,13 +3,15 @@ namespace CeusMedia\Bootstrap\Base\Aware;
 
 trait EventAware
 {
-	protected $events	= [];
+	protected array $events	= [];
 
 	/**
 	 *	@access		public
+	 *	@param		string		$event		...
+	 *	@param		string		$action		...
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setEvent( $event, $action ): self
+	public function setEvent( string $event, string $action ): self
 	{
 		$event	= strtolower( trim( $event ) );
 		if( !isset( $this->events[$event] ) )

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -82,10 +84,15 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		DropdownMenu		$dropdown
+	 *	@param		string				$label
+	 *	@param		string|NULL			$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		Icon|string|NULL	$iconActive
 	 *	@return		self		Own instance for method chaining
 	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( DropdownMenu $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
+	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, $icon = NULL, $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
 			$label		= HtmlTag::create( 'a', $label, array(

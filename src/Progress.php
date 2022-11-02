@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpUnused */
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+/** @noinspection PhpUnused */
 
 /**
  *	...
@@ -48,7 +49,8 @@ class Progress extends Structure
 	{
 		parent::__construct();
 		$this->setClass( 'progress' );
-		$this->addClass( $class );
+		if( NULL !== $class )
+			$this->addClass( $class );
 	}
 
 	/**

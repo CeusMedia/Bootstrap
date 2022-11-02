@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	...
  *	@category		Library
@@ -15,6 +16,7 @@ use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Button\Group as ButtonGroup;
 use CeusMedia\Bootstrap\Button\Link as ButtonLink;
 use CeusMedia\Bootstrap\Icon;
+use Exception;
 
 /**
  *	...
@@ -27,14 +29,13 @@ use CeusMedia\Bootstrap\Icon;
  */
 class PageControl extends Structure
 {
-	public $baseUrl;
-	public $page;
-	public $pages;
-	public $limit;
-	public $patternUrl;
-	public $patternIndicator;
-	public $size;
-	public $fragment;
+	public string $baseUrl;
+	public int $page;
+	public int $pages;
+	public string $patternUrl;
+	public string $patternIndicator;
+	public ?string $size				= NULL;
+	public string $fragment;
 
 	const SIZE_MINI			= 'mini';
 	const SIZE_SMALL		= 'small';
@@ -60,7 +61,7 @@ class PageControl extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -71,7 +72,7 @@ class PageControl extends Structure
 		$fragment	= $this->fragment ? "#".$this->fragment : "";
 		$part		= sprintf( $this->patternUrl, $page );
 		if( !$page && $this->patternUrl == "/%s" )
-			$part	= "";
+			$part	= '';
 		return $this->baseUrl.$part.$fragment;
 	}
 
@@ -86,7 +87,7 @@ class PageControl extends Structure
 		$size	= $this->size ? 'btn-'.$this->size : NULL;
 		$buttons	= array(
 			(object) array(
-				'url'		=> $this->getUrl( 0 ),
+				'url'		=> $this->getUrl(),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'fast-backward' ),

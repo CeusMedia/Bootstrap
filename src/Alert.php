@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -29,13 +30,13 @@ class Alert extends Element
 	public const CLASS_SECONDARY	= "alert-secondary";		// only BS4
 
 	public const CLASS_SUCCESS		= "alert-success";
-	public const CLASS_INFO		= "alert-info";
+	public const CLASS_INFO			= "alert-info";
 	public const CLASS_WARNING		= "alert-warning";
 	public const CLASS_DANGER		= "alert-danger";
 	public const CLASS_INVERSE		= "alert-inverse";			// ?
 
 	public const CLASS_LIGHT		= "alert-light";			// only BS4
-	public const CLASS_DARK		= "alert-dark";					// only BS4
+	public const CLASS_DARK			= "alert-dark";				// only BS4
 
 	public const CLASS_ERROR		= "alert-error";			// BS2, not BS4 - fallback for DANGER
 

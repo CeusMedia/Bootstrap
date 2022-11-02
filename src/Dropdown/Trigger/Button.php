@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -16,6 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
 
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
@@ -33,10 +35,15 @@ class Button extends Structure
 {
 	use ClassAware, ContentAware, IconAware;
 
-	protected $label;
-	protected $class;
-	protected $caret;
+	protected string $label;
+	protected bool $caret;
 
+	/**
+	 *	@param		string $label
+	 *	@param		array|string|NULL		$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@param		bool					$caret
+	 */
 	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
 	{
 		$this->setContent( $label );

@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Modal trigger generator.
  *	@category		Library
@@ -21,6 +23,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 use RangeException;
+use ReflectionException;
 use RuntimeException;
 
 use function sprintf;
@@ -38,22 +41,21 @@ class Trigger
 {
 	use IdAware, ClassAware, IconAware;
 
-	protected $attributes	= [];
-	protected $icon;
-	protected $iconSize;
-	protected $iconStyle;
-	protected $label;
-	protected $modalId;
-	protected $type			= "button";
+	protected array $attributes	= [];
+	protected ?string $label;
+	protected ?string $modalId;
+	protected string $type			= "button";
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$modalId		ID of modal dialog container
-	 *	@param		string		$label			Label of trigger
+	 *	@param		string|NULL			$modalId		ID of modal dialog container
+	 *	@param		string|NULL			$label			Label of trigger
+	 *	@param		string|array|NULL	$class
+	 *	@param		Icon|string|NULL	$icon
 	 *	@return		void
 	 */
-	public function __construct( $modalId = NULL, $label = NULL, $class = NULL, $icon = NULL )
+	public function __construct( ?string $modalId = NULL, ?string $label = NULL, $class = NULL, $icon = NULL )
 	{
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
@@ -71,10 +73,13 @@ class Trigger
 	 *	@static
 	 *	@access		public
 	 *	@return		self		Modal trigger instance for method chaining
+	 *	@throws		ReflectionException
 	 */
 	public static function create(): self
 	{
-		return ObjectFactory::createObject( static::class, func_get_args() );
+		/** @var Trigger $trigger */
+		$trigger	= ObjectFactory::createObject( static::class, func_get_args() );
+		return $trigger;
 	}
 
 	/**
@@ -92,15 +97,15 @@ class Trigger
 		}
 	}
 
-	public function asButton( $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): self
 	{
-		$this->type		= (bool) $asButton ? "button" : "link";
+		$this->type		= $asButton ? "button" : "link";
 		return $this;
 	}
 
-	public function asLink( $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): self
 	{
-		$this->type		= (bool) $asLink ? "link" : "button";
+		$this->type		= $asLink ? "link" : "button";
 		return $this;
 	}
 
@@ -140,16 +145,8 @@ class Trigger
 			}
 		}
 		$label	= $this->label;
-		if( $this->icon ){
-			$icon	= $this->icon;
-			if( !is_object( $icon ) )
-				$icon	= Icon::create(
-					$icon,
-					$this->iconStyle,
-					$this->iconSize
-				);
-			$label	= $icon.'&nbsp;'.$label;
-		}
+		if( $this->icon )
+			$label	= $this->icon.'&nbsp;'.$label;
 
 		if( $this->type === 'link' )
 			return HtmlTag::create( 'a', $label, $attributes );
@@ -168,17 +165,9 @@ class Trigger
 	 *	@param		array		$attributes		Map of button attributes
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes ): self
+	public function setAttributes( array $attributes ): self
 	{
 		$this->attributes	= $attributes;
-		return $this;
-	}
-
-	public function setIcon( $icon, $style = NULL, $size = NULL ): self
-	{
-		$this->icon			= $icon;
-		$this->iconStyle	= $style;
-		$this->iconSize		= $size;
 		return $this;
 	}
 
@@ -189,7 +178,7 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setLabel( $label ): self
+	public function setLabel( string $label ): self
 	{
 		$this->label	= $label;
 		return $this;
@@ -202,7 +191,7 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setModalId( $modalId ): self
+	public function setModalId( string $modalId ): self
 	{
 		$this->modalId	= $modalId;
 		return $this;

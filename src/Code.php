@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -29,7 +30,7 @@ class Code extends Element
 
 	public static int $tabSize				= 4;
 
-	public function __construct( $content, $scrollable = FALSE, $class = NULL, $convertTabsToWhitespace = TRUE )
+	public function __construct( $content, bool $scrollable = FALSE, $class = NULL, bool $convertTabsToWhitespace = TRUE )
 	{
 		parent::__construct( $content, $class );
 		$this->setScrollable( $scrollable );
@@ -66,7 +67,7 @@ class Code extends Element
 	 *	@param		string		$content
 	 *	@return		string
 	 */
-	protected function convertTabsToWhitespace( $content ): string
+	protected function convertTabsToWhitespace( string $content ): string
 	{
 		$lines	= [];
 		foreach( explode( "\n", $content ) as $line ){

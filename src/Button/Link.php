@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -14,6 +16,8 @@ use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
+use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function addslashes;
@@ -36,7 +40,14 @@ class Link extends Element
 	protected string $url;
 	protected string $title;
 
-	public function __construct( string $url, $content, ?string $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	/**
+	 *	@param		string					$url
+	 *	@param		Renderable|string		$content
+	 *	@param		array|string|NULL		$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@param		bool					$disabled
+	 */
+	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );

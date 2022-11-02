@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
@@ -58,7 +59,8 @@ class Checkbox extends Structure
 	{
 		parent::__construct();
 		$this->setName( $name );
-		$this->setValue( $value );
+		if( NULL !== $value )
+			$this->setValue( $value );
 		$this->setChecked( $checked );
 		$this->label	= $label;
 		$this->icon		= $icon;

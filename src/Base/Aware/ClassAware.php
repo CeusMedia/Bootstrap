@@ -4,6 +4,7 @@ namespace CeusMedia\Bootstrap\Base\Aware;
 trait ClassAware
 {
 	protected array $classes	= [];
+
 	/**
 	 *	Sets one or many HTML/CSS class names, given by string or array.
 	 *	Appends new class names to prior added or set class names.
@@ -44,7 +45,7 @@ trait ClassAware
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
 	 *	@param		string|array	$class
-	 *	@return		self		Own instance for method chaining
+	 *	@return		self			Own instance for method chaining
 	 */
 	public function setClass( $class ): self
 	{

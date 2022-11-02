@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -28,8 +30,8 @@ use Exception;
  */
 class NavList extends Structure
 {
-	protected $current;
-	protected $items		= [];
+	protected ?string $current		= NULL;
+	protected array $items			= [];
 
 	/**
 	 *	@access		public
@@ -145,6 +147,7 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string		$url
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function setCurrent( string $url ): self

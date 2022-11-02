@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -15,6 +16,7 @@ use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
 use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
 
 /**
  *	...
@@ -30,11 +32,18 @@ class Submit extends Element
 {
 	use IconAware, DisabledAware;
 
-	protected $button;
+	protected BaseButton $button;
 #	protected $confirm;
 #	protected $title;
 
-	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
+	/**
+	 *	@param		string|NULL					$name
+	 *	@param		Renderable|string|NULL		$content
+	 *	@param		array|string|NULL			$class
+	 *	@param		Icon|string|NULL			$icon
+	 *	@param		bool						$disabled
+	 */
+	public function __construct( ?string $name, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		$this->button	= new BaseButton( $content, $class, $icon, $disabled );
 		$this->button->setType( 'submit' );

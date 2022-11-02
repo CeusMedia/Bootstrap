@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
@@ -39,7 +41,7 @@ class Shiftbox extends Element
 	protected string $value;
 	protected bool $checked;
 
-	public function __construct( string $name = NULL, string $value = NULL, bool $checked = NULL, array $data = [] )
+	public function __construct( string $name, string $value, bool $checked = FALSE, array $data = [] )
 	{
 		parent::__construct( '' );
 		$this->setName( $name );

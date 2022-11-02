@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -15,8 +16,6 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-
-use Exception;
 
 /**
  *	...

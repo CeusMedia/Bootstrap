@@ -1,4 +1,5 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
@@ -94,9 +95,9 @@ class TabbableNavbar extends Structure
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
 		);
-		$toggler	= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
+		$toggle	= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
 		$collapse	= HtmlTag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
-		$container	= HtmlTag::create( 'div', $toggler.$this->brand.$collapse, array( 'class' => "container" ) );
+		$container	= HtmlTag::create( 'div', $toggle.$this->brand.$collapse, array( 'class' => "container" ) );
 
 		$tabs		= HtmlTag::create( 'div', $container, array( 'class' => "navbar-inner" ) );	//
 		$navbar		= HtmlTag::create( 'div', $tabs, array( 'class' => $this->classNavBar) );			//

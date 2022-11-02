@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -32,10 +33,14 @@ class Breadcrumbs extends Structure
 {
 	use ClassAware;
 
-	protected $crumbs;
-	protected $divider;
+	protected array $crumbs		= [];
+	protected string $divider;
 
-	public function __construct( $divider = "/", $class = NULL )
+	/**
+	 *	@param		string			$divider
+	 *	@param		string|array	$class
+	 */
+	public function __construct( string $divider = '/', $class = NULL )
 	{
 		parent::__construct();
 		$this->setDivider( $divider );
@@ -59,22 +64,29 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@param		Link|string			$label
+	 *	@param		string|NULL			$url
+	 *	@param		string|NULL			$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		boolean				$active
+	 *	@return		self				Own instance for method chaining
 	 */
-	public function add( string $label, ?string $url = NULL, $class = NULL, $icon = NULL, bool $active = FALSE ): self
+	public function add( $label, ?string $url = NULL, ?string $class = NULL, $icon = NULL, bool $active = FALSE ): self
 	{
 		$this->crumbs[]	= (object) array(
 			'label'		=> $label,
 			'url'		=> (string) $url,
 			'class'		=> (string) $class,
 			'icon'		=> (string) $icon,
-			'active'	=> (bool) $active,
+			'active'	=> $active,
 		);
 		return $this;
 	}
 
 	/**
 	 *	@access		public
+	 *	@param		Link|string			$label
+	 *	@param		Icon|string|NULL	$icon
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function addCurrent( $label, $icon = NULL ): self
@@ -89,7 +101,7 @@ class Breadcrumbs extends Structure
 	 */
 	public function addLink( Link $link ): self
 	{
-		$this->add( $link, NULL, NULL, NULL, FALSE );
+		$this->add( $link );
 		return $this;
 	}
 
@@ -133,9 +145,10 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string		$divider
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setDivider( $divider ): self
+	public function setDivider( string $divider ): self
 	{
 		$this->divider	= $divider;
 		return $this;

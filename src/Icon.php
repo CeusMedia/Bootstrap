@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -12,18 +13,14 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
 
-use Exception;
-use InvalidArgumentException;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function explode;
-use function is_array;
 use function is_string;
 use function join;
 use function preg_match;
 use function preg_split;
 use function strtolower;
-use function trigger_error;
 use function trim;
 
 /**
@@ -37,9 +34,9 @@ use function trim;
  */
 class Icon extends Structure
 {
-	public static $defaultSet		= 'glyphicons';
-	public static $defaultSize		= [];
-	public static $defaultStyle		= '';
+	public static string $defaultSet		= 'glyphicons';
+	public static array $defaultSize		= [];
+	public static string $defaultStyle		= '';
 
 	protected string $icon;
 	protected ?string $set		= NULL;
@@ -59,7 +56,7 @@ class Icon extends Structure
 		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
-		$this->setStyle( $style ? $style : static::$defaultStyle );
+		$this->setStyle( $style ?: static::$defaultStyle );
 		if( $size !== NULL )
 			$this->setSize( $size );
 	}
@@ -149,7 +146,7 @@ class Icon extends Structure
 
 	protected function realizeSizes(): array
 	{
-		$sizes	= $this->size ? $this->size : static::$defaultSize;
+		$sizes	= $this->size ?: static::$defaultSize;
 		$list	= [];
 		foreach( $sizes as $size ){
 			switch( strtolower( $this->set ) ){
@@ -158,7 +155,7 @@ class Icon extends Structure
 				case 'fontawesome5':
 					$size	= $size === 'fixed' ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
 					if( preg_match( $regExpFactor = '/^x([1-9])$/', $size ) )						//  translate sizes like 'x2' (allowed: 1-9)
-						$size	= preg_match( $regExpFactor, '\\1x', $size );						//  ... to 2x
+						$size	= preg_replace( $regExpFactor, '\\1x', $size );					//  ... to 2x
 					$list[]	= 'fa-'.$size;															//  ...
 					break;
 				default:																			//  icon set not known
@@ -195,7 +192,7 @@ class Icon extends Structure
 		return $list;
 	}
 
-	protected function resolve( $icon ): string
+	protected function resolve( string $icon ): string
 	{
 		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
 		$list		= [];
@@ -208,11 +205,9 @@ class Icon extends Structure
 				case 'glyphicons':
 					$part	= "icon-".$part;
 					break;
-				case 'fontawesome5':
-					$part	= 'fa-'.$part;
-					break;
 				case 'fontawesome':
 				case 'fontawesome4':
+				case 'fontawesome5':
 					$part	= 'fa-'.$part;
 					break;
 			}

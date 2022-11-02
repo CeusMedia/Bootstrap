@@ -9,17 +9,17 @@ trait IconAware
 	protected ?Icon $icon		= NULL;
 
 	/**
-	 *	@access		public
-	 *	@param		Icon|string|NULL	$icon
-	 *	@param		bool				$white
-	 *	@return		self				Own instance for method chaining
+	 *	@param		Icon|string		$icon
+	 *	@param		string|NULL		$style
+	 *	@param		string|NULL		$size
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function setIcon( $icon, bool $white = FALSE ): self
+	public function setIcon( $icon, ?string $style = NULL, ?string $size = NULL ): self
 	{
 		if( !( $icon instanceof Icon ) && strlen( $icon ) !== 0 ){
-			$icon	= new Icon( $icon, $white );
+			$icon	= new Icon( $icon, $style, $size );
 		}
-		$this->icon	= $icon;
+		$this->icon			= $icon;
 		return $this;
 	}
 }

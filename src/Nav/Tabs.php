@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *  ...
  *	@category		Library
@@ -13,22 +15,24 @@ namespace CeusMedia\Bootstrap\Nav;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use RangeException;
+use RuntimeException;
 
 /**
- *  ...
+ *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
- *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2013-2022 {@link https://ceusmedia.de/ Ceus Media}
- *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *  @link           http://code.google.com/p/cmmodules/
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2013-2022 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmmodules/
  */
 class Tabs extends Structure
 {
 	use IdAware;
 
-	protected $active		= 0;
-	protected $tabs			= [];
+	protected int $active		= 0;
+	protected array $tabs			= [];
 
 	/**
 	 *	Constructor.
@@ -36,7 +40,7 @@ class Tabs extends Structure
 	 *	@param		string		$id			ID of tabs container
 	 *	@return		void
 	 */
-	public function __construct( $id/*, $active = 0*/ )
+	public function __construct( string $id/*, $active = 0*/ )
 	{
 		parent::__construct();
 		$this->setId( $id );
@@ -44,24 +48,24 @@ class Tabs extends Structure
 	}
 
 	/**
-	 *	Registers a tab (as link or fragement link with content).
+	 *	Registers a tab (as link or fragment link with content).
 	 *	ATTENTION: If you want to use dynamic tabs with content and your site is using base tag, you need to provide URLs relative to base.
 	 *	@access		public
-	 *	@param		string		$id			ID of tab pane container
-	 *	@param		string		$url		URL of tab link
-	 *	@param		string		$label		Label of tab pane
-	 *	@param		string		$content	Content of tab pane, if tab is a fragment link
-	 *	@param		boolean		$disabled	Flag: Do not enable this tab by default
-	 *	@return		self		Own instance for method chaining
+	 *	@param		string			$id			ID of tab pane container
+	 *	@param		string			$url		URL of tab link
+	 *	@param		string			$label		Label of tab pane
+	 *	@param		string|NULL		$content	Content of tab pane, if tab is a fragment link
+	 *	@param		boolean			$disabled	Flag: Do not enable this tab by default
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function add( $id, $url, $label, $content = NULL, $disabled = FALSE ): self
+	public function add( string $id, string $url, string $label, ?string $content = NULL, bool $disabled = FALSE ): self
 	{
 		$this->tabs[]	= (object) array(
 			'id'		=> $id,
 			'url'		=> $url,
 			'label'		=> $label,
 			'content'	=> $content,
-			'disabled'	=> (boolean) $disabled,
+			'disabled'	=> $disabled,
 		);
 		return $this;
 	}
@@ -96,23 +100,6 @@ class Tabs extends Structure
 		return $this;
 	}
 
-	protected function getIdByIndex( $index )
-	{
-		foreach( $this->tabs as $nr => $item ){
-			if( (int) $nr === (int) $index )
-				return $item->id;
-		}
-		throw new \RangeException( sprintf( 'No tab available for index %d', $index ) );
-	}
-
-	protected function getTabById( $id )
-	{
-		foreach( $this->tabs as $nr => $tab )
-			if( $tab->id === $id )
-				return $this->tabs[$nr];
-		throw new \RangeException( sprintf( 'No tab available for ID %s', $id ) );
-	}
-
 	/**
 	 *	Renders and returns tabs.
 	 *	@access		public
@@ -124,7 +111,7 @@ class Tabs extends Structure
 		$listPanes	= [];
 		if( !$this->active )
 			$this->setActive( 0 );
-		foreach( $this->tabs as $nr => $tab ){
+		foreach( $this->tabs as $tab ){
 			$classesItem	= array( 'nav-item' );
 			$classesLink	= array( 'nav-link' );
 			$classesPane	= array( 'tab-pane' );
@@ -174,8 +161,34 @@ class Tabs extends Structure
 		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		$tab	= $this->getTabById( $id );
 		if( $tab->disabled )
-			throw new \RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
-		$this->active	= $id;
+			throw new RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
+		$this->active	= $this->getIndexById( $id );
 		return $this;
+	}
+
+	protected function getIndexById( string $id ): int
+	{
+		foreach( $this->tabs as $nr => $item ){
+			if( $item->id === $id )
+				return $nr;
+		}
+		throw new RangeException( sprintf( 'No tab available for ID %d', $id ) );
+	}
+
+	protected function getIdByIndex( int $index ): string
+	{
+		foreach( $this->tabs as $nr => $item ){
+			if( (int) $nr === $index )
+				return $item->id;
+		}
+		throw new RangeException( sprintf( 'No tab available for index %d', $index ) );
+	}
+
+	protected function getTabById( string $id ): object
+	{
+		foreach( $this->tabs as $nr => $tab )
+			if( $tab->id === $id )
+				return $this->tabs[$nr];
+		throw new RangeException( sprintf( 'No tab available for ID %s', $id ) );
 	}
 }
