@@ -70,12 +70,12 @@ class Progress extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		int				$width		Values: 0-100
+	 *	@param		float			$width		Values: 0-100
 	 *	@param		string|NULL		$class
 	 *	@param		string|NULL		$label
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function addBar( int $width, ?string $class = NULL, ?string $label = NULL ): self
+	public function addBar( float $width, ?string $class = NULL, ?string $label = NULL ): self
 	{
 		$this->bars[]	= (object) [
 			'width'		=> $width,

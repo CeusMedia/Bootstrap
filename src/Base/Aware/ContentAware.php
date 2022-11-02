@@ -6,8 +6,8 @@ use CeusMedia\Common\Renderable;
 
 trait ContentAware
 {
-	/**	@var	Renderable|string|NULL		$content  */
-	protected ?string $content	= NULL;
+	/**	@var	Renderable|string|array|NULL		$content  */
+	protected $content	= NULL;
 
 	/**
 	 *	Returns set content or NULL.
@@ -21,10 +21,10 @@ trait ContentAware
 
 	/**
 	 *	@access		public
-	 *	@param		Renderable|string|NULL		$content
+	 *	@param		Renderable|string|array|NULL		$content
 	 *	@return		self			Own instance for method chaining
 	 */
-	public function setContent( ?string $content ): self
+	public function setContent( $content ): self
 	{
 		$this->content	= $content;
 		return $this;

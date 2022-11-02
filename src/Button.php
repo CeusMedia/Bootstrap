@@ -81,7 +81,8 @@ class Button extends Element
 	public function __construct( $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
-		$this->setIcon( $icon );
+		if( NULL !== $icon )
+			$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
 

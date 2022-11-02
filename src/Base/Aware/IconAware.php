@@ -14,7 +14,7 @@ trait IconAware
 	 *	@param		string|NULL		$size
 	 *	@return		self			Own instance for method chaining
 	 */
-	public function setIcon( $icon, ?string $style = NULL, ?string $size = NULL ): self
+	public function setIcon( string $icon, ?string $style = NULL, ?string $size = NULL ): self
 	{
 		if( !( $icon instanceof Icon ) && strlen( $icon ) !== 0 ){
 			$icon	= new Icon( $icon, $style, $size );

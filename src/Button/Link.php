@@ -36,9 +36,9 @@ class Link extends Element
 {
 	use DisabledAware, IconAware;
 
-	protected ?string $confirm;
-	protected string $url;
-	protected string $title;
+	protected ?string $confirm		= NULL;
+	protected ?string $title		= NULL;
+    protected string $url;
 
 	/**
 	 *	@param		string					$url
@@ -51,7 +51,8 @@ class Link extends Element
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-		$this->setIcon( $icon );
+		if( NULL !== $icon )
+			$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
 
@@ -81,7 +82,7 @@ class Link extends Element
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render() : '';
-		if( strlen( $icon ) > 0 && strlen( $this->content ) > 0 )
+		if( strlen( $icon ) > 0 && NULL !== $this->content && strlen( $this->content ) > 0 )
 			$icon	.= ' ';
 		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
 	}

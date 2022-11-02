@@ -47,8 +47,10 @@ class Button extends Structure
 	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
 	{
 		$this->setContent( $label );
-		$this->setClass( $class );
-		$this->setIcon( $icon );
+		if( NULL !== $class )
+			$this->setClass( $class );
+		if( NULL !== $icon )
+			$this->setIcon( $icon );
 		$this->useCaret( $caret );
 	}
 

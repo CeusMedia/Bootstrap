@@ -44,7 +44,8 @@ class Breadcrumbs extends Structure
 	{
 		parent::__construct();
 		$this->setDivider( $divider );
-		$this->setClass( $class );
+		if( NULL !== $class )
+			$this->setClass( $class );
 	}
 
 	/**

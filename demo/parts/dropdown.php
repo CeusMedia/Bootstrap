@@ -9,7 +9,7 @@ $dropdown0->add( '#action-1-2', 'Link 2', '', 'file' );
 //$component	= new \CeusMedia\Bootstrap\Dropdown\Button( 'Dropdown-Button', $dropdown0, 'btn-info', 'star' );
 $trigger	= new DropdownTrigger( 'Dropdown-Button', 'btn-info', 'star' );
 
-$component	= \UI_HTML_Tag::create( 'div', $trigger.$dropdown0, array( 'class' => 'btn-group' ) );
+$component	= \CeusMedia\Common\UI\HTML\Tag::create( 'div', $trigger.$dropdown0, array( 'class' => 'btn-group' ) );
 
 print '<h3>DropdownButton</h3>'.$component;
 
