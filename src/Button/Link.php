@@ -82,9 +82,9 @@ class Link extends Element
 		}
 		$this->extendAttributesByEvents( $attributes );
 		$icon	= $this->icon ? $this->icon->render() : '';
-		if( strlen( $icon ) > 0 && NULL !== $this->content && strlen( $this->content ) > 0 )
+		if( strlen( $icon ) > 0 && NULL !== $this->content && strlen( strval( $this->content ) ) > 0 )
 			$icon	.= ' ';
-		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'a', $icon.strval( $this->content ), $attributes );
 	}
 
 	/**

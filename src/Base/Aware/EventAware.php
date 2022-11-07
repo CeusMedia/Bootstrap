@@ -20,7 +20,7 @@ trait EventAware
 		return $this;
 	}
 
-	protected function extendAttributesByEvents( &$attributes ): self
+	protected function extendAttributesByEvents( array &$attributes ): self
 	{
 		foreach( $this->events as $event => $actions ){
 			$attributes['on'.$event]	= addslashes( join( '; ', $actions ) );

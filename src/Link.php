@@ -37,11 +37,11 @@ class Link extends Element
 	/**
 	 *	@param		string					$url
 	 *	@param		Renderable|string|NULL	$content
-	 *	@param		string|NULL				$class
+	 *	@param		array|string|NULL		$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
 	 */
-	public function __construct( string $url, $content, ?string $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
@@ -70,7 +70,7 @@ class Link extends Element
 			$attributes['href']			= NULL;
 		}
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'a', $icon.strval( $this->content ), $attributes );
 	}
 
 	/**

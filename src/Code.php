@@ -46,9 +46,9 @@ class Code extends Element
 		$attributes		= array( 'class' => join( " ", $this->classes ) );
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
-		$content	= $this->content;
+		$content	= strval( $this->content );
 		if( $this->convertTabsToWhitespace )
-			$content	= $this->convertTabsToWhitespace( $this->content );
+			$content	= $this->convertTabsToWhitespace( $content );
 		return HtmlTag::create( 'pre', htmlentities( $content, ENT_QUOTES, 'UTF-8' ), $attributes );
 	}
 

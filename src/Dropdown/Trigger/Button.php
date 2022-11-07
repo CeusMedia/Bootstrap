@@ -18,6 +18,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
 
 use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
@@ -39,13 +40,14 @@ class Button extends Structure
 	protected bool $caret;
 
 	/**
-	 *	@param		string $label
-	 *	@param		array|string|NULL		$class
-	 *	@param		Icon|string|NULL		$icon
-	 *	@param		bool					$caret
+	 *	@param		Renderable|string|array|NULL	$label
+	 *	@param		array|string|NULL				$class
+	 *	@param		Icon|string|NULL				$icon
+	 *	@param		bool							$caret
 	 */
-	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	public function __construct( $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
 	{
+		parent::__construct();
 		$this->setContent( $label );
 		if( NULL !== $class )
 			$this->setClass( $class );
@@ -76,7 +78,7 @@ class Button extends Structure
 	public function render(): string
 	{
 		$caret	= $this->caret ? ' '.HtmlTag::create( 'span', '', ['class' => 'caret'] ) : '';
-		$button	= new BaseButton( $this->content.$caret, $this->classes, $this->icon );
+		$button	= new BaseButton( strval( $this->content ).$caret, $this->classes, $this->icon );
 		$button->addClass( 'dropdown-toggle' );
 		$button->setData( 'toggle', 'dropdown' );
 		return $button->render();

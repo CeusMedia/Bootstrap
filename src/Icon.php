@@ -111,7 +111,7 @@ class Icon extends Structure
 	{
 		$this->size		= [];
 		if( is_string( $sizes ) )
-			$sizes	= preg_split( "/\s+/", trim( $sizes ) );
+			$sizes	= (array) preg_split( "/\s+/", trim( $sizes ) );
 		foreach( $sizes as $size )
 			if( strlen( trim( $size ) ) > 0 )
 				$this->size[]	= trim( $size );

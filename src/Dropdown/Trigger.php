@@ -16,6 +16,8 @@ use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Button as TriggerButton;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
 
 /**
  *	...
@@ -30,10 +32,20 @@ class Trigger extends Structure
 {
 	use ContentAware, ClassAware, IconAware;
 
-	protected $caret;
-	protected $type		= "button";
+	protected bool $caret;
+	protected string $type		= "button";
 
-	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
+	/**
+	 *	Constructor.
+	 *	@param		Renderable|string|array|NULL	$label
+	 *	@param		string|array					$class
+	 *	@param		Icon|string|NULL				$icon
+	 *	@param		bool							$caret
+	 *	@return		void
+	 */
+	public function __construct( $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	{
+		parent::__construct();
 		$this->setContent( $label );
 		$this->setClass( $class );
 		$this->setIcon( $icon );
@@ -57,19 +69,21 @@ class Trigger extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$asButton
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function asButton( $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): self
 	{
-		$this->type		= (bool) $asButton ? "button" : "link";
+		$this->type		= $asButton ? "button" : "link";
 		return $this;
 	}
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$asLink
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function asLink( $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): self
 	{
 		$this->type		= (bool) $asLink ? "link" : "button";
 		return $this;
@@ -87,7 +101,7 @@ class Trigger extends Structure
 				break;
 			case "link":
 			default:
-				$trigger	= new TriggerLink( $this->content, $this->classes, $this->icon, $this->caret );
+				$trigger	= new TriggerLink( strval( $this->content ), $this->classes, $this->icon, $this->caret );
 		}
 		return $trigger;
 	}

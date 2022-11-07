@@ -31,6 +31,7 @@ use Exception;
 class NavList extends Structure
 {
 	protected ?string $current		= NULL;
+
 	protected array $items			= [];
 
 	/**
@@ -50,6 +51,10 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string				$url
+	 *	@param		string				$label
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		string|NULL			$class
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): self
@@ -78,6 +83,9 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string				$label
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		string|NULL			$class
 	 *	@return		self		Own instance for method chaining
 	 */
 	public function addHeader( string $label, $icon = NULL, string $class = NULL ): self
@@ -136,7 +144,7 @@ class NavList extends Structure
 						$invert	= TRUE;
 					}
 					$link	= new Link( $item->url, $item->label, 'autocut' );
-					$link->setIcon( $item->icon, $invert );
+					$link->setIcon( $item->icon, $invert ? 'white' : '' );
 					$attr['class']	= join( " ", $attr['class'] );
 					$list[]	= HtmlTag::create( 'li', $link, $attr );
 					break;

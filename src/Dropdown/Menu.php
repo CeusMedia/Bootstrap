@@ -1,4 +1,6 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -12,6 +14,7 @@ namespace CeusMedia\Bootstrap\Dropdown;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
@@ -28,8 +31,9 @@ class Menu extends Structure
 {
 	use AriaAware;
 
-	protected $items		= [];
-	protected $alignLeft	= TRUE;
+	protected array $items		= [];
+
+	protected bool $alignLeft	= TRUE;
 
 	/**
 	 *	@access		public
@@ -49,9 +53,16 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	/**
+	 *	Constructor.
+	 *	@param		string			$url
+	 *	@param		string			$label
+	 *	@param		string|array	$class
+	 *	@param		Icon|string		$icon
+	 *	@param		bool			$disabled
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function add( $url, $label, $class = NULL, $icon = NULL, $disabled = FALSE ): self
+	public function add( string $url, string $label, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
 	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
@@ -78,10 +89,15 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
-	 *	@deprecated				not supported in Bootstrap 4.4, so disabled for all others, too
+	 *	@param		string			$label
+	 *	@param		Menu			$dropdown
+	 *	@param		string|array	$class
+	 *	@param		Icon|string		$icon
+	 *	@param		bool			$disabled
+	 *	@return		self			Own instance for method chaining
+	 *	@deprecated					not supported in Bootstrap 4.4, so disabled for all others, too
 	 */
-	public function addDropdown( $label, Menu $dropdown, $class = NULL, $icon = NULL, $disabled = FALSE ): self
+	public function addDropdown( string $label, Menu $dropdown, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
 	{
 		\trigger_error( 'Not supported in Bootstrap 4.4, so disabled for all others, too', E_USER_DEPRECATED );
 /*		$link		= new \CeusMedia\Bootstrap\Link( '#', $label, 'dropdown-item', $icon, $disabled );
@@ -101,9 +117,10 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		bool			$disabled
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function addLink( $link, $disabled = FALSE ): self
+	public function addLink( $link, bool $disabled = FALSE ): self
 	{
 		$this->items[]	= (object) array(
 			'type'		=> 'link',
@@ -152,9 +169,10 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		bool		$left
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setAlign( $left = TRUE ): self
+	public function setAlign( bool $left = TRUE ): self
 	{
 		$this->alignLeft	= $left;
 		return $this;
@@ -162,9 +180,10 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
+	 *	@param		string		$label
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setAriaLabel( $label ): self
+	public function setAriaLabel( string $label ): self
 	{
 		$this->setAria( 'label', $label );
 		return $this;

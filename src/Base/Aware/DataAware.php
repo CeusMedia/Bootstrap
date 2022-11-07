@@ -27,7 +27,7 @@ trait DataAware
 		return $this;
 	}
 
-	protected function extendAttributesByData( &$attributes ): self
+	protected function extendAttributesByData( array &$attributes ): self
 	{
 		foreach( $this->data as $key => $value )
 			$attributes['data-'.strtolower( $key )]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );

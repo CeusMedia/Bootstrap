@@ -37,13 +37,14 @@ class Link
 
 	/**
 	 *	@param		string				$label
-	 *	@param		string|NULL			$class
+	 *	@param		array|string|NULL	$class
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		boolean				$caret
 	 */
-	public function __construct( string $label, ?string $class = NULL, $icon = NULL, bool $caret = TRUE ){
+	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	{
 		$this->label	= $label;
-		$this->class	= $class;
+		$this->class	= is_array( $class ) ? join( ' ', $class ) : $class;
 		$this->icon		= $icon;
 		$this->toggleCaret( $caret );
 	}

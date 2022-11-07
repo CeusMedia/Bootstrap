@@ -103,7 +103,7 @@ class Button extends Element
 		$this->extendAttributesByEvents( $attributes );
 		$this->extendAttributesByData( $attributes );
 		$icon	= $this->icon ? $this->icon->render().' ' : '';
-		return HtmlTag::create( 'button', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'button', $icon.strval( $this->content ), $attributes );
 	}
 
 	public function setBlock( bool $block = TRUE ): self
