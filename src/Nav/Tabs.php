@@ -31,7 +31,7 @@ class Tabs extends Structure
 {
 	use IdAware;
 
-	protected int $active		= 0;
+	protected ?string $activeId		= NULL;
 	protected array $tabs			= [];
 
 	/**
@@ -109,14 +109,14 @@ class Tabs extends Structure
 	{
 		$listTabs	= [];
 		$listPanes	= [];
-		if( !$this->active )
+		if( !$this->activeId )
 			$this->setActive( 0 );
 		foreach( $this->tabs as $tab ){
 			$classesItem	= array( 'nav-item' );
 			$classesLink	= array( 'nav-link' );
 			$classesPane	= array( 'tab-pane' );
 			$dataLink		= [];
-			if( $tab->id === $this->active ){
+			if( $tab->id === $this->activeId ){
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'show active';
 			}
@@ -162,7 +162,7 @@ class Tabs extends Structure
 		$tab	= $this->getTabById( $id );
 		if( $tab->disabled )
 			throw new RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
-		$this->active	= $this->getIndexById( $id );
+		$this->activeId	= $id;
 		return $this;
 	}
 
