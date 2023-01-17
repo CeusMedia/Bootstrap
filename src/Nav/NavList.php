@@ -59,13 +59,13 @@ class NavList extends Structure
 	 */
 	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'link',
 			'url'		=> $url,
 			'label'		=> $label,
 			'icon'		=> $icon,
 			'class'		=> $class,
-		);
+		];
 		return $this;
 	}
 
@@ -75,9 +75,9 @@ class NavList extends Structure
 	 */
 	public function addDivider(): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'divider',
-		);
+		];
 		return $this;
 	}
 
@@ -105,10 +105,10 @@ class NavList extends Structure
 	 */
 	public function addNavList( NavList $list ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'navlist',
 			'list'		=> $list,
-		);
+		];
 		return $this;
 	}
 

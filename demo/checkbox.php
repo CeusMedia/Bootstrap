@@ -50,18 +50,18 @@ use \CeusMedia\Bootstrap\Checkbox;
 </div>';
 
 $pathCDN	= "https://cdn.ceusmedia.de/";
-$scripts	= array(
+$scripts	= [
 	$pathCDN."js/jquery/1.10.2.js",
 	$pathCDN."js/bootstrap.min.js",
-);
-$styles		= array(
+];
+$styles		= [
 	$pathCDN."css/bootstrap/2.3.2/bootstrap.min.css",
 //	$pathCDN."css/bootstrap/3.3.7/bootstrap.min.css",
 //	$pathCDN."css/bootstrap/4.0.0/bootstrap.min.css",
 //	$pathCDN."css/bootstrap-responsive.min.css",
 	"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 	"checkbox.css",
-);
+];
 
 /*  --  OUTPUT  --  */
 $page	= new UI_HTML_PageFrame();

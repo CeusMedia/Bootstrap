@@ -80,10 +80,10 @@ class Menu extends Structure
 	 */
 	public function addDivider(): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'divider',
 			'content'	=> NULL,
-		);
+		];
 		return $this;
 	}
 
@@ -104,14 +104,14 @@ class Menu extends Structure
 		$link->setRole( 'button' );
 		if( $class )
 			$link->addClass( $class );
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'dropdown',
 			'content'	=> $link,
 			'submenu'	=> $dropdown,
 			'class'		=> $class,
 			'icon'		=> $icon,
 			'disabled'	=> $disabled,
-		);*/
+		];*/
 		return $this;
 	}
 
@@ -122,11 +122,11 @@ class Menu extends Structure
 	 */
 	public function addLink( $link, bool $disabled = FALSE ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'link',
 			'content'	=> $link,
 			'disabled'	=> $disabled,
-		);
+		];
 		return $this;
 	}
 
@@ -157,9 +157,9 @@ class Menu extends Structure
 				$attributes['class']	.= ' disabled';
 			$list[]	= HtmlTag::create( 'li', $item->content, $attributes );
 		}
-		$attributes	= array(
+		$attributes	= [
 			'class'		=> "dropdown-menu",
-		);
+		];
 		if( !$this->alignLeft ){
 			$additionalClass		= version_compare( $this->bsVersion, '4', '>=' ) ? 'dropdown-menu-right' : 'pull-right';
 			$attributes['class']	= $attributes['class'].' '.$additionalClass;

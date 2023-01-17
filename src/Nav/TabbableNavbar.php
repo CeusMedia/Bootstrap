@@ -65,10 +65,10 @@ class TabbableNavbar extends Structure
 
 		$listTabs	= [];
 		foreach( $this->index as $id ){
-			$attributes	= array(
+			$attributes	= [
 				'href'			=> '#'.$id,
 				'data-toggle'	=> "tab",
-			);
+			];
 			$label	= $this->tabs[$id];
 #			$label	= htmlentities( $label, ENT_QUOTES, 'UTF-8' );
 			$link	= HtmlTag::create( 'a', $label, $attributes );
@@ -80,21 +80,21 @@ class TabbableNavbar extends Structure
 
 		$listDivs	= [];
 		foreach( $this->index as $id ){
-			$attributes	= array(
+			$attributes	= [
 				'id'	=> $id,
 				'class'	=> $active == $id ? "tab-pane active" : "tab-pane",
-			);
+			];
 			$listDivs[]	= HtmlTag::create( 'div', $this->contents[$id], $attributes );
 		}
 		$attributes	= array( 'class' => "tab-content" );
 		$listDivs	= HtmlTag::create( 'div', $listDivs, $attributes );
 
 		$toggleSpan	= HtmlTag::create( 'span', "", array( 'class' => 'icon-bar' ) );
-		$attributes	= array(
+		$attributes	= [
 			'data-toggle'	=> 'collapse',
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
-		);
+		];
 		$toggle		= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
 		$collapse	= HtmlTag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
 		$container	= HtmlTag::create( 'div', $toggle.strval( $this->brand ).$collapse, array( 'class' => "container" ) );

@@ -74,11 +74,11 @@ class Pills extends Structure
 	public function addLink( Link $link ): self
 	{
 		$link->addClass( 'nav-link' );
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'link',
 			'link'		=> $link,
 			'class'		=> 'nav-item',
-		);
+		];
 		return $this;
 	}
 
@@ -95,11 +95,11 @@ class Pills extends Structure
 	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, $icon = NULL, $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
-			$label		= HtmlTag::create( 'a', $label, array(
+			$label		= HtmlTag::create( 'a', $label, [
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
-			) );*/
+			] );*/
 		$this->items[]	= (object) array(
 			'type'			=> 'dropdown',
 			'label'			=> $label,

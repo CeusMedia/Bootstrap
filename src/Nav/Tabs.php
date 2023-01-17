@@ -60,13 +60,13 @@ class Tabs extends Structure
 	 */
 	public function add( string $id, string $url, string $label, ?string $content = NULL, bool $disabled = FALSE ): self
 	{
-		$this->tabs[]	= (object) array(
+		$this->tabs[]	= (object) [
 			'id'		=> $id,
 			'url'		=> $url,
 			'label'		=> $label,
 			'content'	=> $content,
 			'disabled'	=> $disabled,
-		);
+		];
 		return $this;
 	}
 
@@ -140,11 +140,11 @@ class Tabs extends Structure
 				'role'	=> 'tabpanel',
 			) );
 		}
-		$listTabs	= HtmlTag::create( 'ul', $listTabs, array(
+		$listTabs	= HtmlTag::create( 'ul', $listTabs, [
 			'class'	=> 'nav nav-tabs',
 			'id'	=> $this->id,
 			'role'	=> 'tablist',
-		) );
+		] );
 		$listTabs	= HtmlTag::create( 'nav', $listTabs );
 		$listPanes	= HtmlTag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
 		return $listTabs.$listPanes;

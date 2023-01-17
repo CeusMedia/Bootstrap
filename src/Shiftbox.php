@@ -57,14 +57,14 @@ class Shiftbox extends Element
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'type'		=> 'checkbox',
 			'id'		=> 'input_'.$this->name,
 			'name'		=> $this->name,
 			'value'		=> $this->value,
 			'class'		=> 'shiftbox',
 			'checked'	=> $this->checked ? 'checked' : NULL,
-		);
+		];
 		$this->extendAttributesByData( $attributes );
 		return HtmlTag::create( 'input', NULL, $attributes );
 	}

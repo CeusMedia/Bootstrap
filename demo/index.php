@@ -18,10 +18,10 @@ new CeusMedia\Common\UI\DevOutput();
 error_reporting( E_ALL );
 ini_set( 'display_errors', TRUE );
 
-$versions	= array(
+$versions	= [
 	'2.3.2',
 	'4.4.1',
-);
+];
 
 $request	= new Request();
 

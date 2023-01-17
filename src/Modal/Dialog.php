@@ -132,9 +132,9 @@ class Dialog extends Structure
 	 */
 	public function render(): string
 	{
-		$body		= HtmlTag::create( 'div', $this->body, array(
+		$body		= HtmlTag::create( 'div', $this->body, [
 			'class'	=> 'modal-body',
-		) );
+		] );
 		$footer		= $this->renderFooter();
 		$header		= $this->renderHeader();
 		$attributes	= array(
@@ -166,12 +166,12 @@ class Dialog extends Structure
 		}
 		$modal	= HtmlTag::create( 'div', array( $content ), $attributes );
 		if( $this->formAction !== NULL ){
-			$attributes	= array_merge( $this->formAttributes, array(
+			$attributes	= array_merge( $this->formAttributes, [
 				'action'	=> $this->formAction,
 				'method'	=> 'POST',
 				'enctype'	=> $this->formIsUpload ? 'multipart/form-data' : NULL,
 				'onsubmit'	=> NULL !== $this->formOnSubmit ? $this->formOnSubmit.'; return false;' : NULL,
-			) );
+			] );
 			$modal	= HtmlTag::create( 'form', $modal, $attributes );
 		}
 		return $modal;
