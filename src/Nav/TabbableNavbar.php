@@ -136,17 +136,11 @@ class TabbableNavbar extends Structure
 	 */
 	public function setFixed( string $position = NULL ): self
 	{
-		switch( $position ){
-			case 'top':
-				$this->classNavBar	= "navbar navbar-fixed-top";
-				break;
-			case 'bottom':
-				$this->classNavBar	= "navbar navbar-fixed-bottom";
-				break;
-			default:
-				$this->classNavBar	= "navbar";
-				break;
-		}
+		$this->classNavBar = match ($position) {
+			'top'		=> "navbar navbar-fixed-top",
+			'bottom'	=> "navbar navbar-fixed-bottom",
+			default		=> "navbar",
+		};
 		return $this;
 	}
 }

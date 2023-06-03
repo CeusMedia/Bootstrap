@@ -36,7 +36,7 @@ abstract class Element implements Renderable
 {
 	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
-	public static string $version			= "0.5.2";
+	public static string $version			= "0.6.0";
 	public static string $defaultBsVersion	= "2.3.2";
 
 	protected string $bsVersion;

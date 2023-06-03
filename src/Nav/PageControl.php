@@ -124,7 +124,7 @@ class PageControl extends Structure
 		$group		= new ButtonGroup();
 		foreach( $buttons as $button ){
 			if( isset( $button->url ) )
-				$button	= new ButtonLink( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
+				$button	= new ButtonLink( $button->url, $button->label ?? '', $button->class, $button->icon, $button->disabled );
 			else
 				$button	= new Button( $button->label, $button->class, $button->icon, $button->disabled );
 			$group->add( $button );

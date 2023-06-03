@@ -43,6 +43,7 @@ class Progress extends Structure
 	public const BAR_CLASS_DANGER	= 'bar-danger bg-danger';
 	public const BAR_CLASS_STRIPED	= 'progress-bar-striped';
 
+	/** @var array<object> $bars */
 	protected array $bars		= [];
 
 	public function __construct( ?string $class = NULL )

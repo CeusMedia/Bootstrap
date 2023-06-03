@@ -31,7 +31,7 @@ use function func_get_args;
  */
 abstract class Structure implements Renderable
 {
-	public static string $version			= "0.5.2";
+	public static string $version			= "0.6.0";
 	public static string $defaultBsVersion	= "2.3.2";
 
 	protected string $bsVersion;
