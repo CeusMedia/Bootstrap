@@ -12,6 +12,8 @@
  */
 namespace CeusMedia\Bootstrap;
 
+use CeusMedia\Bootstrap\Base\DataObject\NavTabsItem;
+use CeusMedia\Bootstrap\Base\DataObject\ProgressBar;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
@@ -43,7 +45,7 @@ class Progress extends Structure
 	public const BAR_CLASS_DANGER	= 'bar-danger bg-danger';
 	public const BAR_CLASS_STRIPED	= 'progress-bar-striped';
 
-	/** @var array<object> $bars */
+	/** @var array<ProgressBar> $bars */
 	protected array $bars		= [];
 
 	public function __construct( ?string $class = NULL )
@@ -78,11 +80,7 @@ class Progress extends Structure
 	 */
 	public function addBar( float $width, ?string $class = NULL, ?string $label = NULL ): self
 	{
-		$this->bars[]	= (object) [
-			'width'		=> $width,
-			'class'		=> $class,
-			'label'		=> (string) $label,
-		];
+		$this->bars[]	= ProgressBar::create( $width, $class, $label );
 		return $this;
 	}
 
@@ -102,10 +100,8 @@ class Progress extends Structure
 				'aria-valuemax'	=> 100,
 				'aria-valuenow'	=> round( $bar->width ),
 			];
-			if( $bar->class ){
-				$class	= is_array( $bar->class ) ? join( ' ', $bar->class ) : $bar->class;
-				$attributes['class']	.= ' '.$class;
-			}
+			if( 0 !== strlen( $bar->class ?? '' ) )
+				$attributes['class']	.= ' '.$bar->class;
 			$list[]	= HtmlTag::create( 'div', $bar->label, $attributes );
 		}
 		return HtmlTag::create( 'div', $list, ['class' => join( ' ', $this->classes )] );

@@ -12,6 +12,7 @@
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\NavTabsItem;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
@@ -60,13 +61,7 @@ class Tabs extends Structure
 	 */
 	public function add( string $id, string $url, string $label, ?string $content = NULL, bool $disabled = FALSE ): self
 	{
-		$this->tabs[]	= (object) [
-			'id'		=> $id,
-			'url'		=> $url,
-			'label'		=> $label,
-			'content'	=> $content,
-			'disabled'	=> $disabled,
-		];
+		$this->tabs[]	= NavTabsItem::create( $id, $url, $label, $content ?? '', $disabled );
 		return $this;
 	}
 
@@ -184,7 +179,7 @@ class Tabs extends Structure
 		throw new RangeException( sprintf( 'No tab available for index %d', $index ) );
 	}
 
-	protected function getTabById( string $id ): object
+	protected function getTabById( string $id ): NavTabsItem
 	{
 		foreach( $this->tabs as $nr => $tab )
 			if( $tab->id === $id )

@@ -12,6 +12,8 @@
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\NavPillItemDropdown;
+use CeusMedia\Bootstrap\Base\DataObject\NavPillItemLink;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
@@ -34,6 +36,8 @@ use Stringable;
 class Pills extends Structure
 {
 	protected int $active	= -1;
+
+	/** @var array<NavPillItemLink|NavPillItemDropdown> $items */
 	protected array $items	= [];
 	protected bool $stacked	= FALSE;
 
@@ -75,11 +79,7 @@ class Pills extends Structure
 	public function addLink( Link $link ): self
 	{
 		$link->addClass( 'nav-link' );
-		$this->items[]	= (object) [
-			'type'		=> 'link',
-			'link'		=> $link,
-			'class'		=> 'nav-item',
-		];
+		$this->items[]	= NavPillItemLink::create( $link );
 		return $this;
 	}
 
@@ -101,14 +101,7 @@ class Pills extends Structure
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
 			] );*/
-		$this->items[]	= (object) array(
-			'type'			=> 'dropdown',
-			'label'			=> $label,
-			'content'		=> $dropdown,
-			'class'			=> 'nav-link'.( $class ? ' '.$class : '' ),
-			'icon'			=> $icon,
-			'iconActive'	=> $iconActive,
-		);
+		$this->items[]	= NavPillItemDropdown::create( $label, $dropdown, $class, $icon, $iconActive );
 		return $this;
 	}
 
@@ -121,7 +114,8 @@ class Pills extends Structure
 		$items	= [];
 		foreach( $this->items as $nr => $item ){
 			$class		= $this->active === $nr ? "active" : NULL;
-			if( $item->type === "dropdown" ){
+//			if( $item->type === "dropdown" ){
+			if( $item instanceof NavPillItemDropdown ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
 				$item		= Tag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
