@@ -18,7 +18,7 @@ use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	Replacement for checkbox inputs.

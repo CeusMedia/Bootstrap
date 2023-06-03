@@ -15,7 +15,7 @@ use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 
@@ -111,7 +111,7 @@ class Breadcrumbs extends Structure
 			else
 				$content	= $crumb->label;
 
-			if( version_compare( $this->bsVersion, 3, '<' ) )
+			if( version_compare( $this->bsVersion, "3", '<' ) )
 				if( $nr < count( $this->crumbs ) - 1 )
 					$content	.= ' '.$divider;
 			$classesItem	= array( 'breadcrumb-item' );

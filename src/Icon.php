@@ -14,7 +14,7 @@ use CeusMedia\Bootstrap\Base\Structure;
 
 use Exception;
 use InvalidArgumentException;
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function explode;
 use function is_array;

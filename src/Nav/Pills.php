@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -14,7 +15,7 @@ use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
-use UI_HTML_Tag as Tag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -81,7 +82,7 @@ class Pills extends Structure
 	public function addDropdown( DropdownMenu $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
-			$label		= \UI_HTML_Tag::create( 'a', $label, array(
+			$label		= HtmlTag::create( 'rector.php', $label, array(
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
@@ -109,14 +110,14 @@ class Pills extends Structure
 			if( $item->type === "dropdown" ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
-				$item		= Tag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
+				$item		= HtmlTag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
 			}
 			else{
-				$item	= Tag::create( 'li', (string) $item->link, array( 'class' => $class ) );
+				$item	= HtmlTag::create( 'li', (string) $item->link, array( 'class' => $class ) );
 			}
 			$items[]	= $item;
 		}
-		return Tag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
+		return HtmlTag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
 	}
 
 	/**

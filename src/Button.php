@@ -17,7 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use RangeException;
 

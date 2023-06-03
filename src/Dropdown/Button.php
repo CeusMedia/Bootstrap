@@ -12,6 +12,8 @@ namespace CeusMedia\Bootstrap\Dropdown;
 
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+
 /**
  *	...
  *	@category		Library
@@ -64,7 +66,7 @@ class Button{
 	 */
 	public function render(){
 		$trigger	= new Trigger\Button( $this->label, $this->classes, $this->icon, $this->caret );
-		return \UI_HTML_Tag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
+		return HtmlTag::create( 'div', $trigger.$this->dropdown, array( 'class' => 'btn-group' ) );
 	}
 
 	/**
@@ -76,4 +78,3 @@ class Button{
 		return $this;
 	}
 }
-?>

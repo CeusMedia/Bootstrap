@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -16,7 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\EventAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 
-use Alg_Object_Factory as ObjectFactory;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use Exception;
 
 /**
@@ -86,7 +87,7 @@ abstract class Element
 	}
 
 	/**
-	 *	Indicates whether a version is supported by installed library.
+	 *	Indicates whether rector.php version is supported by installed library.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$version		Version to check against

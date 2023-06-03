@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -13,6 +14,7 @@ namespace CeusMedia\Bootstrap;
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Element;
 
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 /**
  *	...
  *	@category		Library
@@ -40,7 +42,7 @@ class Row extends Element
 		);
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
-		return \UI_HTML_Tag::create( 'div', $this->content, $attributes );
+		return HtmlTag::create( 'div', $this->content, $attributes );
 	}
 
 	/**

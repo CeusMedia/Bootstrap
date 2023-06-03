@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -8,7 +9,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
+
 namespace CeusMedia\Bootstrap;
+
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -21,13 +26,13 @@ namespace CeusMedia\Bootstrap;
  */
 abstract class Component{
 
-	static protected $version	= "0.5.0";
+	protected static string $version	= "0.5.0";
 
-	protected $classes	= array();
-	protected $content	= NULL;
-	protected $data		= array();
-	protected $events	= array();
-	protected $id		= NULL;
+	protected array $classes	= array();
+	protected $content			= NULL;
+	protected array $data		= array();
+	protected array $events		= array();
+	protected $id				= NULL;
 
 	public function __construct( $content, $class = NULL ){
 		\trigger_error( 'Use base component instead', E_USER_DEPRECATED );
@@ -76,7 +81,7 @@ abstract class Component{
 	 *	@return		object		Component instance for chainability
 	 */
 	static public function create(){
-		return \Alg_Object_Factory::createObject( static::class, func_get_args() );
+		return ObjectFactory::createObject( static::class, func_get_args() );
 	}
 
 	protected function extendAttributesByData( &$attributes ){
@@ -103,7 +108,7 @@ abstract class Component{
 	}
 
 	/**
-	 *	Indicates whether a version is supported by installed library.
+	 *	Indicates whether rector.php version is supported by installed library.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$version		Version to check against

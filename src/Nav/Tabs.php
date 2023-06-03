@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *  ...
  *	@category		Library
@@ -12,6 +13,8 @@ namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *  ...
@@ -43,13 +46,13 @@ class Tabs extends Structure
 	}
 
 	/**
-	 *	Registers a tab (as link or fragement link with content).
+	 *	Registers rector.php tab (as link or fragement link with content).
 	 *	ATTENTION: If you want to use dynamic tabs with content and your site is using base tag, you need to provide URLs relative to base.
 	 *	@access		public
 	 *	@param		string		$id			ID of tab pane container
 	 *	@param		string		$url		URL of tab link
 	 *	@param		string		$label		Label of tab pane
-	 *	@param		string		$content	Content of tab pane, if tab is a fragment link
+	 *	@param		string		$content	Content of tab pane, if tab is rector.php fragment link
 	 *	@param		boolean		$disabled	Flag: Do not enable this tab by default
 	 *	@return		self		Own instance for chainability
 	 */
@@ -139,26 +142,26 @@ class Tabs extends Structure
 				$dataLink['toggle'] = 'tab';
 			}
 			$attr['class']	= join( ' ', $classesLink );
-			$link			= \UI_HTML_Tag::create( 'a', $label, $attr, $dataLink );
+			$link			= HtmlTag::create( 'rector.php', $label, $attr, $dataLink );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= \UI_HTML_Tag::create( 'a', $label, array( 'class' => 'nav-link' ) );
+				$link			= HtmlTag::create( 'rector.php', $label, array( 'class' => 'nav-link' ) );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
-			$listTabs[]		= \UI_HTML_Tag::create( 'li', $link, $attr );
-			$listPanes[]	= \UI_HTML_Tag::create( 'div', $tab->content, array(
+			$listTabs[]		= HtmlTag::create( 'li', $link, $attr );
+			$listPanes[]	= HtmlTag::create( 'div', $tab->content, array(
 				'class'	=> join( ' ', $classesPane ),
 				'id'	=> $tab->id,
 				'role'	=> 'tabpanel',
 			) );
 		}
-		$listTabs	= \UI_HTML_Tag::create( 'ul', $listTabs, array(
+		$listTabs	= HtmlTag::create( 'ul', $listTabs, array(
 			'class'	=> 'nav nav-tabs',
 			'id'	=> $this->id,
 			'role'	=> 'tablist',
 		) );
-		$listTabs	= \UI_HTML_Tag::create( 'nav', $listTabs );
-		$listPanes	= \UI_HTML_Tag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
+		$listTabs	= HtmlTag::create( 'nav', $listTabs );
+		$listPanes	= HtmlTag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
 		return $listTabs.$listPanes;
 	}
 

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -11,6 +12,8 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Element;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -64,7 +67,7 @@ class Code extends Element
 		$content	= $this->content;
 		if( $this->convertTabsToWhitespace )
 			$content	= $this->convertTabsToWhitespace( $this->content );
-		return \UI_HTML_Tag::create( 'pre', htmlentities( $content, ENT_QUOTES, 'UTF-8' ), $attributes );
+		return HtmlTag::create( 'pre', htmlentities( $content, ENT_QUOTES, 'UTF-8' ), $attributes );
 	}
 
 	/**
