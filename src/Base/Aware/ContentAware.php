@@ -3,28 +3,44 @@
 namespace CeusMedia\Bootstrap\Base\Aware;
 
 use CeusMedia\Common\Renderable;
+use Stringable;
 
 trait ContentAware
 {
-	/**	@var	Renderable|string|array|NULL		$content  */
-	protected $content	= NULL;
+	/**	@var	Stringable|Renderable|string|array|NULL		$content  */
+	protected Stringable|Renderable|string|array|NULL	$content	= NULL;
 
 	/**
 	 *	Returns set content or NULL.
 	 *	@access		public
-	 *	@return		string|NULL
+	 *	@return		Stringable|Renderable|string|array|NULL
 	 */
-	public function getContent(): ?string
+	public function getContent(): Stringable|Renderable|string|array|NULL
 	{
 		return $this->content;
 	}
 
 	/**
-	 *	@access		public
-	 *	@param		Renderable|string|array|NULL		$content
-	 *	@return		self			Own instance for method chaining
+	 *	Returns content as rendered string.
+	 *	@return		string
 	 */
-	public function setContent( $content ): self
+	public function getContentAsString(): string
+	{
+		if( is_string( $this->content ) )
+			return $this->content;
+		if( $this->content instanceof Renderable )
+			return $this->render();
+		if( $this->content instanceof Stringable )
+			return (string) $this->content;
+		return '';
+	}
+
+	/**
+	 *	@access		public
+	 *	@param		Stringable|Renderable|string|array|NULL		$content
+	 *	@return		static			Own instance for method chaining
+	 */
+	public function setContent( Stringable|Renderable|string|array|null $content ): static
 	{
 		$this->content	= $content;
 		return $this;

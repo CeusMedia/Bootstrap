@@ -42,7 +42,7 @@ class Row extends Element
 		);
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
-		return HtmlTag::create( 'div', $this->content, $attributes );
+		return HtmlTag::create( 'div', $this->getContentAsString(), $attributes );
 	}
 
 	/**

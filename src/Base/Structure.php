@@ -18,6 +18,7 @@ use CeusMedia\Common\Renderable;
 use Exception;
 
 use ReflectionException;
+use Stringable;
 use function func_get_args;
 
 /**
@@ -29,7 +30,7 @@ use function func_get_args;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Structure implements Renderable
+abstract class Structure implements Renderable, Stringable
 {
 	public static string $version			= "0.6.0";
 	public static string $defaultBsVersion	= "2.3.2";

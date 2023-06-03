@@ -21,6 +21,7 @@ use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 /**
  *	Replacement for checkbox inputs.
@@ -38,7 +39,7 @@ class Checkbox extends Structure
 	/** @var	string|int|float|NULL		$value */
 	protected $value;
 
-	/** @var	Renderable|string|NULL		$label */
+	/** @var	Stringable|Renderable|string|NULL		$label */
 	protected $label;
 
 	/** @var	string						$label */
@@ -51,11 +52,18 @@ class Checkbox extends Structure
 	 *	@param		string|NULL				$name
 	 *	@param		string|int|float|NULL	$value
 	 *	@param		bool					$checked
-	 *	@param		Renderable|string|NULL	$label
+	 *	@param		Stringable|Renderable|string|NULL	$label
 	 *	@param		string					$icon
 	 *	@param		array					$data
 	 */
-	public function __construct( ?string $name = NULL, $value = NULL, bool $checked = FALSE, $label = NULL, string $icon = 'fa fa-check', array $data = [] )
+	public function __construct(
+		?string $name = NULL,
+		string|int|float|null $value = NULL,
+		bool $checked = FALSE,
+		Stringable|Renderable|string|null $label = NULL,
+		string $icon = 'fa fa-check',
+		array $data = []
+	)
 	{
 		parent::__construct();
 		$this->setName( $name );

@@ -20,6 +20,7 @@ use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as Tag;
 use Exception;
+use Stringable;
 
 /**
  *	...
@@ -54,12 +55,12 @@ class Pills extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string					$url
-	 *	@param		Renderable|string|NULL	$label
+	 *	@param		Stringable|Renderable|string|NULL	$label
 	 *	@param		string|NULL				$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@return		self					Own instance for method chaining
 	 */
-	public function add( string $url, $label, ?string $class = NULL, $icon = NULL ): self
+	public function add( string $url, Stringable|Renderable|string|null $label, ?string $class = NULL, Icon|string|null $icon = NULL ): self
 	{
 		$class	= 'nav-link'.( $class ? ' '.$class : '' );
 		$link	= new Link( $url, $label, $class, $icon );

@@ -19,6 +19,7 @@ use CeusMedia\Bootstrap\Dropdown\Trigger\Button as TriggerButton;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\Renderable;
+use Stringable;
 
 /**
  *	...
@@ -38,13 +39,18 @@ class Trigger extends Structure
 
 	/**
 	 *	Constructor.
-	 *	@param		Renderable|string|array|NULL	$label
-	 *	@param		string|array					$class
+	 *	@param		Stringable|Renderable|string|array|NULL	$label
+	 *	@param		array|string|NULL				$class
 	 *	@param		Icon|string|NULL				$icon
 	 *	@param		bool							$caret
 	 *	@return		void
 	 */
-	public function __construct( $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	public function __construct(
+		Stringable|Renderable|string|array|null $label,
+		array|string $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $caret = TRUE
+	)
 	{
 		parent::__construct();
 		$this->setContent( $label );

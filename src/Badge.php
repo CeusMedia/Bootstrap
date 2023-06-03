@@ -49,6 +49,6 @@ class Badge extends Element
 		$class	= 'badge';
 		if( count( $this->classes ) )
 			$class	.= ' '.join( ' ', $this->classes );
-		return HtmlTag::create( 'span', $this->content, ['class' => $class] );
+		return HtmlTag::create( 'span', $this->getContentAsString(), ['class' => $class] );
 	}
 }

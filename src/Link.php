@@ -18,6 +18,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 /**
  *	...
@@ -36,12 +37,18 @@ class Link extends Element
 
 	/**
 	 *	@param		string					$url
-	 *	@param		Renderable|string|NULL	$content
+	 *	@param		Stringable|Renderable|string|NULL	$content
 	 *	@param		array|string|NULL		$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
 	 */
-	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct(
+		string $url,
+		Stringable|Renderable|string|null $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
@@ -69,8 +76,9 @@ class Link extends Element
 			$this->data['attr-href']	= $attributes['href'];
 			$attributes['href']			= NULL;
 		}
-		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return HtmlTag::create( 'a', $icon.strval( $this->content ), $attributes );
+		$icon	= (string) $this->icon;
+		$icon	= 0 !== strlen( $icon ) ? $icon.' ' : '';
+		return HtmlTag::create( 'a', $icon.$this->getContentAsString(), $attributes );
 	}
 
 	/**

@@ -22,6 +22,7 @@ use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use RangeException;
+use Stringable;
 
 /**
  *	...
@@ -73,12 +74,17 @@ class Button extends Element
 	protected string $type			= self::TYPE_BUTTON;
 
 	/**
-	 *	@param		Renderable|string|NULL		$content
+	 *	@param		Stringable|Renderable|string|NULL		$content
 	 *	@param		array|string|NULL			$class
 	 *	@param		Icon|string|NULL			$icon
 	 *	@param		boolean						$disabled
 	 */
-	public function __construct( $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct(
+		Stringable|Renderable|string|null $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
 		parent::__construct( $content, $class );
 		if( NULL !== $icon )
@@ -102,8 +108,10 @@ class Button extends Element
 		);
 		$this->extendAttributesByEvents( $attributes );
 		$this->extendAttributesByData( $attributes );
-		$icon	= $this->icon ? $this->icon->render().' ' : '';
-		return HtmlTag::create( 'button', $icon.strval( $this->content ), $attributes );
+		$icon	= (string) $this->icon;
+		$icon	= 0 !== strlen( $icon ) ? $icon.' ' : '';
+		$content	= $this->getContentAsString();
+		return HtmlTag::create( 'button', $icon.$content, $attributes );
 	}
 
 	public function setBlock( bool $block = TRUE ): self

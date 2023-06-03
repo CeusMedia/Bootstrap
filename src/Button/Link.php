@@ -19,6 +19,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 use function addslashes;
 use function join;
@@ -42,12 +43,18 @@ class Link extends Element
 
 	/**
 	 *	@param		string					$url
-	 *	@param		Renderable|string		$content
+	 *	@param		Stringable|Renderable|string		$content
 	 *	@param		array|string|NULL		$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
 	 */
-	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct(
+		string $url,
+		Stringable|Renderable|string $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
@@ -81,10 +88,11 @@ class Link extends Element
 			$attributes['onclick']	= NULL;
 		}
 		$this->extendAttributesByEvents( $attributes );
-		$icon	= $this->icon ? $this->icon->render() : '';
-		if( strlen( $icon ) > 0 && NULL !== $this->content && strlen( strval( $this->content ) ) > 0 )
+		$icon		= (string) $this->icon;
+		$content	= $this->getContentAsString();
+		if( 0 !== strlen( $icon ) && 0 !== strlen( $content ) )
 			$icon	.= ' ';
-		return HtmlTag::create( 'a', $icon.strval( $this->content ), $attributes );
+		return HtmlTag::create( 'a', $icon.$content, $attributes );
 	}
 
 	/**

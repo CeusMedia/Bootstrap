@@ -17,6 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Button as BaseButton;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\Renderable;
+use Stringable;
 
 /**
  *	...
@@ -38,12 +39,18 @@ class Submit extends Element
 
 	/**
 	 *	@param		string|NULL					$name
-	 *	@param		Renderable|string|NULL		$content
+	 *	@param		Stringable|Renderable|string|NULL		$content
 	 *	@param		array|string|NULL			$class
 	 *	@param		Icon|string|NULL			$icon
 	 *	@param		bool						$disabled
 	 */
-	public function __construct( ?string $name, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	public function __construct(
+		?string $name,
+		Stringable|Renderable|string|null $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
 		$this->button	= new BaseButton( $content, $class, $icon, $disabled );
 		$this->button->setType( 'submit' );

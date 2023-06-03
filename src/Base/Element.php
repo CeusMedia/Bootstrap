@@ -22,6 +22,7 @@ use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use CeusMedia\Common\Renderable;
 use Exception;
 use ReflectionException;
+use Stringable;
 
 /**
  *	Base class for every component working on one HTML Tag.
@@ -32,7 +33,7 @@ use ReflectionException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Element implements Renderable
+abstract class Element implements Renderable, Stringable
 {
 	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
@@ -42,10 +43,10 @@ abstract class Element implements Renderable
 	protected string $bsVersion;
 
 	/**
-	 *	@param		Renderable|string|NULL		$content
+	 *	@param		Stringable|Renderable|string|NULL		$content
 	 *	@param		array|string|NULL			$class
 	 */
-	public function __construct( $content, $class = NULL )
+	public function __construct( Stringable|Renderable|string|null $content, array|string|null $class = NULL )
 	{
 		$this->bsVersion	= static::$defaultBsVersion;
 		$this->setContent( $content );

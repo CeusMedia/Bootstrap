@@ -22,6 +22,7 @@ use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
+use Stringable;
 
 /**
  *	...
@@ -40,12 +41,17 @@ class Button extends Structure
 	protected bool $caret;
 
 	/**
-	 *	@param		Renderable|string|array|NULL	$label
+	 *	@param		Stringable|Renderable|string|array|NULL	$label
 	 *	@param		array|string|NULL				$class
 	 *	@param		Icon|string|NULL				$icon
 	 *	@param		bool							$caret
 	 */
-	public function __construct( $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	public function __construct(
+		Stringable|Renderable|string|array|null $label,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $caret = TRUE
+	)
 	{
 		parent::__construct();
 		$this->setContent( $label );
@@ -78,7 +84,7 @@ class Button extends Structure
 	public function render(): string
 	{
 		$caret	= $this->caret ? ' '.HtmlTag::create( 'span', '', ['class' => 'caret'] ) : '';
-		$button	= new BaseButton( strval( $this->content ).$caret, $this->classes, $this->icon );
+		$button	= new BaseButton( $this->getContentAsString().$caret, $this->classes, $this->icon );
 		$button->addClass( 'dropdown-toggle' );
 		$button->setData( 'toggle', 'dropdown' );
 		return $button->render();

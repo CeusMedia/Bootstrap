@@ -18,6 +18,7 @@ use CeusMedia\Bootstrap\Link;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 /**
  *	...
@@ -35,8 +36,8 @@ class TabbableNavbar extends Structure
 	protected array $contents		= [];
 	protected string $classNavBar	= "navbar";
 
-	/** @var Renderable|string|NULL $brand */
-	protected $brand				= NULL;
+	/** @var Stringable|Renderable|string|NULL $brand */
+	protected Stringable|Renderable|string|null $brand	= NULL;
 
 	protected array $index			= [];
 
@@ -118,11 +119,11 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		Renderable|string	$label
+	 *	@param		Stringable|Renderable|string	$label
 	 *	@param		URL|string|NULL		$url
 	 *	@return		self				Own instance for method chaining
 	 */
-	public function setBrand( $label, $url = NULL ): self
+	public function setBrand( Stringable|Renderable|string $label, URL|string|null $url = NULL ): self
 	{
 		$this->brand	= HtmlTag::create( 'span', $label, array( 'class' => 'brand' ) );
 		if( $url !== NULL )

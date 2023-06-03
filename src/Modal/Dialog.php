@@ -26,6 +26,7 @@ use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
+use Stringable;
 
 /**
  *	Modal layer generator.
@@ -57,11 +58,11 @@ class Dialog extends Structure
 	public static bool $defaultFade			= FALSE;
 	public static string $defaultSize		= self::SIZE_MEDIUM;
 
-	/** @var Renderable|string $heading */
-	protected $heading;
+	/** @var Stringable|Renderable|string $heading */
+	protected Stringable|Renderable|string $heading		= '';
 
-	/** @var Renderable|string $body */
-	protected $body;
+	/** @var Stringable|Renderable|string $body */
+	protected Stringable|Renderable|string $body		= '';
 
 	protected array $attributes				= [];
 	protected string $buttonCloseClass		= 'btn';
@@ -195,11 +196,11 @@ class Dialog extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		Renderable|string		$body			...
+	 *	@param		Stringable|Renderable|string		$body			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setBody( $body ): self
+	public function setBody( Stringable|Renderable|string $body ): self
 	{
 		$this->body		= $body;
 		return $this;
@@ -328,11 +329,11 @@ class Dialog extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		Renderable|string		$heading		...
+	 *	@param		Stringable|Renderable|string		$heading		...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeading( $heading ): self
+	public function setHeading( Stringable|Renderable|string $heading ): self
 	{
 		$this->heading		= $heading;
 		return $this;

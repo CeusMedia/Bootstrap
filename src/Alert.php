@@ -59,7 +59,8 @@ class Alert extends Element
 				'class'	=> 'close',
 			], ['dismiss' => 'alert'] );
 		}
-		return HtmlTag::create( 'div', $dismiss.$this->content, [
+		$content	= $this->getContentAsString();
+		return HtmlTag::create( 'div', $dismiss.$content, [
 			'class'	=> $class,
 			'role'	=> 'alert',
 		] );

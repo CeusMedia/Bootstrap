@@ -49,6 +49,6 @@ class Label extends Element
 		$class	= 'label';
 		if( count( $this->classes ) )
 			$class	.= ' '.join( ' ', $this->classes );
-		return HtmlTag::create( 'span', $this->content, ['class' => $class] );
+		return HtmlTag::create( 'span', $this->getContentAsString(), ['class' => $class] );
 	}
 }
