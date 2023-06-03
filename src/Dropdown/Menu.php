@@ -117,10 +117,11 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		bool			$disabled
-	 *	@return		self		Own instance for method chaining
+	 *	@param		Link			$link		Link to add
+	 *	@param		bool			$disabled	Flag: disable menu item, default: no
+	 *	@return		self			Own instance for method chaining
 	 */
-	public function addLink( $link, bool $disabled = FALSE ): self
+	public function addLink( Link $link, bool $disabled = FALSE ): self
 	{
 		$this->items[]	= (object) [
 			'type'		=> 'link',

@@ -33,7 +33,7 @@ class Link
 	protected bool $caret;
 
 	/** @var	Icon|string|NULL	$icon */
-	protected $icon;
+	protected Icon|string|NULL $icon;
 
 	/**
 	 *	@param		string				$label
@@ -41,7 +41,12 @@ class Link
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		boolean				$caret
 	 */
-	public function __construct( string $label, $class = NULL, $icon = NULL, bool $caret = TRUE )
+	public function __construct(
+		string $label,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $caret = TRUE
+	)
 	{
 		$this->label	= $label;
 		$this->class	= is_array( $class ) ? join( ' ', $class ) : $class;
@@ -76,7 +81,8 @@ class Link
 		$link	= new \CeusMedia\Bootstrap\Link( "#", $this->label.$caret );
 		$link->setClass( 'dropdown-toggle '.$this->class );
 		$link->setData( 'toggle', "dropdown" );
-		$link->setIcon( $this->icon );
+		if( NULL !== $this->icon )
+			$link->setIcon( $this->icon );
 		return $link->render();
 	}
 

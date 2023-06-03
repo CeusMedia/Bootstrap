@@ -39,16 +39,16 @@ class Toolbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		array|Group|string		$group
+	 *	@param		Group|array|string		$group
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function add( $group ): self
+	public function add( Group|array|string $group ): self
 	{
 		if( is_array( $group ) ) {
-			foreach ($group as $item)
-				$this->add($item);
+			foreach( $group as $item )
+				$this->add( $item );
 		}
-		else if( $group )
+		else if( 0 !== strlen( $group ) )
 			$this->groups[]	= $group;
 		return $this;
 	}

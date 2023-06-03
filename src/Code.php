@@ -12,7 +12,9 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Element;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 /**
  *	...
@@ -77,7 +79,10 @@ class Code extends Element
 				$indent	= static::$tabSize - ( $pos % static::$tabSize );
 				$subst	= str_repeat( " ", $indent );
 //				$line	= substr( $line, 0, $pos ).$subst.substr( $line, $pos + 1 );
-				$line	= preg_replace( "/\t/", $subst, $line, 1 );
+				$new	= preg_replace( "/\t/", $subst, $line, 1 );
+				if( NULL === $new )
+					throw new \RuntimeException( 'Replacement failed' );
+				$line	= $new;
 			}
 			$lines[]	= $line;
 		}

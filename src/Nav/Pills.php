@@ -93,7 +93,7 @@ class Pills extends Structure
 	 *	@return		self		Own instance for method chaining
 	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, $icon = NULL, $iconActive = NULL ): self
+	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
 			$label		= HtmlTag::create( 'a', $label, [

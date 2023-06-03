@@ -113,7 +113,7 @@ class Checkbox extends Structure
 	 *	@param		string|int|float		$value
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setValue( $value ): self
+	public function setValue( string|int|float $value ): self
 	{
 		if( is_string( $value ) )
 			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );

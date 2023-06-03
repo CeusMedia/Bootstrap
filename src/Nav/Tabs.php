@@ -71,7 +71,7 @@ class Tabs extends Structure
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to disable
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function disableTab( $idOrIndex ): self
+	public function disableTab( int|string $idOrIndex ): self
 	{
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
@@ -86,7 +86,7 @@ class Tabs extends Structure
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to enable
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function enableTab( $idOrIndex ): self
+	public function enableTab( int|string $idOrIndex ): self
 	{
 		$id	= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		foreach( $this->tabs as $nr => $item )
@@ -151,7 +151,7 @@ class Tabs extends Structure
 	 *	@param		integer|string	$idOrIndex		Number or ID of tab to mark as active.
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setActive( $idOrIndex ): self
+	public function setActive( int|string $idOrIndex ): self
 	{
 		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		$tab	= $this->getTabById( $id );

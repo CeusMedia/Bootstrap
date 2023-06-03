@@ -149,7 +149,7 @@ class Icon extends Structure
 		$sizes	= $this->size ?: static::$defaultSize;
 		$list	= [];
 		foreach( $sizes as $size ){
-			switch( strtolower( $this->set ) ){
+			switch( strtolower( $this->set ?? '' ) ){
 				case 'fontawesome':
 				case 'fontawesome4':
 				case 'fontawesome5':
@@ -169,7 +169,7 @@ class Icon extends Structure
 	{
 		$style	= $this->style ? $this->style : static::$defaultStyle;
 		$list	= [];
-		switch( strtolower( $this->set ) ){
+		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':
 				if( $this->style === 'white' )
 					$list[]	= 'icon-white';
@@ -194,14 +194,15 @@ class Icon extends Structure
 
 	protected function resolve( string $icon ): string
 	{
-		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
+		$icon		= preg_replace( "/ +/", " ", $icon ) ?? '';
+		$parts		= explode( " ", $icon );
 		$list		= [];
 		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
 		foreach( $this->realizeStyle() as $style )
 			$list[]	= $style;
 		foreach( $parts as $part ){
-			switch( strtolower( $this->set ) ){
+			switch( strtolower( $this->set ?? '' ) ){
 				case 'glyphicons':
 					$part	= "icon-".$part;
 					break;

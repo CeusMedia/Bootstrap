@@ -13,10 +13,8 @@
 namespace CeusMedia\Bootstrap\Base;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-
 use CeusMedia\Common\Renderable;
 use Exception;
-
 use ReflectionException;
 use Stringable;
 use function func_get_args;

@@ -34,13 +34,13 @@ class Progress extends Structure
 
 	public const CLASS_ACTIVE		= 'active';
 	public const CLASS_DANGER		= 'progress-danger';
-	public const CLASS_INFO		= 'progress-info';
+	public const CLASS_INFO			= 'progress-info';
 	public const CLASS_STRIPED		= 'progress-striped';
 	public const CLASS_SUCCESS		= 'progress-success';
 	public const CLASS_WARNING		= 'progress-warning';
 
 	public const BAR_CLASS_SUCCESS	= 'bar-success bg-success';
-	public const BAR_CLASS_INFO	= 'bar-info bg-info';
+	public const BAR_CLASS_INFO		= 'bar-info bg-info';
 	public const BAR_CLASS_WARNING	= 'bar-warning bg-warning';
 	public const BAR_CLASS_DANGER	= 'bar-danger bg-danger';
 	public const BAR_CLASS_STRIPED	= 'progress-bar-striped';

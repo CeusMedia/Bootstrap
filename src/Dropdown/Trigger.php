@@ -102,14 +102,10 @@ class Trigger extends Structure
 	 */
 	public function render(): string
 	{
-		switch( $this->type ){
-			case "button":
-				$trigger	= new TriggerButton( $this->content, $this->classes, $this->icon, $this->caret );
-				break;
-			case "link":
-			default:
-				$trigger	= new TriggerLink( strval( $this->content ), $this->classes, $this->icon, $this->caret );
-		}
-		return $trigger;
+		$trigger	= match( $this->type ){
+			"button"	=> new TriggerButton( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
+			default		=> new TriggerLink( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
+		};
+		return $trigger->render();
 	}
 }

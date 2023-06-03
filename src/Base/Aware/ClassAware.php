@@ -11,24 +11,29 @@ trait ClassAware
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
 	 *	@param		string|array	$class
-	 *	@return		self			Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function addClass( $class ): self
+	public function addClass( array|string $class ): static
 	{
-		if( !is_array( $class ) )
-			$class	= preg_split( '/\s+/', trim( $class ) );
-		foreach( $class as $item )
-			if( strlen( trim( $item ) ) && !in_array( $item, $this->classes ) )
+		$classes	= [];
+		if( is_array( $class ) )
+			$classes	= $class;
+		else
+			$classes	= preg_split( '/\s+/', trim( $class ) ) ?: [];
+		foreach( $classes as $item ){
+			$item	= trim( $item );
+			if( 0 !== strlen( $item ) && !in_array( $item, $this->classes ) )
 				$this->classes[]	= trim( $item );
+		}
 		return $this;
 	}
 
 	/**
 	 *	@access		public
 	 *	@param		string		$class		Class to be removed
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function removeClass( string $class ): self
+	public function removeClass( string $class ): static
 	{
 		if( strlen( trim( $class ) ) !== 0 ){
 			$index	= array_search( trim( $class ), $this->classes );
@@ -44,20 +49,22 @@ trait ClassAware
 	 *	Clears prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
-	 *	@param		string|array	$class
-	 *	@return		self			Own instance for method chaining
+	 *	@param		array|string|NULL	$class
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function setClass( $class ): self
+	public function setClass( array|string|null $class = NULL ): static
 	{
 		$this->classes	= [];
-		return $this->addClass( $class );
+		if( NULL !== $class )
+			$this->addClass( $class );
+		return $this;
 	}
 
 	/**
 	 *	@param		array		$attributes
-	 *	@return		self
+	 *	@return		static
 	 */
-	protected function extendAttributesByClass( array &$attributes ): self
+	protected function extendAttributesByClass( array &$attributes ): static
 	{
 		$attributes['class']	= join( ' ', $this->classes );
 		return $this;
