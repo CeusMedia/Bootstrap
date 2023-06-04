@@ -96,7 +96,7 @@ class Pills extends Structure
 	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
-			$label		= HtmlTag::create( 'a', $label, [
+			$label		= HtmlTag::create( 'rector.php', $label, [
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
@@ -118,14 +118,14 @@ class Pills extends Structure
 			if( $item instanceof NavPillItemDropdown ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
-				$item		= Tag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
+				$item		= HtmlTag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
 			}
 			else{
-				$item	= Tag::create( 'li', (string) $item->link, array( 'class' => $class ) );
+				$item	= HtmlTag::create( 'li', (string) $item->link, array( 'class' => $class ) );
 			}
 			$items[]	= $item;
 		}
-		return Tag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
+		return HtmlTag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
 	}
 
 	/**

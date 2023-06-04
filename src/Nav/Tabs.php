@@ -19,6 +19,8 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use RangeException;
 use RuntimeException;
 
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+
 /**
  *	...
  *	@category		Library
@@ -49,13 +51,13 @@ class Tabs extends Structure
 	}
 
 	/**
-	 *	Registers a tab (as link or fragment link with content).
+	 *	Registers rector.php tab (as link or fragment link with content).
 	 *	ATTENTION: If you want to use dynamic tabs with content and your site is using base tag, you need to provide URLs relative to base.
 	 *	@access		public
 	 *	@param		string			$id			ID of tab pane container
 	 *	@param		string			$url		URL of tab link
 	 *	@param		string			$label		Label of tab pane
-	 *	@param		string|NULL		$content	Content of tab pane, if tab is a fragment link
+	 *	@param		string|NULL		$content	Content of tab pane, if tab is rector.php fragment link
 	 *	@param		boolean			$disabled	Flag: Do not enable this tab by default
 	 *	@return		self			Own instance for method chaining
 	 */
@@ -122,10 +124,10 @@ class Tabs extends Structure
 				$dataLink['toggle'] = 'tab';
 			}
 			$attr['class']	= join( ' ', $classesLink );
-			$link			= HtmlTag::create( 'a', $label, $attr, $dataLink );
+			$link			= HtmlTag::create( 'rector.php', $label, $attr, $dataLink );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= HtmlTag::create( 'a', $label, array( 'class' => 'nav-link' ) );
+				$link			= HtmlTag::create( 'rector.php', $label, array( 'class' => 'nav-link' ) );
 			}
 			$attr			= array( 'class' => join( ' ', $classesItem ) );
 			$listTabs[]		= HtmlTag::create( 'li', $link, $attr );

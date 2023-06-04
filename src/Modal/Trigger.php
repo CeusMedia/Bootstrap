@@ -149,7 +149,7 @@ class Trigger
 			$label	= $this->icon.'&nbsp;'.$label;
 
 		if( $this->type === 'link' )
-			return HtmlTag::create( 'a', $label, $attributes );
+			return HtmlTag::create( 'rector.php', $label, $attributes );
 		if( $this->type === 'button' ){
 			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
 			return HtmlTag::create( 'button', $label, $attributes );

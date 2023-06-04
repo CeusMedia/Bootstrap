@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <config>
 
-	<!--  PROJECT(S)  -->  
+	<!--  PROJECT(S)  -->
 	<project>
 		<path>src/</path>
 		<extension>php</extension>
@@ -11,7 +11,7 @@
 		<package by="default">CeusMedia_Bootstrap</package>
 	</project>
 
-	<!--  READER SETTINGS  -->  
+	<!--  READER SETTINGS  -->
 	<reader>
 		<plugin>Statistics</plugin>
 		<plugin>Unicode</plugin>
@@ -21,7 +21,7 @@
 		<plugin>Search</plugin>
 	</reader>
 
-	<!--  BUILDER(S) -->  
+	<!--  BUILDER(S) -->
 	<builder format="HTML" theme="BootAwesome-default">
 		<path type="target">doc/</path>
 		<path type="documents"></path>
@@ -50,7 +50,7 @@
 		<plugin>DocHints</plugin>
 	</builder>
 
-	<!--  GENERAL SETTINGS  -->  
+	<!--  GENERAL SETTINGS  -->
 	<creator timeLimit="60">
 		<limit name="time">60</limit>
 		<path name="temp">/tmp/</path>

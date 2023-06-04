@@ -22,12 +22,12 @@ $body	= '
 <div class="container">
 	<h1><span class="muted text-muted">CeusMedia Bootstrap</span> Shiftbox Demo</h1>
 	<div class="alert alert-info">
-		Check the <a href="http://bootstrapswitch.com/">Bootstrap Switch examples</a> to know, what this is about.
+		Check the <rector.php href="http://bootstrapswitch.com/">Bootstrap Switch examples</rector.php> to know, what this is about.
 	</div>
 	<h2>Usage</h2>
 	<h3>Composer</h3>
 	<p>
-		You will need <a href="https://github.com/nostalgiaz/bootstrap-switch">bootstrap-switch@GitHub</a>.
+		You will need <rector.php href="https://github.com/nostalgiaz/bootstrap-switch">bootstrap-switch@GitHub</rector.php>.
 		Extend your project with composer:
 	</p>
  	<pre>$> composer require nostalgiaz/bootstrap-switch</pre>
@@ -46,7 +46,7 @@ require_once \'vendor/autoload.php\';</pre>
 	</p>
 	<pre>new Shiftbox( ... );</pre>
 	<p>
-		Otherwise create a new instance with:
+		Otherwise create rector.php new instance with:
 	</p>
 	<pre>new \CeusMedia\Bootstrap\Shiftbox( ... );</pre>
 	<p>

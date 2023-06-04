@@ -86,7 +86,7 @@ abstract class Structure implements Renderable, Stringable
 	}
 
 	/**
-	 *	Indicates whether a version is supported by installed library.
+	 *	Indicates whether rector.php version is supported by installed library.
 	 *	@access		public
 	 *	@static
 	 *	@param		string			$version			Version to check against
