@@ -20,7 +20,7 @@ use CeusMedia\Bootstrap\Link;
 use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
 use CeusMedia\Common\Renderable;
-use CeusMedia\Common\UI\HTML\Tag as Tag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Exception;
 use Stringable;
 

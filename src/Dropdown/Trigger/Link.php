@@ -13,6 +13,7 @@
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
 
 use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Bootstrap\Link as BaseLink;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Exception;
 
@@ -79,7 +80,8 @@ class Link
 		$caret	= ' '.HtmlTag::create( 'span', "", array( 'class' => 'caret' ) );
 		if( !$this->caret )
 			$caret	= '';
-		$link	= new \CeusMedia\Bootstrap\Link( "#", $this->label.$caret );
+		$link	= new BaseLink( "#", $this->label.$caret );
+		$link	= BaseLink::create( "#", $this->label.$caret );
 		$link->setClass( 'dropdown-toggle '.$this->class );
 		$link->setData( 'toggle', "dropdown" );
 		if( NULL !== $this->icon )

@@ -17,6 +17,7 @@ use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use OutOfBoundsException;
 
 /**
  *	...
@@ -152,7 +153,7 @@ class Menu extends Structure
 					$attributes['class']	= 'dropdown-item';
 					break;
 				default:
-					throw new \OutOfBoundsException( 'Invalid dropdown item time: '.$item->type );
+					throw new OutOfBoundsException( 'Invalid dropdown item time: '.$item->type );
 			}
 			if( !empty( $item->disabled ) )
 				$attributes['class']	.= ' disabled';

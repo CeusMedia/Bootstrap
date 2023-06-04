@@ -43,10 +43,10 @@ abstract class Element implements Renderable, Stringable
 	protected string $bsVersion;
 
 	/**
-	 *	@param		Stringable|Renderable|string|NULL		$content
+	 *	@param		Stringable|Renderable|string|array|NULL		$content
 	 *	@param		array|string|NULL			$class
 	 */
-	public function __construct( Stringable|Renderable|string|null $content, array|string|null $class = NULL )
+	public function __construct( Stringable|Renderable|string|array|null $content, array|string|null $class = NULL )
 	{
 		$this->bsVersion	= static::$defaultBsVersion;
 		$this->setContent( $content );
@@ -84,6 +84,7 @@ abstract class Element implements Renderable, Stringable
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
 		/** @var self $element */
+
 		$element	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $element;
 	}
