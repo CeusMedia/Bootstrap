@@ -8,7 +8,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
+
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+
 /**
  *	...
  *	@category		Library
@@ -51,7 +55,7 @@ class Link{
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(){
-		$caret	= ' '.\UI_HTML_Tag::create( 'span', "", array( 'class' => 'caret' ) );
+		$caret	= ' '.HtmlTag::create( 'span', "", array( 'class' => 'caret' ) );
 		if( !$this->caret )
 			$caret	= '';
 		$link	= new \CeusMedia\Bootstrap\Link( "#", $this->label.$caret );
@@ -70,4 +74,3 @@ class Link{
 		return $this;
 	}
 }
-?>

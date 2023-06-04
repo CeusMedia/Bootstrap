@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Modal layer generator.
  *	@category		Library
@@ -20,8 +21,8 @@ use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
-use Alg_Object_Factory as ObjectFactory;
-use UI_HTML_Tag as Tag;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\UI\HTML\Tag as Tag;
 
 use RangeException;
 
@@ -150,7 +151,7 @@ class Dialog extends Structure
 			}
 		}
 		$content	= array( $header, $body, $footer );
-		if( version_compare( $this->bsVersion, 4, '>=' ) === TRUE ){
+		if( version_compare( $this->bsVersion, "4", '>=' ) === TRUE ){
 			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-content' ) );
 			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
 		}

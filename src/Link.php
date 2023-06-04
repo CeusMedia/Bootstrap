@@ -15,7 +15,7 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -60,7 +60,7 @@ class Link extends Element
 			$attributes['href']			= NULL;
 		}
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'rector.php', $icon.$this->content, $attributes );
 	}
 
 	/**

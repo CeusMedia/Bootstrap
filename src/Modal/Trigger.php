@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Modal trigger generator.
  *	@category		Library
@@ -16,8 +17,8 @@ use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Icon;
 
-use Alg_Object_Factory as ObjectFactory;
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 use RangeException;
@@ -152,7 +153,7 @@ class Trigger
 		}
 
 		if( $this->type === 'link' )
-			return HtmlTag::create( 'a', $label, $attributes );
+			return HtmlTag::create( 'rector.php', $label, $attributes );
 		if( $this->type === 'button' ){
 			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
 			return HtmlTag::create( 'button', $label, $attributes );

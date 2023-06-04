@@ -16,7 +16,7 @@ namespace CeusMedia\Bootstrap;
 use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	Replacement for checkbox inputs.

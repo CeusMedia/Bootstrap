@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -12,6 +13,8 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -96,8 +99,8 @@ class Progress extends Structure
 				$class	= is_array( $bar->class ) ? join( ' ', $bar->class ) : $bar->class;
 				$attributes['class']	.= ' '.$class;
 			}
-			$list[]	= \UI_HTML_Tag::create( 'div', $bar->label, $attributes );
+			$list[]	= HtmlTag::create( 'div', $bar->label, $attributes );
 		}
-		return \UI_HTML_Tag::create( 'div', $list, array( 'class' => join( ' ', $this->classes ) ) );
+		return HtmlTag::create( 'div', $list, array( 'class' => join( ' ', $this->classes ) ) );
 	}
 }

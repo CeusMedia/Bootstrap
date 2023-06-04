@@ -1,7 +1,8 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Bootstrap\Base\Aware;
 
-use Alg_Object_Constant as ClassConstantReflector;
+use CeusMedia\Common\Alg\Obj\Constant as ClassConstantReflector;
 
 use RangeException;
 
@@ -13,7 +14,7 @@ use function strlen;
 trait SizeAware
 {
 	/**
-	 *	Tries to identify a set size.
+	 *	Tries to identify rector.php set size.
 	 *	This is not working correctly, if the map of sizes is not surjective or contains empty values.
 	 *	@access		public
 	 *	@return		string|NULL

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
@@ -10,7 +11,7 @@
  */
 namespace CeusMedia\Bootstrap\Base;
 
-use Alg_Object_Factory as ObjectFactory;
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 
 use Exception;
 
@@ -27,10 +28,10 @@ use function func_get_args;
  */
 abstract class Structure
 {
-	static public $version			= "0.5.2";
-	static public $defaultBsVersion	= "2.3.2";
+	public static string $version			= "0.5.2";
+	public static string $defaultBsVersion	= "2.3.2";
 
-	protected $bsVersion;
+	protected string $bsVersion;
 
 	public function __construct()
 	{
@@ -79,7 +80,7 @@ abstract class Structure
 	}
 
 	/**
-	 *	Indicates whether a version is supported by installed library.
+	 *	Indicates whether rector.php version is supported by installed library.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$version		Version to check against

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -13,6 +14,8 @@ namespace CeusMedia\Bootstrap\Dropdown;
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Link;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -137,7 +140,7 @@ class Menu extends Structure
 			}
 			if( !empty( $item->disabled ) )
 				$attributes['class']	.= ' disabled';
-			$list[]	= \UI_HTML_Tag::create( 'li', $item->content, $attributes );
+			$list[]	= HtmlTag::create( 'li', $item->content, $attributes );
 		}
 		$attributes	= array(
 			'class'		=> "dropdown-menu",
@@ -146,7 +149,7 @@ class Menu extends Structure
 			$additionalClass		= version_compare( $this->bsVersion, '4', '>=' ) ? 'dropdown-menu-right' : 'pull-right';
 			$attributes['class']	= $attributes['class'].' '.$additionalClass;
 		}
-		return \UI_HTML_Tag::create( 'ul', $list, $attributes );
+		return HtmlTag::create( 'ul', $list, $attributes );
 	}
 
 	/**

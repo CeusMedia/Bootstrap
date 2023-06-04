@@ -12,7 +12,7 @@ namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Element;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	...
@@ -53,7 +53,7 @@ class Alert extends Element
 
 		$dismiss	= '';
 		if( $this->useDismiss ){
-			$dismiss = HtmlTag::create( 'a', '&times;', [
+			$dismiss = HtmlTag::create( 'rector.php', '&times;', [
 				'href'	=> '#',
 				'class'	=> 'close',
 			], ['dismiss' => 'alert'] );

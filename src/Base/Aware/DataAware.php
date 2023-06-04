@@ -1,9 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Bootstrap\Base\Aware;
+
+use CeusMedia\Common\Alg\Text\CamelCase;
 
 trait DataAware
 {
-	protected $data		= array();
+	protected array $data		= array();
 
 	/**
 	 *	@access		public
@@ -12,7 +15,7 @@ trait DataAware
 	 */
 	public function setData( $key, $value, $strict = TRUE ): self
 	{
-		$key	= \Alg_Text_CamelCase::decode( $key );
+		$key	= CamelCase::decode( $key );
 		$key	= str_replace( ' ', '-', strtolower( $key ) );
 		if( $strict && array_key_exists( $key, $this->data ) )
 			throw new \DomainException( 'Data for key "'.$key.'" already set' );

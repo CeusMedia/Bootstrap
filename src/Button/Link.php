@@ -15,7 +15,7 @@ use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Icon;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function addslashes;
 use function join;
@@ -73,7 +73,7 @@ class Link extends Element
 		$icon	= $this->icon ? $this->icon->render() : '';
 		if( strlen( $icon ) > 0 && strlen( $this->content ) > 0 )
 			$icon	.= ' ';
-		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'rector.php', $icon.$this->content, $attributes );
 	}
 
 	/**
