@@ -14,10 +14,10 @@ trait DataAware
 	 *	@param		string		$key		...
 	 *	@param		mixed		$value		...
 	 *	@param		boolean		$strict		...
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 *	@throws		DomainException		if key is already set and strict mode is enabled
 	 */
-	public function setData( string $key, $value, bool $strict = TRUE ): self
+	public function setData( string $key, $value, bool $strict = TRUE ): static
 	{
 		$key	= CamelCase::decode( $key );
 		$key	= str_replace( ' ', '-', strtolower( $key ) );

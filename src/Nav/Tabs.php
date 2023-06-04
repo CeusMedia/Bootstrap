@@ -19,8 +19,6 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use RangeException;
 use RuntimeException;
 
-use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-
 /**
  *	...
  *	@category		Library

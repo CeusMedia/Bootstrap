@@ -12,11 +12,8 @@
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Element;
-use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-use Stringable;
-
-use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use RuntimeException;
 
 /**
  *	...
@@ -83,7 +80,7 @@ class Code extends Element
 //				$line	= substr( $line, 0, $pos ).$subst.substr( $line, $pos + 1 );
 				$new	= preg_replace( "/\t/", $subst, $line, 1 );
 				if( NULL === $new )
-					throw new \RuntimeException( 'Replacement failed' );
+					throw new RuntimeException( 'Replacement failed' );
 				$line	= $new;
 			}
 			$lines[]	= $line;

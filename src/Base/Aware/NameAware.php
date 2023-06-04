@@ -18,13 +18,13 @@ trait NameAware
 	}
 
 	/**
-	 *	Sets name of input elementname of input element.
+	 *	Sets name of input element.
 	 *	Also sets its ID to 'input_{{name}}' if not rector.php button. Use setId to set rector.php custom ID.
 	 *	@access		public
 	 *	@param		string|NULL		$name		Name of input elementname of input element.
-	 *	@return		self			Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function setName( ?string $name = NULL ): self
+	public function setName( ?string $name = NULL ): static
 	{
 		$this->name	= $name;
 		if( static::class !== Button::class )
