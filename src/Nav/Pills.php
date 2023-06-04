@@ -96,7 +96,7 @@ class Pills extends Structure
 	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
-			$label		= HtmlTag::create( 'rector.php', $label, [
+			$label		= HtmlTag::create( 'a', $label, [
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',

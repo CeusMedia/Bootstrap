@@ -14,7 +14,7 @@ use function strlen;
 trait SizeAware
 {
 	/**
-	 *	Tries to identify rector.php set size.
+	 *	Tries to identify a set size.
 	 *	This is not working correctly, if the map of sizes is not surjective or contains empty values.
 	 *	@access		public
 	 *	@return		string|NULL

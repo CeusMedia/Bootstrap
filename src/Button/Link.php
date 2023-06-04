@@ -92,7 +92,7 @@ class Link extends Element
 		$content	= $this->getContentAsString();
 		if( 0 !== strlen( $icon ) && 0 !== strlen( $content ) )
 			$icon	.= ' ';
-		return HtmlTag::create( 'rector.php', $icon.$content, $attributes );
+		return HtmlTag::create( 'a', $icon.$content, $attributes );
 	}
 
 	/**

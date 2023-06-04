@@ -30,7 +30,7 @@ class AlertTest extends TestCase
 		$alert	= new UnprotectedAlert( $label, $class );
 		$alert->useDismiss( TRUE );
 
-		$expected	= '<div class="alert alert-success" role="alert"><rector.php href="#" class="close" data-dismiss="alert">&times;</rector.php>Alert Message</div>';
+		$expected	= '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Alert Message</div>';
 		self::assertEquals( $expected, $alert->render() );
 
 		$alert->useDismiss( FALSE );
