@@ -15,7 +15,7 @@ composer require ceus-media/bootstrap:^0.5.x
 or checkout the master and switch to the branch
 ```
 git clone git@github.com:CeusMedia/Bootstrap.git
-git checkout 0.5.x
+git checkout 0.6.x
 ```
 
 ## Compatibility
