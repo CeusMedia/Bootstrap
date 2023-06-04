@@ -7,9 +7,9 @@ trait IdAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setId( ?string $id ): self
+	public function setId( ?string $id ): static
 	{
 		$this->id		= $id;
 		return $this;

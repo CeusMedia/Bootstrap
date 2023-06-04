@@ -9,9 +9,9 @@ trait EventAware
 	 *	@access		public
 	 *	@param		string		$event		...
 	 *	@param		string		$action		...
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setEvent( string $event, string $action ): self
+	public function setEvent( string $event, string $action ): static
 	{
 		$event	= strtolower( trim( $event ) );
 		if( !isset( $this->events[$event] ) )

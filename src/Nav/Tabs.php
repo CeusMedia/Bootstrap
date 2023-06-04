@@ -5,10 +5,10 @@
  *  ...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
- *  @author         Christian Würker <christian.wuerker@ceusmedia.de>
- *  @copyright      2013-2022 {@link https://ceusmedia.de/ Ceus Media}
- *  @license        http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *  @link           http://code.google.com/p/cmmodules/
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2013-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
 
@@ -24,9 +24,9 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2022 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
+ *	@copyright		2013-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Tabs extends Structure
 {

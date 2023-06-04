@@ -14,9 +14,9 @@ trait AriaAware
 	 *	@access		public
 	 *	@param		string			$key		...
 	 *	@param		string|bool		$value		...
-	 *	@return		self			Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function setAria( string $key, $value ): self
+	public function setAria( string $key, bool|string $value ): static
 	{
 		$key	= strtolower( $key );
 		if( is_bool( $value ) )
@@ -27,9 +27,9 @@ trait AriaAware
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setRole( string $role ): self
+	public function setRole( string $role ): static
 	{
 		$this->role	= strtolower( $role );
 		return $this;

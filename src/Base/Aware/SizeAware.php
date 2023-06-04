@@ -46,9 +46,9 @@ trait SizeAware
 	 *	Removes beforehand set size.
 	 *	@access		public
 	 *	@param		string		$size		...
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setSize( string $size ): self
+	public function setSize( string $size ): static
 	{
 		if( !in_array( $size, static::SIZES, TRUE ) )
 			throw new RangeException( 'Invalid size' );

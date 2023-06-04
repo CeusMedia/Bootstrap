@@ -8,9 +8,9 @@ trait DisabledAware
 	/**
 	 *	@access		public
 	 *	@param		boolean		$disabled
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setDisabled( bool $disabled = TRUE ): self
+	public function setDisabled( bool $disabled = TRUE ): static
 	{
 		$this->disabled	= $disabled;
 		return $this;

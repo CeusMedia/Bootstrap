@@ -7,7 +7,7 @@
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  *	@link			https://github.com/nostalgiaz/bootstrap-switch	requires Bootstrap Switch URL description
  *	@see			http://www.larentis.eu/switch/					original examples
@@ -26,7 +26,7 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
 class Shiftbox extends Element
