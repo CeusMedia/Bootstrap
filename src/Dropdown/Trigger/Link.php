@@ -81,6 +81,7 @@ class Link
 		if( !$this->caret )
 			$caret	= '';
 		$link	= new BaseLink( "#", $this->label.$caret );
+		/** @var BaseLink $link */
 		$link	= BaseLink::create( "#", $this->label.$caret );
 		$link->setClass( 'dropdown-toggle '.$this->class );
 		$link->setData( 'toggle', "dropdown" );
