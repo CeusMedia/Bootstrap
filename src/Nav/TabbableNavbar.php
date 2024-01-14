@@ -64,7 +64,7 @@ class TabbableNavbar extends Structure
 			);
 			$label	= $this->tabs[$id];
 #			$label	= htmlentities( $label, ENT_QUOTES, 'UTF-8' );
-			$link	= HtmlTag::create( 'rector.php', $label, $attributes );
+			$link	= HtmlTag::create( 'a', $label, $attributes );
 			$attributes	= array( 'class' => $active == $id ? "active" : NULL );
 			$listTabs[]	= HtmlTag::create( 'li', $link, $attributes );
 		}
@@ -88,7 +88,7 @@ class TabbableNavbar extends Structure
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
 		);
-		$toggler	= HtmlTag::create( 'rector.php', str_repeat( $toggleSpan, 3 ), $attributes );
+		$toggler	= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
 		$collapse	= HtmlTag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
 		$container	= HtmlTag::create( 'div', $toggler.$this->brand.$collapse, array( 'class' => "container" ) );
 

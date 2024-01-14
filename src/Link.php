@@ -60,7 +60,7 @@ class Link extends Element
 			$attributes['href']			= NULL;
 		}
 		$icon	= $this->icon ? $this->icon->render().' ' : "";
-		return HtmlTag::create( 'rector.php', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
 	}
 
 	/**
