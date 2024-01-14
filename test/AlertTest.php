@@ -27,7 +27,7 @@ class AlertTest extends PHPUnit\Framework\TestCase
 		$alert	= new UnprotectedAlert( $label, $class );
 		$alert->useDismiss( TRUE );
 
-		$expected	= '<div class="alert alert-success" role="alert"><rector.php href="#" class="close" data-dismiss="alert">&times;</rector.php>Alert Message</div>';
+		$expected	= '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Alert Message</div>';
 		$this->assertEquals( $expected, $alert->render() );
 
 		$alert->useDismiss( FALSE );

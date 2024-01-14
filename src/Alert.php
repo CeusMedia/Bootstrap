@@ -53,7 +53,7 @@ class Alert extends Element
 
 		$dismiss	= '';
 		if( $this->useDismiss ){
-			$dismiss = HtmlTag::create( 'rector.php', '&times;', [
+			$dismiss = HtmlTag::create( 'a', '&times;', [
 				'href'	=> '#',
 				'class'	=> 'close',
 			], ['dismiss' => 'alert'] );
