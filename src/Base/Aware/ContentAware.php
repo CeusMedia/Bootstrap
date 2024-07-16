@@ -29,7 +29,7 @@ trait ContentAware
 		if( is_string( $this->content ) )
 			return $this->content;
 		if( $this->content instanceof Renderable )
-			return $this->render();
+			return $this->content->render();
 		if( $this->content instanceof Stringable )
 			return (string) $this->content;
 		return '';
