@@ -38,10 +38,10 @@ class RowSpan extends Element
 	 */
 	public function render(): string
 	{
-		$classes	= array_merge( $this->classes, array( 'span'.$this->size.' bs4-col-md-'.$this->size ) );
-		$attributes		= array(
+		$classes	= array_merge( $this->classes, ['span'.$this->size.' bs4-col-md-'.$this->size] );
+		$attributes		= [
 			'class'		=> join( ' ', $classes ),
-		);
+		];
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
 		return HtmlTag::create( 'div', $this->getContentAsString(), $attributes );

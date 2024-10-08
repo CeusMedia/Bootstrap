@@ -138,14 +138,14 @@ class Dialog extends Structure
 		] );
 		$footer		= $this->renderFooter();
 		$header		= $this->renderHeader();
-		$attributes	= array(
+		$attributes	= [
 			'id'				=> $this->id,
 			'class'				=> 'modal hide'.( $this->fade ? ' fade' : '' ),
 			'tabindex'			=> '-1',
 			'role'				=> 'dialog',
 			'aria-hidden'		=> 'true',
 			'aria-labelledby'	=> 'myModalLabel',
-		);
+		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
 				case 'id':
@@ -160,12 +160,12 @@ class Dialog extends Structure
 					$attributes[$key]	= $value;
 			}
 		}
-		$content	= array( $header, $body, $footer );
-		if( version_compare( $this->bsVersion, '4', '>=' ) === TRUE ){
-			$content	= HtmlTag::create( 'div', $content, array( 'class' => 'modal-content' ) );
-			$content	= HtmlTag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
+		$content	= [$header, $body, $footer];
+		if( TRUE === version_compare( $this->bsVersion, '4', '>=' ) ){
+			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-content'] );
+			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document'] );
 		}
-		$modal	= HtmlTag::create( 'div', array( $content ), $attributes );
+		$modal	= HtmlTag::create( 'div', [$content], $attributes );
 		if( $this->formAction !== NULL ){
 			$attributes	= array_merge( $this->formAttributes, [
 				'action'	=> $this->formAction,
@@ -177,7 +177,6 @@ class Dialog extends Structure
 		}
 		return $modal;
 	}
-
 
 	/**
 	 *	Sets additional modal attributes.

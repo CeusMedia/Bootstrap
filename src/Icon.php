@@ -68,7 +68,7 @@ class Icon extends Structure
 	public function render(): string
 	{
 		$class		= $this->resolve( $this->icon );
-		return HtmlTag::create( 'i', '', array( 'class' => $class ) );
+		return HtmlTag::create( 'i', '', ['class' => $class] );
 	}
 
 	/**

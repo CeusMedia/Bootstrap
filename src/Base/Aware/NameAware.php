@@ -27,7 +27,7 @@ trait NameAware
 	public function setName( ?string $name = NULL ): static
 	{
 		$this->name	= $name;
-		if( static::class !== Button::class )
+		if( !is_a( $this, Button::class ) )
 			$this->setId( $name ? 'input_'.$name : "" );
 		return $this;
 	}

@@ -91,10 +91,10 @@ class Checkbox extends Structure
 		];
 		$this->extendAttributesByData( $attributes );
 		$input			= HtmlTag::create( 'input', NULL, $attributes );
-		$icon			= HtmlTag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
-		$overlay		= HtmlTag::create( 'span', $icon, array( 'class' => "cr" ) );
-		$label			= HtmlTag::create( 'label', $input.$overlay.strval(  $this->label ) );
-		return HtmlTag::create( 'div', $label, array( 'class' => 'checkbox' ) );
+		$icon			= HtmlTag::create( 'i', '', ['class' => "cr-icon ".$this->icon] );
+		$overlay		= HtmlTag::create( 'span', $icon, ['class' => "cr"] );
+		$label			= HtmlTag::create( 'label', $input.$overlay.strval( $this->label ) );
+		return HtmlTag::create( 'div', $label, ['class' => 'checkbox'] );
 	}
 
 	/**

@@ -123,13 +123,13 @@ class Trigger
 			throw new RuntimeException( 'No label set' );
 		if( !$this->modalId )
 			throw new RuntimeException( 'No modal ID set' );
-		$attributes	= array(
+		$attributes	= [
 			'id'			=> $this->id,
 			'href'			=> "#".$this->modalId,
 			'role'			=> "button",
 			'class'			=> "btn ".join( ' ', $this->classes ),
 			'data-toggle'	=> "modal",
-		);
+		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
 				case 'id':
@@ -151,7 +151,7 @@ class Trigger
 		if( $this->type === 'link' )
 			return HtmlTag::create( 'a', $label, $attributes );
 		if( $this->type === 'button' ){
-			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
+			$attributes	= array_merge( $attributes, ['type' => 'button'] );
 			return HtmlTag::create( 'button', $label, $attributes );
 		}
 		throw new RangeException( sprintf( 'Unsupported type: %s', $this->type ) );

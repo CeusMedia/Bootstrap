@@ -73,10 +73,10 @@ class TabbableNavbar extends Structure
 			$label	= $this->tabs[$id];
 #			$label	= htmlentities( $label, ENT_QUOTES, 'UTF-8' );
 			$link	= HtmlTag::create( 'a', $label, $attributes );
-			$attributes	= array( 'class' => $active == $id ? "active" : NULL );
+			$attributes	= ['class' => $active == $id ? "active" : NULL];
 			$listTabs[]	= HtmlTag::create( 'li', $link, $attributes );
 		}
-		$attributes	= array( 'class' => "nav" );
+		$attributes	= ['class' => "nav"];
 		$listTabs	= HtmlTag::create( 'ul', $listTabs, $attributes );
 
 		$listDivs	= [];
@@ -87,22 +87,22 @@ class TabbableNavbar extends Structure
 			];
 			$listDivs[]	= HtmlTag::create( 'div', $this->contents[$id], $attributes );
 		}
-		$attributes	= array( 'class' => "tab-content" );
+		$attributes	= ['class' => "tab-content"];
 		$listDivs	= HtmlTag::create( 'div', $listDivs, $attributes );
 
-		$toggleSpan	= HtmlTag::create( 'span', "", array( 'class' => 'icon-bar' ) );
+		$toggleSpan	= HtmlTag::create( 'span', "", ['class' => 'icon-bar'] );
 		$attributes	= [
 			'data-toggle'	=> 'collapse',
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
 		];
 		$toggle		= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
-		$collapse	= HtmlTag::create( 'div', $listTabs, array( 'class' => "nav-collapse collapse" ) );
-		$container	= HtmlTag::create( 'div', $toggle.strval( $this->brand ).$collapse, array( 'class' => "container" ) );
+		$collapse	= HtmlTag::create( 'div', $listTabs, ['class' => "nav-collapse collapse"] );
+		$container	= HtmlTag::create( 'div', $toggle.strval( $this->brand ).$collapse, ['class' => "container"] );
 
-		$tabs		= HtmlTag::create( 'div', $container, array( 'class' => "navbar-inner" ) );	//
-		$navbar		= HtmlTag::create( 'div', $tabs, array( 'class' => $this->classNavBar) );			//
-		return HtmlTag::create( 'div', $navbar.$listDivs, array( 'class' => "tabbable" ) );		//
+		$tabs		= HtmlTag::create( 'div', $container, ['class' => "navbar-inner"] );	//
+		$navbar		= HtmlTag::create( 'div', $tabs, ['class' => $this->classNavBar] );			//
+		return HtmlTag::create( 'div', $navbar.$listDivs, ['class' => "tabbable"] );		//
 	}
 
 	/**
@@ -125,7 +125,7 @@ class TabbableNavbar extends Structure
 	 */
 	public function setBrand( Stringable|Renderable|string $label, URL|string|null $url = NULL ): self
 	{
-		$this->brand	= HtmlTag::create( 'span', $label, array( 'class' => 'brand' ) );
+		$this->brand	= HtmlTag::create( 'span', $label, ['class' => 'brand'] );
 		if( $url !== NULL )
 			$this->brand	= new Link( $url, $label, "brand" );
 		return $this;

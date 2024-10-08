@@ -65,13 +65,13 @@ class Menu extends Structure
 	 */
 	public function add( string $url, string $label, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'link',
 			'content'	=> new Link( $url, $label, $class, $icon ),
 /*			'class'		=> $class,
 			'icon'		=> $icon,*/
 			'disabled'	=> $disabled,
-		);
+		];
 		return $this;
 	}
 
@@ -140,7 +140,7 @@ class Menu extends Structure
 	{
 		$list	= [];
 		foreach( $this->items as $item ){
-			$attributes	= array( 'class' => NULL );# 'class' => 'active' );
+			$attributes	= ['class' => NULL];# 'class' => 'active' );
 			switch( $item->type ){
 				case "dropdown":
 					$attributes['class']	= 'dropdown-submenu';

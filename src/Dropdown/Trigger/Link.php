@@ -77,7 +77,7 @@ class Link
 	 */
 	public function render(): string
 	{
-		$caret	= ' '.HtmlTag::create( 'span', "", array( 'class' => 'caret' ) );
+		$caret	= ' '.HtmlTag::create( 'span', "", ['class' => 'caret'] );
 		if( !$this->caret )
 			$caret	= '';
 		$link	= new BaseLink( "#", $this->label.$caret );

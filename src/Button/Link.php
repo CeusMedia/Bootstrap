@@ -39,7 +39,7 @@ class Link extends Element
 
 	protected ?string $confirm		= NULL;
 	protected ?string $title		= NULL;
-    protected string $url;
+	protected string $url;
 
 	/**
 	 *	@param		string					$url
@@ -69,14 +69,14 @@ class Link extends Element
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'id'		=> $this->id,
 			'class'		=> 'btn '.join( ' ', $this->classes ),
 			'href'		=> $this->url,
 			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
 			'role'		=> 'button',
 			'onclick'	=> NULL,
-		);
+		];
 		if( $this->confirm ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}

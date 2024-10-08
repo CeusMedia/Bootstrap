@@ -107,16 +107,16 @@ class Tabs extends Structure
 		if( !$this->activeId )
 			$this->setActive( 0 );
 		foreach( $this->tabs as $tab ){
-			$classesItem	= array( 'nav-item' );
-			$classesLink	= array( 'nav-link' );
-			$classesPane	= array( 'tab-pane' );
+			$classesItem	= ['nav-item'];
+			$classesLink	= ['nav-link'];
+			$classesPane	= ['tab-pane'];
 			$dataLink		= [];
 			if( $tab->id === $this->activeId ){
 				$classesItem[]	= 'active';
 				$classesPane[]	= 'show active';
 			}
 			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
-			$attr			= array( 'href' => $tab->url );
+			$attr			= ['href' => $tab->url];
 			if( $tab->url === '#' || $tab->url === '#'.$tab->id ){
 				$attr['href']		= '#'.$tab->id;
 				$dataLink['toggle'] = 'tab';
@@ -125,15 +125,15 @@ class Tabs extends Structure
 			$link			= HtmlTag::create( 'a', $label, $attr, $dataLink );
 			if( $tab->disabled ){
 				$classesItem[]	= 'disabled';
-				$link			= HtmlTag::create( 'a', $label, array( 'class' => 'nav-link' ) );
+				$link			= HtmlTag::create( 'a', $label, ['class' => 'nav-link'] );
 			}
-			$attr			= array( 'class' => join( ' ', $classesItem ) );
+			$attr			= ['class' => join( ' ', $classesItem )];
 			$listTabs[]		= HtmlTag::create( 'li', $link, $attr );
-			$listPanes[]	= HtmlTag::create( 'div', $tab->content, array(
+			$listPanes[]	= HtmlTag::create( 'div', $tab->content, [
 				'class'	=> join( ' ', $classesPane ),
 				'id'	=> $tab->id,
 				'role'	=> 'tabpanel',
-			) );
+			] );
 		}
 		$listTabs	= HtmlTag::create( 'ul', $listTabs, [
 			'class'	=> 'nav nav-tabs',
@@ -141,7 +141,7 @@ class Tabs extends Structure
 			'role'	=> 'tablist',
 		] );
 		$listTabs	= HtmlTag::create( 'nav', $listTabs );
-		$listPanes	= HtmlTag::create( 'div', $listPanes, array( 'class' => 'tab-content' ) );
+		$listPanes	= HtmlTag::create( 'div', $listPanes, ['class' => 'tab-content'] );
 		return $listTabs.$listPanes;
 	}
 

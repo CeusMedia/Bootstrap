@@ -1,12 +1,14 @@
 <?php
 namespace CeusMedia\BootstrapTest;
 
+use CeusMedia\Bootstrap\Base\Aware as Traits;
 use CeusMedia\Bootstrap\Button;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 
 class ButtonTest extends TestCase
 {
-	public function testConstruct()
+	public function testConstruct(): void
 	{
 		$label	= 'Button Label';
 		$button	= new UnprotectedButton( $label );
@@ -17,16 +19,12 @@ class ButtonTest extends TestCase
 		$class	= Button::STATE_PRIMARY;
 		$button	= new UnprotectedButton( $label, $class );
 		self::assertEquals( [$class], $button->getClasses() );
-
-		$class	= Button::STATE_PRIMARY;
-		$button	= new UnprotectedButton( $label, $class );
-		self::assertEquals( [$class], $button->getClasses() );
 	}
 
 	/**
 	 *	@covers		::render
 	 */
-	public function testRender()
+	public function testRender(): void
 	{
 		$label	= 'Button Label';
 		$button	= new Button( $label );
@@ -34,24 +32,16 @@ class ButtonTest extends TestCase
 		$expected	= '<button type="button" class="btn">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
 
-		$class	= Button::STATE_PRIMARY;
-		$button	= new Button( $label, $class );
-
-		$expected	= '<button type="button" class="btn btn-primary">Button Label</button>';
-		self::assertEquals( $expected, $button->render() );
-
-		$class	= Button::STATE_PRIMARY;
-		$button	= new Button( $label, $class );
-
+		$button		= new Button( $label, Button::STATE_PRIMARY );
 		$expected	= '<button type="button" class="btn btn-primary">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
 	}
 
 	/**
-	 *	@covers		CeusMedia\Bootstrap\Aware\SizeAware::getSize
-	 *	@covers		CeusMedia\Bootstrap\Aware\SizeAware::setSize
+	 *	@covers		Traits\SizeAware::getSize
+	 *	@covers		Traits\SizeAware::setSize
 	 */
-	public function testSetSize()
+	public function testSetSize(): void
 	{
 		$button	= new UnprotectedButton( 'SizeAware' );
 
@@ -71,7 +61,7 @@ class ButtonTest extends TestCase
 		self::assertEquals( Button::SIZE_LARGE, join( ' ', $button->getClasses() ) );
 	}
 
-	public function testSetBlock()
+	public function testSetBlock(): void
 	{
 		$button	= new UnprotectedButton( 'Block Button' );
 		self::assertEquals( [], $button->getClasses() );
@@ -83,13 +73,15 @@ class ButtonTest extends TestCase
 		self::assertEquals( [], $button->getClasses() );
 
 		$button->setSize( Button::SIZE_LARGE );
+		/** @noinspection PhpRedundantOptionalArgumentInspection */
 		$button->setBlock( TRUE );
 		self::assertEquals( ['btn-large', 'btn-lg', 'btn-block'], $button->getClasses() );
+
 		$button->setBlock( FALSE );
 		self::assertEquals( ['btn-large', 'btn-lg'], $button->getClasses() );
 	}
 
-	public function testSetType()
+	public function testSetType(): void
 	{
 		self::markTestSkipped();
 //		$button	= new UnprotectedButton( 'Typed Button' );
@@ -104,7 +96,7 @@ class UnprotectedButton extends Button
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): array|string|Stringable|NULL
 	{
 		return $this->content;
 	}

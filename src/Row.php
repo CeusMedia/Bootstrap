@@ -37,9 +37,9 @@ class Row extends Element
 	 */
 	public function render(): string
 	{
-		$attributes		= array(
+		$attributes		= [
 			'class'		=> 'row'.( $this->fluid ? '-fluid' : ''),
-		);
+		];
 		$this->extendAttributesByData( $attributes );
 		$this->extendAttributesByAria( $attributes );
 		return HtmlTag::create( 'div', $this->getContentAsString(), $attributes );

@@ -74,13 +74,13 @@ class Breadcrumbs extends Structure
 	 */
 	public function add( $label, ?string $url = NULL, ?string $class = NULL, $icon = NULL, bool $active = FALSE ): self
 	{
-		$this->crumbs[]	= (object) array(
+		$this->crumbs[]	= (object) [
 			'label'		=> $label,
 			'url'		=> (string) $url,
 			'class'		=> (string) $class,
 			'icon'		=> (string) $icon,
 			'active'	=> $active,
-		);
+		];
 		return $this;
 	}
 
@@ -113,7 +113,7 @@ class Breadcrumbs extends Structure
 	public function render(): string
 	{
 		$list		= [];
-		$divider	= HtmlTag::create( 'span', "/", array( 'class' => 'divider' ) );
+		$divider	= HtmlTag::create( 'span', "/", ['class' => 'divider'] );
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
@@ -127,20 +127,20 @@ class Breadcrumbs extends Structure
 			if( version_compare( $this->bsVersion, '3', '<' ) )
 				if( $nr < count( $this->crumbs ) - 1 )
 					$content	.= ' '.$divider;
-			$classesItem	= array( 'breadcrumb-item' );
+			$classesItem	= ['breadcrumb-item'];
 			if( $crumb->class )
 				$classesItem[]	= $crumb->class;
 			if( $crumb->active )
 				$classesItem[]	= 'active';
-			$attributes	= array( 'class' => join( ' ', $classesItem ) );
-			$icon		= "";
+			$attributes	= ['class' => join( ' ', $classesItem )];
+			$icon		= '';
 			if( $crumb->icon instanceof Icon )
 				$icon	= $crumb->icon->render().' ';
 			else if( $crumb->icon )
 				$icon	= new Icon( $crumb->icon ).' ';
 			$list[]	= HtmlTag::create( 'li', $icon.$content, $attributes );
 		}
-		$list	= HtmlTag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		$list	= HtmlTag::create( 'ul', $list, ['class' => 'breadcrumb'] );
 		return HtmlTag::create( 'nav', $list );
 	}
 

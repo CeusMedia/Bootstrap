@@ -88,14 +88,14 @@ class NavList extends Structure
 	 *	@param		string|NULL			$class
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function addHeader( string $label, $icon = NULL, string $class = NULL ): self
+	public function addHeader( string $label, Icon|string|null $icon = NULL, string $class = NULL ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'header',
 			'label'		=> $label,
 			'icon'		=> $icon,
 			'class'		=> trim( 'nav-header autocut '.$class ),
-		);
+		];
 		return $this;
 	}
 
@@ -122,22 +122,22 @@ class NavList extends Structure
 		foreach( $this->items as $item ){
 			switch( $item->type ){
 				case 'divider':
-					$list[]	= HtmlTag::create( 'li', "", array( 'class' => 'divider' ) );
+					$list[]	= HtmlTag::create( 'li', "", ['class' => 'divider'] );
 					break;
 				case 'header':
 					$label	= $item->label;
 					if( $item->icon )
 						$label	= new Icon( $item->icon ).' '.$label;
-					$list[]	= HtmlTag::create( 'li', $label, array( 'class' => $item->class) );
+					$list[]	= HtmlTag::create( 'li', $label, ['class' => $item->class] );
 					break;
 				case 'navlist':
 					$list[]	= $item->list->render();
 					break;
 				case 'link':
-					$attr	= array(
-						'class' => array( '' ),
+					$attr	= [
+						'class' => [''],
 						'title' => $item->label
-					);
+					];
 					$invert	= FALSE;
 					if( $item->url == $this->current ){
 						$attr['class'][]	= 'active';
@@ -150,7 +150,7 @@ class NavList extends Structure
 					break;
 			}
 		}
-		return HtmlTag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
+		return HtmlTag::create( 'ul', $list, ['class' => 'nav nav-list'] );
 	}
 
 	/**

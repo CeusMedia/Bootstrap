@@ -44,7 +44,7 @@ class Code extends Element
 	 */
 	public function render(): string
 	{
-		$attributes		= array( 'class' => join( " ", $this->classes ) );
+		$attributes		= ['class' => join( " ", $this->classes )];
 		if( $this->scrollable )
 			$attributes['class']	.= " pre-scrollable";
 		$content	= $this->getContentAsString();

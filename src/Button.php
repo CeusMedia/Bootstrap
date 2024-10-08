@@ -99,13 +99,13 @@ class Button extends Element
 	public function render(): string
 	{
 		$classes	= array_merge( ['btn'], $this->classes );
-		$attributes	= array(
+		$attributes	= [
 			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'type'		=> $this->type,
 			'class'		=> join( ' ', $classes ),
 			'disabled'	=> $this->disabled ? 'disabled' : NULL,
-		);
+		];
 		$this->extendAttributesByEvents( $attributes );
 		$this->extendAttributesByData( $attributes );
 		$icon	= (string) $this->icon;

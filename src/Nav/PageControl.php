@@ -85,42 +85,42 @@ class PageControl extends Structure
 		if( $this->pages <= 1 )
 			return "";
 		$size	= $this->size ? 'btn-'.$this->size : NULL;
-		$buttons	= array(
-			(object) array(
+		$buttons	= [
+			(object) [
 				'url'		=> $this->getUrl(),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'fast-backward' ),
 				'disabled'	=> $this->page === 0,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->page - 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'backward' ),
 				'disabled'	=> $this->page === 0,
-			),
-			(object) array(
+			],
+			(object) [
 				'label'		=> sprintf( $this->patternIndicator, $this->page + 1, $this->pages ),
 				'class'		=> $size.' page-indicator',
 				'icon'		=> NULL,
 				'disabled'	=> TRUE,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->page + 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'forward' ),
 				'disabled'	=> $this->page === $this->pages - 1,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->pages - 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'fast-forward' ),
 				'disabled'	=> $this->page === $this->pages - 1,
-			),
-		);
+			],
+		];
 		$group		= new ButtonGroup();
 		foreach( $buttons as $button ){
 			if( isset( $button->url ) )

@@ -118,14 +118,14 @@ class Pills extends Structure
 			if( $item instanceof NavPillItemDropdown ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
-				$item		= HtmlTag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
+				$item		= HtmlTag::create( 'li', $trigger.$item->content, ['class' => 'dropdown '.$class] );
 			}
 			else{
-				$item	= HtmlTag::create( 'li', (string) $item->link, array( 'class' => $class ) );
+				$item	= HtmlTag::create( 'li', (string) $item->link, ['class' => $class] );
 			}
 			$items[]	= $item;
 		}
-		return HtmlTag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
+		return HtmlTag::create( 'div', $items, ['class' => 'nav nav-pills'] );
 	}
 
 	/**
