@@ -1,11 +1,14 @@
 <?php
+declare(strict_types=1);
+
 use CeusMedia\Bootstrap\Modal\Dialog as ModalDialog;
 use CeusMedia\Bootstrap\Modal\Trigger as ModalTrigger;
+
+/** @var bool $isBs4 */
 
 ModalDialog::$defaultFade	= TRUE;
 
 if( $isBs4 ){
-
 	$modal1		= new ModalDialog( 'modal-demo-1' );
 	$modal1->setHeading( 'Small Modal' );
 	$modal1->setBody( '<h4>Hello World!</h4><p>Lorem ipsum ...</p>' );
@@ -31,10 +34,10 @@ if( $isBs4 ){
 	$modalTrigger1	= new ModalTrigger( 'modal-demo-1', 'open small and centered', 'btn-info', 'bars' );
 	$modalTrigger2	= new ModalTrigger( 'modal-demo-2', 'open large with form', 'btn-info', 'bars' );
 
-	print '<h3>Modal</h3>'.join( ' ', array(
+	print '<h3>Modal</h3>'.join( ' ', [
 		$modalTrigger1->render(),
 		$modalTrigger2->render(),
-	) ).$modal1->render().$modal2->render();
+	] ).$modal1->render().$modal2->render();
 }
 else {
 	$modal		= new ModalDialog( 'modal-demo-1' );

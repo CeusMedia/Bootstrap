@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 use CeusMedia\Bootstrap\Button\Group as ButtonGroup;
 use CeusMedia\Bootstrap\Button;
 
