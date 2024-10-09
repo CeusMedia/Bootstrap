@@ -9,7 +9,7 @@ use Stringable;
 
 abstract class Abstraction implements Stringable
 {
-	public static string $version			= "0.6.2";
+	public static string $version			= "0.7.0";
 
 	public static string $defaultBsVersion	= "2.3.2";
 
