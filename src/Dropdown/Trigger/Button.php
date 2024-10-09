@@ -5,7 +5,7 @@
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -29,7 +29,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
