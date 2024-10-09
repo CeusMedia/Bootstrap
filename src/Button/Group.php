@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
@@ -16,25 +17,23 @@ use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
-use Exception;
-
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Group extends Structure
 {
 	use AriaAware, ClassAware;
 
-	protected $buttons		= array();
-	protected $stacked		= FALSE;
+	protected array $buttons		= [];
+	protected bool $stacked			= FALSE;
 
-	public function __construct( array $buttons = array(), bool $stacked = FALSE )
+	public function __construct( array $buttons = [], bool $stacked = FALSE )
 	{
 		parent::__construct();
 		$this->setRole( 'group' );
@@ -45,13 +44,15 @@ class Group extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		array|object|string		$button
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function add( $button ): self
 	{
-		if( is_array( $button ) )
+		if( is_array( $button ) ){
 			foreach( $button as $item )
 				$this->add( $item );
+		}
 		else if( $button )
 			$this->buttons[]	= $button;
 		return $this;
@@ -75,7 +76,7 @@ class Group extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setStacked( bool $stacked = TRUE ): self
 	{

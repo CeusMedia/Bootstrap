@@ -27,6 +27,7 @@ trait SizeAware
 				$foundSize	= $size;
 				continue;
 			}
+			/** @var array<string> $sizeClasses */
 			$sizeClasses = preg_split( '/\s+/', $size );
 			if( count( array_intersect( $sizeClasses, $this->classes ) ) > 0 ){
 				$foundSize	= $size;
@@ -45,14 +46,15 @@ trait SizeAware
 	 *	Removes beforehand set size.
 	 *	@access		public
 	 *	@param		string		$size		...
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setSize( $size ): self
+	public function setSize( string $size ): static
 	{
 		if( !in_array( $size, static::SIZES, TRUE ) )
 			throw new RangeException( 'Invalid size' );
 		foreach( static::SIZES as $otherSize ){
 			if( strlen( $otherSize ) > 0 ){
+				/** @var array<string> $sizeClasses */
 				$sizeClasses = preg_split( '/\s+/', $otherSize );
 				foreach( $sizeClasses as $sizeClass )
 					$this->removeClass( $sizeClass );

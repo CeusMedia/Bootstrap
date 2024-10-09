@@ -1,36 +1,45 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Nav
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\NavPillItemDropdown;
+use CeusMedia\Bootstrap\Base\DataObject\NavPillItemLink;
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Exception;
+use Stringable;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Nav
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Pills extends Structure
 {
-	protected $active	= -1;
-	protected $items	= array();
-	protected $stacked	= FALSE;
+	protected int $active	= -1;
+
+	/** @var array<NavPillItemLink|NavPillItemDropdown> $items */
+	protected array $items	= [];
+	protected bool $stacked	= FALSE;
 
 	/**
 	 *	@access		public
@@ -41,7 +50,7 @@ class Pills extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -49,9 +58,13 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string					$url
+	 *	@param		Stringable|Renderable|string|NULL	$label
+	 *	@param		string|NULL				$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@return		self					Own instance for method chaining
 	 */
-	public function add( $url, $label, $class = NULL, $icon = NULL ): self
+	public function add( string $url, Stringable|Renderable|string|null $label, ?string $class = NULL, Icon|string|null $icon = NULL ): self
 	{
 		$class	= 'nav-link'.( $class ? ' '.$class : '' );
 		$link	= new Link( $url, $label, $class, $icon );
@@ -61,40 +74,34 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addLink( Link $link ): self
 	{
 		$link->addClass( 'nav-link' );
-		$this->items[]	= (object) array(
-			'type'		=> 'link',
-			'link'		=> $link,
-			'class'		=> 'nav-item',
-		);
+		$this->items[]	= NavPillItemLink::create( $link );
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		DropdownMenu		$dropdown
+	 *	@param		string				$label
+	 *	@param		string|NULL			$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		Icon|string|NULL	$iconActive
+	 *	@return		self		Own instance for method chaining
 	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( DropdownMenu $dropdown, $label, $class = NULL, $icon = NULL, $iconActive = NULL ): self
+	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): self
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
-			$label		= HtmlTag::create( 'a', $label, array(
+			$label		= HtmlTag::create( 'a', $label, [
 				'href'			=> '#',
 				'class'			=> 'nav-link dropdown-toggle',
 				'data-toggle'	=> 'dropdown',
-			) );*/
-		$this->items[]	= (object) array(
-			'type'			=> 'dropdown',
-			'label'			=> $label,
-			'content'		=> $dropdown,
-			'class'			=> 'nav-link'.( $class ? ' '.$class : '' ),
-			'icon'			=> $icon,
-			'iconActive'	=> $iconActive,
-		);
+			] );*/
+		$this->items[]	= NavPillItemDropdown::create( $label, $dropdown, $class, $icon, $iconActive );
 		return $this;
 	}
 
@@ -104,27 +111,29 @@ class Pills extends Structure
 	 */
 	public function render(): string
 	{
-		$items	= array();
+		$items	= [];
 		foreach( $this->items as $nr => $item ){
 			$class		= $this->active === $nr ? "active" : NULL;
-			if( $item->type === "dropdown" ){
+//			if( $item->type === "dropdown" ){
+			if( $item instanceof NavPillItemDropdown ){
 				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
-				$item		= HtmlTag::create( 'li', $trigger.$item->content, array( 'class' => 'dropdown '.$class ) );
+				$item		= HtmlTag::create( 'li', $trigger.$item->content, ['class' => 'dropdown '.$class] );
 			}
 			else{
-				$item	= HtmlTag::create( 'li', (string) $item->link, array( 'class' => $class ) );
+				$item	= HtmlTag::create( 'li', (string) $item->link, ['class' => $class] );
 			}
 			$items[]	= $item;
 		}
-		return HtmlTag::create( 'div', $items, array( 'class' => 'nav nav-pills' ) );
+		return HtmlTag::create( 'div', $items, ['class' => 'nav nav-pills'] );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		int			$nr
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setActive( $nr ): self
+	public function setActive( int $nr ): self
 	{
 		$this->active	= $nr;
 		return $this;
@@ -132,7 +141,8 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		bool		$stacked
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setStacked( bool $stacked = TRUE ): self
 	{

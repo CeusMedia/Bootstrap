@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
@@ -19,19 +20,19 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Label extends Element
 {
-	const CLASS_IMPORTANT	= 'label-important';
-	const CLASS_INVERSE		= 'label-inverse';
-	const CLASS_INFO		= 'label-info';
-	const CLASS_SUCCESS		= 'label-success';
-	const CLASS_WARNING		= 'label-warning';
+	public const CLASS_IMPORTANT	= 'label-important';
+	public const CLASS_INVERSE		= 'label-inverse';
+	public const CLASS_INFO		= 'label-info';
+	public const CLASS_SUCCESS		= 'label-success';
+	public const CLASS_WARNING		= 'label-warning';
 
-	const CLASSES			= [
+	public const CLASSES			= [
 		self::CLASS_IMPORTANT,
 		self::CLASS_INVERSE,
 		self::CLASS_INFO,
@@ -48,6 +49,6 @@ class Label extends Element
 		$class	= 'label';
 		if( count( $this->classes ) )
 			$class	.= ' '.join( ' ', $this->classes );
-		return HtmlTag::create( 'span', $this->content, ['class' => $class] );
+		return HtmlTag::create( 'span', $this->getContentAsString(), ['class' => $class] );
 	}
 }

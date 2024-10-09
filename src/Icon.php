@@ -1,29 +1,26 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
 
-use Exception;
-use InvalidArgumentException;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function explode;
-use function is_array;
 use function is_string;
 use function join;
 use function preg_match;
 use function preg_split;
 use function strtolower;
-use function trigger_error;
 use function trim;
 
 /**
@@ -31,35 +28,37 @@ use function trim;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Icon extends Structure
 {
-	static $defaultSet		= 'glyphicons';
-	static $defaultSize		= array();
-	static $defaultStyle	= '';
+	public static string $defaultSet		= 'glyphicons';
+	public static array $defaultSize		= [];
+	public static string $defaultStyle		= '';
 
-	protected $icon;
-	protected $set		= NULL;
-	protected $size		= array();
-	protected $style	= FALSE;
+	protected string $icon;
+	protected ?string $set		= NULL;
+	/** @var array<string> $size */
+	protected array $size		= [];
+	protected string $style;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$icon 		Icon class name plus modifying class names
-	 *	@param		string|NULL		$style 		Icon set style (see code doc of setStyle)
-	 *	@param		string|array	$size 		One or many size or modifier class name (see code doc of setSize)
+	 *	@param		string				$icon 		Icon class name plus modifying class names
+	 *	@param		string|NULL			$style 		Icon set style (see code doc of setStyle)
+	 *	@param		array|string|NULL	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
 	public function __construct( string $icon, ?string $style = NULL, $size = NULL )
 	{
+		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
-		$this->setStyle( $style ? $style : static::$defaultStyle );
-		if( $size )
+		$this->setStyle( $style ?: static::$defaultStyle );
+		if( $size !== NULL )
 			$this->setSize( $size );
 	}
 
@@ -70,16 +69,16 @@ class Icon extends Structure
 	public function render(): string
 	{
 		$class		= $this->resolve( $this->icon );
-		return HtmlTag::create( 'i', '', array( 'class' => $class ) );
+		return HtmlTag::create( 'i', '', ['class' => $class] );
 	}
 
 	/**
 	 *	Set icon by its icon class name plus modifying class names.
 	 *	@access		public
 	 *	@param		string		$icon 		Icon class name plus modifying class names
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setIcon( $icon ): self
+	public function setIcon( string $icon ): self
 	{
 		$this->icon		= $icon;
 		return $this;
@@ -89,7 +88,7 @@ class Icon extends Structure
 	 *	Set icon set, like fontawesome[4|5] or glyphicons.
 	 *	@access		public
 	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setSet( string $set ): self
 	{
@@ -106,16 +105,17 @@ class Icon extends Structure
 	 *	- modifiers: see FontAwesome doc
 	 *
 	 *	@access		public
-	 *	@param		string		$sizes 		One or many size or modifier class name
-	 *	@return		self		Own instance for chainability
+	 *	@param		string|array<string>	$sizes 		One or many size or modifier class name
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setSize( string $sizes ): self
+	public function setSize( string|array $sizes ): self
 	{
-		$this->size		= array();
-		$sizes	= preg_split( "/\s+/", trim( $sizes ) );
+		$this->size		= [];
+		if( is_string( $sizes ) )
+			$sizes	= (array) preg_split( "/\s+/", trim( $sizes ) );
 		foreach( $sizes as $size )
-			if( strlen( trim( $size ) ) > 0 )
-				$this->size[]	= trim( $size );
+			if( strlen( trim( (string) $size ) ) > 0 )
+				$this->size[]	= trim( (string) $size );
 		return $this;
 	}
 
@@ -134,7 +134,7 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string		$style 		Icon set style
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 *	@todo		code doc
 	 */
 	public function setStyle( string $style ): self
@@ -147,16 +147,16 @@ class Icon extends Structure
 
 	protected function realizeSizes(): array
 	{
-		$sizes	= $this->size ? $this->size : static::$defaultSize;
-		$list	= array();
+		$sizes	= $this->size ?: static::$defaultSize;
+		$list	= [];
 		foreach( $sizes as $size ){
-			switch( strtolower( $this->set ) ){
+			switch( strtolower( $this->set ?? '' ) ){
 				case 'fontawesome':
 				case 'fontawesome4':
 				case 'fontawesome5':
-					$size	= $size === 'fixed' ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
-					if( preg_match( $regExpFactor = '/^x([1-9])$/', $size ) )						//  translate sizes like 'x2' (allowed: 1-9)
-						$size	= preg_match( $regExpFactor, '\\1x', $size );						//  ... to 2x
+					$size	= 'fixed' === $size ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
+					if( preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )				//  translate sizes like 'x2' (allowed: 1-9)
+						$size	= preg_replace( $regExpFactor, '\\1x', (string) $size );	//  ... to 2x
 					$list[]	= 'fa-'.$size;															//  ...
 					break;
 				default:																			//  icon set not known
@@ -166,11 +166,14 @@ class Icon extends Structure
 		return $list;
 	}
 
+	/**
+	 *	@return		array
+	 */
 	protected function realizeStyle(): array
 	{
-		$style	= $this->style ? $this->style : static::$defaultStyle;
-		$list	= array();
-		switch( strtolower( $this->set ) ){
+		$style	= $this->style ?: static::$defaultStyle;
+		$list	= [];
+		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':
 				if( $this->style === 'white' )
 					$list[]	= 'icon-white';
@@ -193,24 +196,23 @@ class Icon extends Structure
 		return $list;
 	}
 
-	protected function resolve( $icon ): string
+	protected function resolve( string $icon ): string
 	{
-		$parts		= explode( " ", preg_replace( "/ +/", " ", $icon ) );
-		$list		= array();
+		$icon		= preg_replace( "/ +/", " ", $icon ) ?? '';
+		$parts		= explode( " ", $icon );
+		$list		= [];
 		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
 		foreach( $this->realizeStyle() as $style )
 			$list[]	= $style;
 		foreach( $parts as $part ){
-			switch( strtolower( $this->set ) ){
+			switch( strtolower( $this->set ?? '' ) ){
 				case 'glyphicons':
 					$part	= "icon-".$part;
 					break;
-				case 'fontawesome5':
-					$part	= 'fa-'.$part;
-					break;
 				case 'fontawesome':
 				case 'fontawesome4':
+				case 'fontawesome5':
 					$part	= 'fa-'.$part;
 					break;
 			}

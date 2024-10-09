@@ -1,11 +1,13 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  *	@link			https://github.com/nostalgiaz/bootstrap-switch	requires Bootstrap Switch URL description
  *	@see			http://www.larentis.eu/switch/					original examples
@@ -24,24 +26,22 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2018 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmmodules/
  */
 class Shiftbox extends Element
 {
 	use NameAware;
 
-	const SIZE_DEFAULT		= '';
-	const SIZE_LARGE		= 'large';
-	const SIZE_MINI			= 'mini';
-	const SIZE_SMALL		= 'small';
+	public const SIZE_DEFAULT	= '';
+	public const SIZE_LARGE		= 'large';
+	public const SIZE_MINI		= 'mini';
+	public const SIZE_SMALL		= 'small';
 
-	protected $value;
-	protected $options;
-	protected $size;
-	protected $checked;
+	protected string $value;
+	protected bool $checked;
 
-	public function __construct( string $name = NULL, string $value = NULL, bool $checked = NULL, array $data = array() )
+	public function __construct( string $name, string $value, bool $checked = FALSE, array $data = [] )
 	{
 		parent::__construct( '' );
 		$this->setName( $name );
@@ -57,21 +57,22 @@ class Shiftbox extends Element
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'type'		=> 'checkbox',
 			'id'		=> 'input_'.$this->name,
 			'name'		=> $this->name,
 			'value'		=> $this->value,
 			'class'		=> 'shiftbox',
 			'checked'	=> $this->checked ? 'checked' : NULL,
-		);
+		];
 		$this->extendAttributesByData( $attributes );
 		return HtmlTag::create( 'input', NULL, $attributes );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		bool		$checked
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setChecked( bool $checked ): self
 	{
@@ -81,7 +82,8 @@ class Shiftbox extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string		$value
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setValue( string $value ): self
 	{

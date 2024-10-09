@@ -1,11 +1,13 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
@@ -22,14 +24,15 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class NavList extends Structure
 {
-	protected $current;
-	protected $items		= [];
+	protected ?string $current		= NULL;
+
+	protected array $items			= [];
 
 	/**
 	 *	@access		public
@@ -48,57 +51,64 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string				$url
+	 *	@param		string				$label
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		string|NULL			$class
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = array(), $data = array(), $events = array()*/ ): self
+	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'link',
 			'url'		=> $url,
 			'label'		=> $label,
 			'icon'		=> $icon,
 			'class'		=> $class,
-		);
+		];
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addDivider(): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'divider',
-		);
+		];
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string				$label
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		string|NULL			$class
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function addHeader( string $label, $icon = NULL, string $class = NULL ): self
+	public function addHeader( string $label, Icon|string|null $icon = NULL, string $class = NULL ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'header',
 			'label'		=> $label,
 			'icon'		=> $icon,
 			'class'		=> trim( 'nav-header autocut '.$class ),
-		);
+		];
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addNavList( NavList $list ): self
 	{
-		$this->items[]	= (object) array(
+		$this->items[]	= (object) [
 			'type'		=> 'navlist',
 			'list'		=> $list,
-		);
+		];
 		return $this;
 	}
 
@@ -112,40 +122,41 @@ class NavList extends Structure
 		foreach( $this->items as $item ){
 			switch( $item->type ){
 				case 'divider':
-					$list[]	= HtmlTag::create( 'li', "", array( 'class' => 'divider' ) );
+					$list[]	= HtmlTag::create( 'li', "", ['class' => 'divider'] );
 					break;
 				case 'header':
 					$label	= $item->label;
 					if( $item->icon )
 						$label	= new Icon( $item->icon ).' '.$label;
-					$list[]	= HtmlTag::create( 'li', $label, array( 'class' => $item->class) );
+					$list[]	= HtmlTag::create( 'li', $label, ['class' => $item->class] );
 					break;
 				case 'navlist':
 					$list[]	= $item->list->render();
 					break;
 				case 'link':
-					$attr	= array(
-						'class' => array( '' ),
+					$attr	= [
+						'class' => [''],
 						'title' => $item->label
-					);
+					];
 					$invert	= FALSE;
 					if( $item->url == $this->current ){
 						$attr['class'][]	= 'active';
 						$invert	= TRUE;
 					}
 					$link	= new Link( $item->url, $item->label, 'autocut' );
-					$link->setIcon( $item->icon, $invert );
+					$link->setIcon( $item->icon, $invert ? 'white' : '' );
 					$attr['class']	= join( " ", $attr['class'] );
 					$list[]	= HtmlTag::create( 'li', $link, $attr );
 					break;
 			}
 		}
-		return HtmlTag::create( 'ul', $list, array( 'class' => 'nav nav-list' ) );
+		return HtmlTag::create( 'ul', $list, ['class' => 'nav nav-list'] );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string		$url
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setCurrent( string $url ): self
 	{

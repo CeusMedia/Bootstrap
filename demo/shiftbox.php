@@ -64,100 +64,100 @@ require_once \'vendor/autoload.php\';</pre>
 	<div>
 		<h3>Large and yes/no labels</h3>
 		<p>
-			'.new Shiftbox( 'check2', 'on', TRUE, array(
+			'.new Shiftbox( 'check2', 'on', TRUE, [
 				'size'		=> 'large',
 				'on-text'	=> 'YES',
 				'off-text'	=> 'NO'
-			) ).'
+			] ).'
 		</p>
-		'.new Code( "new Shiftbox( 'check2', 'on', TRUE, array(
+		'.new Code( "new Shiftbox( 'check2', 'on', TRUE, [
 	'size'		=> 'large',
 	'on-text'	=> 'YES',
 	'off-text'	=> 'NO'
-) );", FALSE, NULL, TRUE ).'
+] );", FALSE, NULL, TRUE ).'
 	</div>
 	<div>
 		<h3>Small and german on/off labels</h3>
 		<p>
-			'.new Shiftbox( 'check4', 'on', TRUE, array(
+			'.new Shiftbox( 'check4', 'on', TRUE, [
 				'size'			=> 'small',
 				'on-text'		=> 'an',
 				'off-text'		=> 'aus',
-			) ).'
+			] ).'
 		</p>
-		'.new Code( "new Shiftbox( 'check4', 'on', TRUE, array(
+		'.new Code( "new Shiftbox( 'check4', 'on', TRUE, [
 	'size'			=> 'small',
 	'on-text'		=> 'an',
 	'off-text'		=> 'aus'
-) );" ).'
+] );" ).'
 	</div>
 	<div>
 		<h3>Small and icon labels and button icon label</h3>
 		<p>
-			'.new Shiftbox( 'check4', 'on', TRUE, array(
+			'.new Shiftbox( 'check4', 'on', TRUE, [
 				'size'			=> 'small',
 				'label-text'	=> $iconSwitch,
 				'on-text'		=> $iconCheck,
 				'off-text'		=> $iconRemove
-			) ).'
+			] ).'
 		</p>
-		'.new Code( "new Shiftbox( 'check4', 'on', TRUE, array(
+		'.new Code( "new Shiftbox( 'check4', 'on', TRUE, [
 	'size'			=> 'small',
 	'label-text'	=> '".$iconSwitch."',
 	'on-text'		=> '".$iconCheck."',
 	'off-text'		=> '".$iconRemove."'
-) );" ).'
+] );" ).'
 	</div>
 	<div>
 		<h3>Different colors, small and german yes/no labels </h3>
 		<p>
 			<label class="checkbox">
-				'.new Shiftbox( 'check5', 'on', TRUE, array(
+				'.new Shiftbox( 'check5', 'on', TRUE, [
 					'size'			=> 'mini',
 					'on-color'		=> 'success',
 					'off-color'		=> 'danger',
 					'on-text'		=> '&nbsp;I&nbsp;',
 					'off-text'		=> '&nbsp;O&nbsp;',
 					'label-text'	=> $iconPower
-	 			) ).'&nbsp;
+	 			] ).'&nbsp;
 				This label will trigger the switch aswell.
 			</label>
 		</p>
-		'.new Code( "new Shiftbox( 'check5', 'on', TRUE, array(
+		'.new Code( "new Shiftbox( 'check5', 'on', TRUE, [
 	'size'			=> 'mini',
 	'on-color'		=> 'success',
 	'off-color'		=> 'danger',
 	'on-text'		=> '&nbsp;I&nbsp;',
 	'off-text'		=> '&nbsp;O&nbsp;',
 	'label-text'	=> ".$iconPower.",
-) );" ).'
+] );" ).'
 	</div>
 	<div>
 		<h3>All together now</h3>
 		<p>
 			<label class="checkbox">
-				'.new Shiftbox( 'check6', 'on', TRUE, array(
+				'.new Shiftbox( 'check6', 'on', TRUE, [
 					'size'			=> 'large',
 					'on-color'		=> 'success',
 					'off-color'		=> 'danger',
 					'on-text'		=> '&nbsp;I&nbsp;',
 					'off-text'		=> $iconCircle,
 					'label-text'	=> $iconPower
-	 			) ).'&nbsp;
+	 			] ).'&nbsp;
 				Label to describe switch and change switch on click.
 			</label>
 		</p>
 		'.new Code( "<?php
 require_once 'vendor/autoload.php';
 use \CeusMedia\Bootstrap\Shiftbox;
-\$input	= new Shiftbox( 'check6', 'on', TRUE, array(
+\$input	= new Shiftbox( 'check6', 'on', TRUE, [
 	'size'			=> 'large',
 	'on-color'		=> 'success',
 	'off-color'		=> 'danger',
 	'on-text'		=> '&nbsp;I&nbsp;',
 	'off-text'		=> '".$iconCircle."',
 	'label-text'	=> '".$iconPower."',
-) );" ).'
+] );" ).'
 		<p class="alert alert-warning">
 			Don\'t forget to load jQuery, Bootstrap 3 and Bootstrap Switcht for Bootstap 3!
 		</p>
@@ -175,13 +175,13 @@ $(document).ready(function(){
 
 
 $pathCDN	= "https://cdn.ceusmedia.de/";
-$scripts	= array(
+$scripts	= [
 	$pathCDN."js/jquery/1.10.2.js",
 	$pathCDN."js/bootstrap.min.js",
 	"../vendor/nostalgiaz/bootstrap-switch/dist/js/bootstrap-switch.min.js",
 #	"script.js",
-);
-$styles		= array(
+];
+$styles		= [
 	$pathCDN."css/bootstrap/2.3.2/bootstrap.min.css",
 //	$pathCDN."css/bootstrap/3.3.7/bootstrap.min.css",
 //	$pathCDN."css/bootstrap/4.0.0/bootstrap.min.css",
@@ -189,7 +189,7 @@ $styles		= array(
 	"../vendor/nostalgiaz/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css",
 	"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
 #	"style.css",
-);
+];
 
 /*  --  OUTPUT  --  */
 $page	= new UI_HTML_PageFrame();

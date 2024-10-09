@@ -1,12 +1,13 @@
-<?php
+<?php /** @noinspection PhpUnused */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
 
@@ -15,26 +16,26 @@ use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Button\Group as ButtonGroup;
 use CeusMedia\Bootstrap\Button\Link as ButtonLink;
 use CeusMedia\Bootstrap\Icon;
+use Exception;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmmodules/
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class PageControl extends Structure
 {
-	public $baseUrl;
-	public $page;
-	public $pages;
-	public $limit;
-	public $patternUrl;
-	public $patternIndicator;
-	public $size;
-	public $fragment;
+	public string $baseUrl;
+	public int $page;
+	public int $pages;
+	public string $patternUrl;
+	public string $patternIndicator;
+	public ?string $size				= NULL;
+	public string $fragment;
 
 	const SIZE_MINI			= 'mini';
 	const SIZE_SMALL		= 'small';
@@ -60,7 +61,7 @@ class PageControl extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -71,7 +72,7 @@ class PageControl extends Structure
 		$fragment	= $this->fragment ? "#".$this->fragment : "";
 		$part		= sprintf( $this->patternUrl, $page );
 		if( !$page && $this->patternUrl == "/%s" )
-			$part	= "";
+			$part	= '';
 		return $this->baseUrl.$part.$fragment;
 	}
 
@@ -84,46 +85,46 @@ class PageControl extends Structure
 		if( $this->pages <= 1 )
 			return "";
 		$size	= $this->size ? 'btn-'.$this->size : NULL;
-		$buttons	= array(
-			(object) array(
-				'url'		=> $this->getUrl( 0 ),
+		$buttons	= [
+			(object) [
+				'url'		=> $this->getUrl(),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'fast-backward' ),
 				'disabled'	=> $this->page === 0,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->page - 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'backward' ),
 				'disabled'	=> $this->page === 0,
-			),
-			(object) array(
+			],
+			(object) [
 				'label'		=> sprintf( $this->patternIndicator, $this->page + 1, $this->pages ),
 				'class'		=> $size.' page-indicator',
 				'icon'		=> NULL,
 				'disabled'	=> TRUE,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->page + 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'forward' ),
 				'disabled'	=> $this->page === $this->pages - 1,
-			),
-			(object) array(
+			],
+			(object) [
 				'url'		=> $this->getUrl( $this->pages - 1 ),
 				'label'		=> NULL,
 				'class'		=> $size,
 				'icon'		=> new Icon( 'fast-forward' ),
 				'disabled'	=> $this->page === $this->pages - 1,
-			),
-		);
+			],
+		];
 		$group		= new ButtonGroup();
 		foreach( $buttons as $button ){
 			if( isset( $button->url ) )
-				$button	= new ButtonLink( $button->url, $button->label, $button->class, $button->icon, $button->disabled );
+				$button	= new ButtonLink( $button->url, $button->label ?? '', $button->class, $button->icon, $button->disabled );
 			else
 				$button	= new Button( $button->label, $button->class, $button->icon, $button->disabled );
 			$group->add( $button );

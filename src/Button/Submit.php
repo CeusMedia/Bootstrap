@@ -1,52 +1,49 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
 
-use CeusMedia\Bootstrap\Base\Element;
-use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
-use CeusMedia\Bootstrap\Base\Aware\IconAware;
-use CeusMedia\Bootstrap\Button as BaseButton;
+use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
+use Stringable;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
- *	@deprecated		use Button with type TYPE_SUBMIT instead
  */
-class Submit extends Element
+class Submit extends Button
 {
-	use IconAware, DisabledAware;
-
-	protected $button;
-#	protected $confirm;
-#	protected $title;
-
-	public function __construct( $name, $content, $class = NULL, $icon = NULL, $disabled = FALSE )
-	{
-		$this->button	= new BaseButton( $content, $class, $icon, $disabled );
-		$this->button->setType( 'submit' );
-		$this->button->setName( $name );
-	}
-
 	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component
+	 *	@param		string|NULL					$name
+	 *	@param		Stringable|Renderable|string|NULL		$content
+	 *	@param		array|string|NULL			$class
+	 *	@param		Icon|string|NULL			$icon
+	 *	@param		bool						$disabled
 	 */
-	public function render(): string
+	public function __construct(
+		?string $name,
+		Stringable|Renderable|string|null $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
-		return $this->button->render();
+		parent::__construct( $content, $class, $icon, $disabled );
+		$this->setType( Button::TYPE_SUBMIT );
+		$this->setName( $name );
 	}
 }

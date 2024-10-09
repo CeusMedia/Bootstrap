@@ -1,12 +1,13 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Modal layer generator.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Modal;
@@ -17,35 +18,36 @@ use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Base\Aware\SizeAware;
-
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-use CeusMedia\Common\UI\HTML\Tag as Tag;
+use CeusMedia\Common\Renderable;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
-use RangeException;
+use Exception;
+use Stringable;
 
 /**
  *	Modal layer generator.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Dialog extends Structure
 {
 	use AriaAware, ClassAware, DataAware, IdAware, SizeAware;
 
-	const SIZE_DEFAULT					= '';
-	const SIZE_SMALL					= 'modal-sm';
-	const SIZE_MEDIUM					= 'modal-md';
-	const SIZE_LARGE					= 'modal-lg';
-	const SIZE_EXTRA_LARGE				= 'modal-xl';
+	public const SIZE_DEFAULT				= '';
+	public const SIZE_SMALL					= 'modal-sm';
+	public const SIZE_MEDIUM				= 'modal-md';
+	public const SIZE_LARGE					= 'modal-lg';
+	public const SIZE_EXTRA_LARGE			= 'modal-xl';
 
-	const SIZES							= [
+	public const SIZES						= [
 		self::SIZE_DEFAULT,
 		self::SIZE_SMALL,
 		self::SIZE_MEDIUM,
@@ -53,34 +55,38 @@ class Dialog extends Structure
 		self::SIZE_EXTRA_LARGE,
 	];
 
-	public static $defaultFade			= FALSE;
-	public static $defaultSize			= self::SIZE_MEDIUM;
+	public static bool $defaultFade			= FALSE;
+	public static string $defaultSize		= self::SIZE_MEDIUM;
 
-	protected $attributes				= array();
-	protected $fade						= FALSE;
-	protected $heading;
-	protected $body;
-	protected $formAction;
-	protected $formAttributes			= array();
-	protected $formIsUpload				= FALSE;
-	protected $formSubmit;
-	protected $buttonCloseClass			= 'btn';
-	protected $buttonCloseIconClass		= '';
-	protected $buttonCloseLabel			= 'close';
-	protected $buttonSubmitClass		= 'btn';
-	protected $buttonSubmitIconClass	= '';
-	protected $buttonSubmitLabel		= 'submit';
-	protected $headerCloseButtonIcon	= '×';
-	protected $useFooter				= TRUE;
-	protected $useHeader				= TRUE;
-	protected $dialogClass				= '';
+	/** @var Stringable|Renderable|string $heading */
+	protected Stringable|Renderable|string $heading		= '';
+
+	/** @var Stringable|Renderable|string $body */
+	protected Stringable|Renderable|string $body		= '';
+
+	protected array $attributes				= [];
+	protected string $buttonCloseClass		= 'btn';
+	protected string $buttonCloseIconClass	= '';
+	protected string $buttonCloseLabel		= 'close';
+	protected string $buttonSubmitClass		= 'btn';
+	protected string $buttonSubmitIconClass	= '';
+	protected string $buttonSubmitLabel		= 'submit';
+	protected string $headerCloseButtonIcon	= '×';
+	protected string $dialogClass			= '';
+	protected bool $fade					= FALSE;
+	protected ?string $formAction			= NULL;
+	protected array $formAttributes			= [];
+	protected bool $formIsUpload			= FALSE;
+	protected ?string $formOnSubmit			= NULL;
+	protected bool $useFooter				= TRUE;
+	protected bool $useHeader				= TRUE;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$id				ID of modal dialog container
+	 *	@param		string|NULL		$id		ID of modal dialog container
 	 */
-	public function __construct( $id = NULL )
+	public function __construct( ?string $id = NULL )
 	{
 		parent::__construct();
 		if( !is_null( $id ) )
@@ -98,7 +104,7 @@ class Dialog extends Structure
 		try{
 			return $this->render();
 		}
-		catch( \Exception $e ){
+		catch( Exception $e ){
 			print $e->getMessage();
 			exit;
 		}
@@ -106,14 +112,18 @@ class Dialog extends Structure
 
 	/**
 	 *	Create modal trigger object by static call.
-	 *	For arguments see code doc of contructor.
+	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for chainability
+	 *	@return		self		Modal trigger instance for method chaining
+	 * @noinspection PhpDocMissingThrowsInspection
 	 */
 	public static function create(): self
 	{
-		return ObjectFactory::createObject( static::class, func_get_args() );
+		/** @var self $dialog */
+		/** @noinspection PhpUnhandledExceptionInspection */
+		$dialog	= ObjectFactory::createObject( static::class, func_get_args() );
+		return $dialog;
 	}
 
 	/**
@@ -123,19 +133,19 @@ class Dialog extends Structure
 	 */
 	public function render(): string
 	{
-		$body		= Tag::create( 'div', $this->body, array(
+		$body		= HtmlTag::create( 'div', $this->body, [
 			'class'	=> 'modal-body',
-		) );
+		] );
 		$footer		= $this->renderFooter();
 		$header		= $this->renderHeader();
-		$attributes	= array(
+		$attributes	= [
 			'id'				=> $this->id,
 			'class'				=> 'modal hide'.( $this->fade ? ' fade' : '' ),
 			'tabindex'			=> '-1',
 			'role'				=> 'dialog',
 			'aria-hidden'		=> 'true',
 			'aria-labelledby'	=> 'myModalLabel',
-		);
+		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
 				case 'id':
@@ -144,30 +154,29 @@ class Dialog extends Structure
 				case 'aria-hidden':
 					break;
 				case 'class':
-					$attributes['class']	.= strlen( trim( $value ) ) ? ' '.$value : '';
+					$attributes['class']	.= strlen( trim( (string) $value ) ) ? ' '.$value : '';
 					break;
 				default:
 					$attributes[$key]	= $value;
 			}
 		}
-		$content	= array( $header, $body, $footer );
-		if( version_compare( $this->bsVersion, "4", '>=' ) === TRUE ){
-			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-content' ) );
-			$content	= Tag::create( 'div', $content, array( 'class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document' ) );
+		$content	= [$header, $body, $footer];
+		if( TRUE === version_compare( $this->bsVersion, '4', '>=' ) ){
+			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-content'] );
+			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document'] );
 		}
-		$modal	= Tag::create( 'div', array( $content ), $attributes );
-		if( $this->formAction ){
-			$attributes	= array_merge( $this->formAttributes, array(
+		$modal	= HtmlTag::create( 'div', [$content], $attributes );
+		if( $this->formAction !== NULL ){
+			$attributes	= array_merge( $this->formAttributes, [
 				'action'	=> $this->formAction,
 				'method'	=> 'POST',
 				'enctype'	=> $this->formIsUpload ? 'multipart/form-data' : NULL,
-				'onsubmit'	=> $this->formSubmit ? $this->formSubmit.'; return false;' : NULL,
-			) );
-			$modal	= Tag::create( 'form', $modal, $attributes );
+				'onsubmit'	=> NULL !== $this->formOnSubmit ? $this->formOnSubmit.'; return false;' : NULL,
+			] );
+			$modal	= HtmlTag::create( 'form', $modal, $attributes );
 		}
 		return $modal;
 	}
-
 
 	/**
 	 *	Sets additional modal attributes.
@@ -177,7 +186,7 @@ class Dialog extends Structure
 	 *	@param		array		$attributes		Map of button attributes
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes ): self
+	public function setAttributes( array $attributes ): self
 	{
 		$this->attributes	= $attributes;
 		return $this;
@@ -186,11 +195,11 @@ class Dialog extends Structure
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$body			...
+	 *	@param		Stringable|Renderable|string		$body			...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setBody( $body ): self
+	public function setBody( Stringable|Renderable|string $body ): self
 	{
 		$this->body		= $body;
 		return $this;
@@ -203,7 +212,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCentered( $centered ): self
+	public function setCentered( bool $centered ): self
 	{
 		$class	= 'modal-dialog-centered';
 		$centered ? $this->addClass( $class ) : $this->removeClass( $class );
@@ -217,7 +226,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonClass( $class ): self
+	public function setCloseButtonClass( string $class ): self
 	{
 		$this->buttonCloseClass	= $class;
 		return $this;
@@ -230,7 +239,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonIconClass( $class ): self
+	public function setCloseButtonIconClass( string $class ): self
 	{
 		$this->buttonCloseIconClass	= $class;
 		return $this;
@@ -243,7 +252,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonLabel( $label ): self
+	public function setCloseButtonLabel( string $label ): self
 	{
 		$this->buttonCloseLabel	= $label;
 		return $this;
@@ -256,7 +265,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setDialogClass( $class ): self
+	public function setDialogClass( string $class ): self
 	{
 		$this->dialogClass	= $class;
 		return $this;
@@ -269,7 +278,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setFade( $fade ): self
+	public function setFade( bool $fade ): self
 	{
 		$this->fade	= $fade;
 		return $this;
@@ -279,36 +288,51 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$action			...
+	 *	@param		array		$attributes		...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setFormAction( $action, $attributes = array() ): self
+	public function setFormAction( string $action, array $attributes = [] ): self
 	{
 		$this->formAction		= $action;
 		$this->formAttributes	= $attributes;
 		return $this;
 	}
 
-	public function setFormIsUpload( $isUpload = TRUE ): self
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		bool		$isUpload		...
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function setFormIsUpload( bool $isUpload = TRUE ): self
 	{
-		$this->formIsUpload		= (bool) $isUpload;
-		return $this;
-	}
-
-	public function setFormSubmit( $onSubmit ): self
-	{
-		$this->formSubmit	= $onSubmit;
+		$this->formIsUpload		= $isUpload;
 		return $this;
 	}
 
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$heading		...
+	 *	@param		string|NULL		$onSubmit		...
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeading( $heading ): self
+	public function setFormSubmit( ?string $onSubmit ): self
+	{
+		$this->formOnSubmit	= $onSubmit;
+		return $this;
+	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		Stringable|Renderable|string		$heading		...
+	 *	@return		self
+	 *	@todo		code doc
+	 */
+	public function setHeading( Stringable|Renderable|string $heading ): self
 	{
 		$this->heading		= $heading;
 		return $this;
@@ -321,7 +345,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setHeaderCloseButtonIcon( $icon ): self
+	public function setHeaderCloseButtonIcon( string $icon ): self
 	{
 		$this->headerCloseButtonIcon	= $icon;
 		return $this;
@@ -334,7 +358,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonClass( $class ): self
+	public function setSubmitButtonClass( string $class ): self
 	{
 		$this->buttonSubmitClass	= $class;
 		return $this;
@@ -347,7 +371,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonIconClass( $class ): self
+	public function setSubmitButtonIconClass( string $class ): self
 	{
 		$this->buttonSubmitIconClass	= $class;
 		return $this;
@@ -360,7 +384,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonLabel( $label ): self
+	public function setSubmitButtonLabel( string $label ): self
 	{
 		$this->buttonSubmitLabel	= $label;
 		return $this;
@@ -373,7 +397,7 @@ class Dialog extends Structure
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function useFooter( $use ): self
+	public function useFooter( bool $use = TRUE ): self
 	{
 		$this->useFooter	= $use;
 		return $this;
@@ -384,9 +408,8 @@ class Dialog extends Structure
 	 *	@access		public
 	 *	@param		boolean		$use		Flag: use header (default: yes)
 	 *	@return		self
-	 *	@todo		code doc
 	 */
-	public function useHeader( $use ): self
+	public function useHeader( bool $use = TRUE ): self
 	{
 		$this->useHeader	= $use;
 		return $this;
@@ -416,26 +439,20 @@ class Dialog extends Structure
 		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
 		$buttonSubmit->setType( Button::TYPE_SUBMIT );
 		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
-		$footer		= Tag::create( 'div', array( $buttonClose, $buttonSubmit ), array(
-			'class'	=> 'modal-footer',
-		) );
-		return $footer;
+		return HtmlTag::create( 'div', [$buttonClose, $buttonSubmit], ['class' => 'modal-footer'] );
 	}
 
 	protected function renderHeader(): string
 	{
 		if( !$this->useHeader )
 			return '';
-		$buttonClose	= Tag::create( 'button', $this->headerCloseButtonIcon, array(
+		$buttonClose	= HtmlTag::create( 'button', $this->headerCloseButtonIcon, [
 			'type'			=> 'button',
 			'class'			=> 'close',
 			'data-dismiss'	=> 'modal',
 			'aria-hidden'	=> 'true',
-		) );
-		$heading	= Tag::create( 'h3', $this->heading, array( 'id' => $this->id.'-label' ) );
-		$header		= Tag::create( 'div', array( $heading, $buttonClose ), array(
-			'class'	=> 'modal-header',
-		) );
-		return $header;
+		] );
+		$heading	= HtmlTag::create( 'h3', $this->heading, ['id' => $this->id.'-label'] );
+		return HtmlTag::create( 'div', [$heading, $buttonClose], ['class' => 'modal-header'] );
 	}
 }

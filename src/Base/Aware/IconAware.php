@@ -5,18 +5,20 @@ use CeusMedia\Bootstrap\Icon;
 
 trait IconAware
 {
-	protected $icon		= NULL;
+	/**	@var	Icon|string|null		$icon  */
+	protected Icon|string|null $icon		= NULL;
 
 	/**
-	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		string|NULL			$style
+	 *	@param		string|NULL			$size
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function setIcon( $icon, $white = FALSE ): self
+	public function setIcon( Icon|string|null $icon, ?string $style = NULL, ?string $size = NULL ): static
 	{
-		if( $icon && !( $icon instanceof Icon ) ){
-			$icon	= new Icon( $icon, $white );
-		}
-		$this->icon	= $icon;
+		if( NULL !== $icon && !( $icon instanceof Icon ) && 0 !== strlen( $icon ) )
+			$icon	= new Icon( $icon, $style, $size );
+		$this->icon			= $icon;
 		return $this;
 	}
 }

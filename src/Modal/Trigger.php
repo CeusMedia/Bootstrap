@@ -1,12 +1,13 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Modal trigger generator.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Modal;
@@ -22,8 +23,10 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
 use RangeException;
+use ReflectionException;
 use RuntimeException;
 
+use Stringable;
 use function sprintf;
 
 /**
@@ -31,30 +34,29 @@ use function sprintf;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger
+class Trigger implements Stringable
 {
 	use IdAware, ClassAware, IconAware;
 
-	protected $attributes	= array();
-	protected $icon;
-	protected $iconSize;
-	protected $iconStyle;
-	protected $label;
-	protected $modalId;
-	protected $type			= "button";
+	protected array $attributes		= [];
+	protected ?string $label		= NULL;
+	protected ?string $modalId		= NULL;
+	protected string $type			= "button";
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$modalId		ID of modal dialog container
-	 *	@param		string		$label			Label of trigger
+	 *	@param		string|NULL			$modalId		ID of modal dialog container
+	 *	@param		string|NULL			$label			Label of trigger
+	 *	@param		string|array|NULL	$class
+	 *	@param		Icon|string|NULL	$icon
 	 *	@return		void
 	 */
-	public function __construct( $modalId = NULL, $label = NULL, $class = NULL, $icon = NULL )
+	public function __construct( ?string $modalId = NULL, ?string $label = NULL, $class = NULL, $icon = NULL )
 	{
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
@@ -68,14 +70,17 @@ class Trigger
 
 	/**
 	 *	Create modal trigger object by static call.
-	 *	For arguments see code doc of contructor.
+	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for chainability
+	 *	@return		self		Modal trigger instance for method chaining
+	 *	@throws		ReflectionException
 	 */
 	public static function create(): self
 	{
-		return ObjectFactory::createObject( static::class, func_get_args() );
+		/** @var Trigger $trigger */
+		$trigger	= ObjectFactory::createObject( static::class, func_get_args() );
+		return $trigger;
 	}
 
 	/**
@@ -93,15 +98,15 @@ class Trigger
 		}
 	}
 
-	public function asButton( $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): self
 	{
-		$this->type		= (bool) $asButton ? "button" : "link";
+		$this->type		= $asButton ? "button" : "link";
 		return $this;
 	}
 
-	public function asLink( $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): self
 	{
-		$this->type		= (bool) $asLink ? "link" : "button";
+		$this->type		= $asLink ? "link" : "button";
 		return $this;
 	}
 
@@ -119,13 +124,13 @@ class Trigger
 			throw new RuntimeException( 'No label set' );
 		if( !$this->modalId )
 			throw new RuntimeException( 'No modal ID set' );
-		$attributes	= array(
+		$attributes	= [
 			'id'			=> $this->id,
 			'href'			=> "#".$this->modalId,
 			'role'			=> "button",
 			'class'			=> "btn ".join( ' ', $this->classes ),
 			'data-toggle'	=> "modal",
-		);
+		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
 				case 'id':
@@ -141,21 +146,13 @@ class Trigger
 			}
 		}
 		$label	= $this->label;
-		if( $this->icon ){
-			$icon	= $this->icon;
-			if( !is_object( $icon ) )
-				$icon	= Icon::create(
-					$icon,
-					$this->iconStyle,
-					$this->iconSize
-				);
-			$label	= $icon.'&nbsp;'.$label;
-		}
+		if( $this->icon )
+			$label	= $this->icon.'&nbsp;'.$label;
 
 		if( $this->type === 'link' )
 			return HtmlTag::create( 'a', $label, $attributes );
 		if( $this->type === 'button' ){
-			$attributes	= array_merge( $attributes, array( 'type' => 'button' ) );
+			$attributes	= array_merge( $attributes, ['type' => 'button'] );
 			return HtmlTag::create( 'button', $label, $attributes );
 		}
 		throw new RangeException( sprintf( 'Unsupported type: %s', $this->type ) );
@@ -169,17 +166,9 @@ class Trigger
 	 *	@param		array		$attributes		Map of button attributes
 	 *	@return		self
 	 */
-	public function setAttributes( $attributes ): self
+	public function setAttributes( array $attributes ): self
 	{
 		$this->attributes	= $attributes;
-		return $this;
-	}
-
-	public function setIcon( $icon, $style = NULL, $size = NULL ): self
-	{
-		$this->icon			= $icon;
-		$this->iconStyle	= $style;
-		$this->iconSize		= $size;
 		return $this;
 	}
 
@@ -190,7 +179,7 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setLabel( $label ): self
+	public function setLabel( string $label ): self
 	{
 		$this->label	= $label;
 		return $this;
@@ -203,7 +192,7 @@ class Trigger
 	 *	@return		self
 	 *	@todo		code doc
 	 */
-	public function setModalId( $modalId ): self
+	public function setModalId( string $modalId ): self
 	{
 		$this->modalId	= $modalId;
 		return $this;

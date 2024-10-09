@@ -1,4 +1,11 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
+use CeusMedia\Common\Net\HTTP\Request\Receiver as Request;
+use CeusMedia\Common\UI\HTML\Elements as Elements;
+use CeusMedia\Common\UI\HTML\PageFrame;
+use CeusMedia\Common\UI\HTML\Tag as Tag;
+
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
 
 error_reporting( E_ALL );
@@ -6,19 +13,15 @@ ini_set( 'display_errors', 'On' );
 //namespace CeusMedia\Bootstrap;
 //use \CeusMedia\Bootstrap;
 
-use \UI_HTML_Tag as Tag;
-use \UI_HTML_Elements as Elements;
-
-use \Net_HTTP_Request_Receiver as Request;
-new \UI_DevOutput();
+new CeusMedia\Common\UI\DevOutput();
 
 error_reporting( E_ALL );
 ini_set( 'display_errors', TRUE );
 
-$versions	= array(
+$versions	= [
 	'2.3.2',
 	'4.4.1',
-);
+];
 
 $request	= new Request();
 
@@ -77,7 +80,7 @@ $body	= Tag::create( 'div', [
 $cdnBaseUrl	= 'https://cdn.ceusmedia.de/';
 //$cdnBaseUrl	= 'http://localhost/lib/GitHub/CeusMedia/AssetLibrary';
 
-$page		= new UI_HTML_PageFrame();
+$page		= new PageFrame();
 $page->addBody( BootstrapVersionProcessor::process( $body, $version ) );
 $page->addJavaScript( $cdnBaseUrl.'js/jquery/1.10.2.min.js' );
 if( $isBs4 ){

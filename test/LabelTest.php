@@ -1,37 +1,51 @@
-<?php
-use CeusMedia\Bootstrap\Label;
+<?php /** @noinspection ALL */
 
-class LabelTest extends PHPUnit\Framework\TestCase
+namespace CeusMedia\BootstrapTest;
+
+use CeusMedia\Bootstrap\Label;
+use CeusMedia\Common\Renderable;
+use PHPUnit\Framework\TestCase;
+use Stringable;
+
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Label
+ */
+class LabelTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$text	= 'Label Text';
 		$label	= new UnprotectedLabel( $text );
 
-		$this->assertEquals( $text, $label->getContent() );
-		$this->assertEquals( [], $label->getClasses() );
+		self::assertEquals( $text, $label->getContent() );
+		self::assertEquals( [], $label->getClasses() );
 
 		$class	= Label::CLASS_WARNING;
 		$label	= new UnprotectedLabel( $text, $class );
-		$this->assertEquals( [$class], $label->getClasses() );
+		self::assertEquals( [$class], $label->getClasses() );
 	}
 
 	/**
 	 *	@covers		::render
+	 *	@return		void
 	 */
-	public function testRender()
+	public function testRender(): void
 	{
 		$text	= 'Label Text';
 		$label	= new UnprotectedLabel( $text );
 
 		$expected	= '<span class="label">Label Text</span>';
-		$this->assertEquals( $expected, $label->render() );
+		self::assertEquals( $expected, $label->render() );
 
 		$class	= Label::CLASS_SUCCESS;
 		$label	= new UnprotectedLabel( $text, $class );
 
 		$expected	= '<span class="label label-success">Label Text</span>';
-		$this->assertEquals( $expected, $label->render() );
+		self::assertEquals( $expected, $label->render() );
 	}
 }
 
@@ -42,7 +56,7 @@ class UnprotectedLabel extends Label
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

@@ -5,7 +5,7 @@ use CeusMedia\Bootstrap\Button;
 
 trait NameAware
 {
-	protected $name;
+	protected ?string $name		= NULL;
 
 	/**
 	 *	Returns set name or NULL.
@@ -21,12 +21,13 @@ trait NameAware
 	 *	Sets name of input element.
 	 *	Also sets its ID to 'input_{{name}}' if not a button. Use setId to set a custom ID.
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string|NULL		$name		Name of input elementname of input element.
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function setName( ?string $name = NULL ): self
+	public function setName( ?string $name = NULL ): static
 	{
 		$this->name	= $name;
-		if( static::class !== Button::class )
+		if( !is_a( $this, Button::class ) )
 			$this->setId( $name ? 'input_'.$name : "" );
 		return $this;
 	}

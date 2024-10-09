@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown;
@@ -16,24 +17,42 @@ use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Button as TriggerButton;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
+use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
+use Stringable;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Trigger extends Structure
 {
 	use ContentAware, ClassAware, IconAware;
 
-	protected $caret;
-	protected $type		= "button";
+	protected bool $caret;
+	protected string $type		= "button";
 
-	public function __construct( $label, $class = NULL, $icon = NULL, $caret = TRUE ){
+	/**
+	 *	Constructor.
+	 *	@param		Stringable|Renderable|string|array|NULL	$label
+	 *	@param		array|string|NULL				$class
+	 *	@param		Icon|string|NULL				$icon
+	 *	@param		bool							$caret
+	 *	@return		void
+	 */
+	public function __construct(
+		Stringable|Renderable|string|array|null $label,
+		array|string $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $caret = TRUE
+	)
+	{
+		parent::__construct();
 		$this->setContent( $label );
 		$this->setClass( $class );
 		$this->setIcon( $icon );
@@ -57,19 +76,21 @@ class Trigger extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		bool		$asButton
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function asButton( $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): self
 	{
-		$this->type		= (bool) $asButton ? "button" : "link";
+		$this->type		= $asButton ? "button" : "link";
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		bool		$asLink
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function asLink( $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): self
 	{
 		$this->type		= (bool) $asLink ? "link" : "button";
 		return $this;
@@ -81,14 +102,10 @@ class Trigger extends Structure
 	 */
 	public function render(): string
 	{
-		switch( $this->type ){
-			case "button":
-				$trigger	= new TriggerButton( $this->content, $this->classes, $this->icon, $this->caret );
-				break;
-			case "link":
-			default:
-				$trigger	= new TriggerLink( $this->content, $this->classes, $this->icon, $this->caret );
-		}
-		return $trigger;
+		$trigger	= match( $this->type ){
+			"button"	=> new TriggerButton( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
+			default		=> new TriggerLink( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
+		};
+		return $trigger->render();
 	}
 }

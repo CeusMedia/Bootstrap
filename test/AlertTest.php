@@ -1,26 +1,39 @@
 <?php
-use CeusMedia\Bootstrap\Alert;
+namespace CeusMedia\BootstrapTest;
 
-class AlertTest extends PHPUnit\Framework\TestCase
+use CeusMedia\Bootstrap\Alert;
+use CeusMedia\Common\Renderable;
+use PHPUnit\Framework\TestCase;
+use Stringable;
+
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Alert
+ */
+class AlertTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$label	= 'Alert Message';
 		$class	= Alert::CLASS_SUCCESS;
 		$alert	= new UnprotectedAlert( $label, $class );
 
-		$this->assertEquals( $label, $alert->getContent() );
-		$this->assertEquals( explode( ' ', $class ), $alert->getClasses() );
+		self::assertEquals( $label, $alert->getContent() );
+		self::assertEquals( explode( ' ', $class ), $alert->getClasses() );
 
 		$class	= Alert::CLASS_ERROR;
 		$alert	= new UnprotectedAlert( $label, $class );
-		$this->assertEquals( explode( ' ', $class ), $alert->getClasses() );
+		self::assertEquals( explode( ' ', $class ), $alert->getClasses() );
 	}
 
 	/**
-	 *	@covers		::render
+	 *	@covers		::useDismiss
+	 *	@return		void
 	 */
-	public function testUseDismiss()
+	public function testUseDismiss(): void
 	{
 		$label	= 'Alert Message';
 		$class	= Alert::CLASS_SUCCESS;
@@ -28,12 +41,12 @@ class AlertTest extends PHPUnit\Framework\TestCase
 		$alert->useDismiss( TRUE );
 
 		$expected	= '<div class="alert alert-success" role="alert"><a href="#" class="close" data-dismiss="alert">&times;</a>Alert Message</div>';
-		$this->assertEquals( $expected, $alert->render() );
+		self::assertEquals( $expected, $alert->render() );
 
 		$alert->useDismiss( FALSE );
 
 		$expected	= '<div class="alert alert-success" role="alert">Alert Message</div>';
-		$this->assertEquals( $expected, $alert->render() );
+		self::assertEquals( $expected, $alert->render() );
 	}
 }
 
@@ -44,7 +57,7 @@ class UnprotectedAlert extends Alert
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

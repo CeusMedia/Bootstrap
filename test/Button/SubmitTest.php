@@ -1,16 +1,20 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
-namespace CeusMedia\BootstrapTest;
+declare(strict_types=1);
+
+namespace CeusMedia\BootstrapTest\Button;
 
 use CeusMedia\Bootstrap\Button;
+use CeusMedia\Bootstrap\Button\Submit as SubmitButton;
 use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
 /**
- * @coversDefaultClass	\CeusMedia\Bootstrap\Button
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Button\Submit
  */
-class ButtonTest extends TestCase
+class SubmitTest extends TestCase
 {
 	/**
 	 *	@covers		::__construct
@@ -18,14 +22,16 @@ class ButtonTest extends TestCase
 	 */
 	public function testConstruct(): void
 	{
+		$name	= 'save';
 		$label	= 'Button Label';
-		$button	= new UnprotectedButton( $label );
+		$button	= new UnprotectedSubmitButton( $name, $label );
 
+		self::assertEquals( $name, $button->getName() );
 		self::assertEquals( $label, $button->getContent() );
 		self::assertEquals( [], $button->getClasses() );
 
 		$class	= Button::STATE_PRIMARY;
-		$button	= new UnprotectedButton( $label, $class );
+		$button	= new UnprotectedSubmitButton( $name, $label, $class );
 		self::assertEquals( [$class], $button->getClasses() );
 	}
 
@@ -35,14 +41,15 @@ class ButtonTest extends TestCase
 	 */
 	public function testRender(): void
 	{
+		$name	= 'save';
 		$label	= 'Button Label';
-		$button	= new Button( $label );
+		$button	= new SubmitButton( $name, $label );
 
-		$expected	= '<button type="button" class="btn">Button Label</button>';
+		$expected	= '<button name="save" type="submit" class="btn">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
 
-		$button		= new Button( $label, Button::STATE_PRIMARY );
-		$expected	= '<button type="button" class="btn btn-primary">Button Label</button>';
+		$button		= new SubmitButton( $name, $label, Button::STATE_PRIMARY );
+		$expected	= '<button name="save" type="submit" class="btn btn-primary">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
 	}
 
@@ -53,7 +60,7 @@ class ButtonTest extends TestCase
 	 */
 	public function testSetSize(): void
 	{
-		$button	= new UnprotectedButton( 'SizeAware' );
+		$button	= new UnprotectedSubmitButton( 'sizeTest', 'SizeAware' );
 
 		self::assertEquals( [], $button->getClasses() );
 		self::assertEquals( 'SIZE_DEFAULT', $button->getSize() );
@@ -77,7 +84,7 @@ class ButtonTest extends TestCase
 	 */
 	public function testSetBlock(): void
 	{
-		$button	= new UnprotectedButton( 'Block Button' );
+		$button	= new UnprotectedSubmitButton( 'blockTest', 'Block Button' );
 		self::assertEquals( [], $button->getClasses() );
 
 		$button->setBlock();
@@ -94,20 +101,9 @@ class ButtonTest extends TestCase
 		$button->setBlock( FALSE );
 		self::assertEquals( ['btn-large', 'btn-lg'], $button->getClasses() );
 	}
-
-	/**
-	 *	@covers		::setType
-	 *	@return		void
-	 */
-	public function testSetType(): void
-	{
-		self::markTestSkipped();
-//		$button	= new UnprotectedButton( 'Typed Button' );
-
-	}
 }
 
-class UnprotectedButton extends Button
+class UnprotectedSubmitButton extends SubmitButton
 {
 	public function getClasses(): array
 	{

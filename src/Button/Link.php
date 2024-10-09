@@ -1,11 +1,13 @@
-<?php
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
@@ -13,9 +15,11 @@ namespace CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
-use CeusMedia\Bootstrap\Icon;
 
+use CeusMedia\Bootstrap\Icon;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 use function addslashes;
 use function join;
@@ -25,23 +29,37 @@ use function join;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Link extends Element
 {
 	use DisabledAware, IconAware;
 
-	protected $confirm;
-	protected $url;
-	protected $title;
+	protected ?string $confirm		= NULL;
+	protected ?string $title		= NULL;
+	protected string $url;
 
-	public function __construct( string $url, $content, $class = NULL, $icon = NULL, bool $disabled = FALSE )
+	/**
+	 *	@param		string					$url
+	 *	@param		Stringable|Renderable|string		$content
+	 *	@param		array|string|NULL		$class
+	 *	@param		Icon|string|NULL		$icon
+	 *	@param		bool					$disabled
+	 */
+	public function __construct(
+		string $url,
+		Stringable|Renderable|string $content,
+		array|string|null $class = NULL,
+		Icon|string|null $icon = NULL,
+		bool $disabled = FALSE
+	)
 	{
 		parent::__construct( $content, $class );
 		$this->setUrl( $url );
-		$this->setIcon( $icon );
+		if( NULL !== $icon )
+			$this->setIcon( $icon );
 		$this->setDisabled( $disabled );
 	}
 
@@ -51,14 +69,14 @@ class Link extends Element
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'id'		=> $this->id,
 			'class'		=> 'btn '.join( ' ', $this->classes ),
 			'href'		=> $this->url,
 			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
 			'role'		=> 'button',
 			'onclick'	=> NULL,
-		);
+		];
 		if( $this->confirm ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}
@@ -70,15 +88,17 @@ class Link extends Element
 			$attributes['onclick']	= NULL;
 		}
 		$this->extendAttributesByEvents( $attributes );
-		$icon	= $this->icon ? $this->icon->render() : '';
-		if( strlen( $icon ) > 0 && strlen( $this->content ) > 0 )
+		$icon		= (string) $this->icon;
+		$content	= $this->getContentAsString();
+		if( 0 !== strlen( $icon ) && 0 !== strlen( $content ) )
 			$icon	.= ' ';
-		return HtmlTag::create( 'a', $icon.$this->content, $attributes );
+		return HtmlTag::create( 'a', $icon.$content, $attributes );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string|NULL		$message
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setConfirm( ?string $message = NULL ): self
 	{
@@ -88,7 +108,8 @@ class Link extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string		$title
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setTitle( string $title ): self
 	{
@@ -98,7 +119,8 @@ class Link extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string		$url
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function setUrl( string $url ): self
 	{

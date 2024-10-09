@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2013-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@link			https://github.com/nostalgiaz/bootstrap-switch	requires Bootstrap Switch URL description
  *	@see			http://www.larentis.eu/switch/					original examples
@@ -18,32 +19,56 @@ use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
 
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use Stringable;
 
 /**
  *	Replacement for checkbox inputs.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2013-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Checkbox extends Structure
 {
 	use DataAware, IdAware, NameAware;
 
+	/** @var	string|int|float|NULL		$value */
 	protected $value;
-	protected $options;
-	protected $label;
-	protected $icon;
-	protected $checked;
 
-	public function __construct( $name = NULL, $value = NULL, $checked = NULL, $label = NULL, $icon = 'fa fa-check', $data = array() )
+	/** @var	Stringable|Renderable|string|NULL		$label */
+	protected $label;
+
+	/** @var	string						$label */
+	protected string $icon;
+
+	/** @var	bool						$checked */
+	protected bool $checked;
+
+	/**
+	 *	@param		string|NULL				$name
+	 *	@param		string|int|float|NULL	$value
+	 *	@param		bool					$checked
+	 *	@param		Stringable|Renderable|string|NULL	$label
+	 *	@param		string					$icon
+	 *	@param		array					$data
+	 */
+	public function __construct(
+		?string $name = NULL,
+		string|int|float|null $value = NULL,
+		bool $checked = FALSE,
+		Stringable|Renderable|string|null $label = NULL,
+		string $icon = 'fa fa-check',
+		array $data = []
+	)
 	{
 		parent::__construct();
 		$this->setName( $name );
-		$this->setValue( $value );
+		if( NULL !== $value )
+			$this->setValue( $value );
 		$this->setChecked( $checked );
 		$this->label	= $label;
 		$this->icon		= $icon;
@@ -57,26 +82,28 @@ class Checkbox extends Structure
 	 */
 	public function render(): string
 	{
-		$attributes	= array(
+		$attributes	= [
 			'type'		=> 'checkbox',
 			'name'		=> $this->name,
 			'id'		=> $this->id,
 			'value'		=> $this->value,
 			'checked'	=> $this->checked ? "checked" : NULL,
-		);
+		];
 		$this->extendAttributesByData( $attributes );
-		$input			= HtmlTag::create( 'input', NULL, $attributes );
-		$icon			= HtmlTag::create( 'i', '', array( 'class' => "cr-icon ".$this->icon ) );
-		$overlay		= HtmlTag::create( 'span', $icon, array( 'class' => "cr" ) );
-		$label			= HtmlTag::create( 'label', $input.$overlay.$this->label );
-		return HtmlTag::create( 'div', $label, array( 'class' => 'checkbox' ) );
+		$label		= $this->realizeRenderableOrStringableProperty( 'label' );
+		$input		= HtmlTag::create( 'input', NULL, $attributes );
+		$icon		= HtmlTag::create( 'i', '', ['class' => "cr-icon ".$this->icon] );
+		$overlay	= HtmlTag::create( 'span', $icon, ['class' => "cr"] );
+		$label		= HtmlTag::create( 'label', $input.$overlay.$label );
+		return HtmlTag::create( 'div', $label, ['class' => 'checkbox'] );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		bool		$checked
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setChecked( $checked ): self
+	public function setChecked( bool $checked ): self
 	{
 		$this->checked	= $checked;
 		return $this;
@@ -84,11 +111,14 @@ class Checkbox extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string|int|float		$value
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setValue( $value ): self
+	public function setValue( string|int|float $value ): self
 	{
-		$this->value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+		if( is_string( $value ) )
+			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+		$this->value	= $value;
 		return $this;
 	}
 }

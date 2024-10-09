@@ -1,20 +1,22 @@
-<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+<?php /** @noinspection PhpUnused */
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Base;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-
+use CeusMedia\Common\Renderable;
 use Exception;
-
+use ReflectionException;
+use Stringable;
 use function func_get_args;
 
 /**
@@ -22,22 +24,12 @@ use function func_get_args;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Structure
+abstract class Structure extends Abstraction implements Renderable, Stringable
 {
-	public static string $version			= "0.5.2";
-	public static string $defaultBsVersion	= "2.3.2";
-
-	protected string $bsVersion;
-
-	public function __construct()
-	{
-		$this->bsVersion		= static::$defaultBsVersion;
-	}
-
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
@@ -52,56 +44,23 @@ abstract class Structure
 			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
 //			print $e->getMessage();																//  if app is still alive: print exception message
 //			exit;																				//  if app is still alive: exit application
-			return '';
+//			return '';
 		}
 	}
 
 	/**
 	 *	Create icon object by static call.
-	 *	For arguments see code doc of contructor.
+	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Icon instance for chainability
+	 *	@return		self		Icon instance for method chaining
+	 *	@throws		ReflectionException
 	 */
-	static public function create(): self
+	public static function create(): self
 	{
-		return ObjectFactory::createObject( static::class, func_get_args() );
-	}
-
-	/**
-	 *	Returns version of installed library.
-	 *	@access		public
-	 *	@static
-	 *	@return		string		Version of installed library.
-	 */
-	public static function getVersion(): string
-	{
-		return static::$version;
-	}
-
-	/**
-	 *	Indicates whether a version is supported by installed library.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$version		Version to check against
-	 *	@return		bool
-	 */
-	public static function supportsVersion( $version, $installVersion = NULL ): bool
-	{
-		$installVersion	= !is_null( $installVersion ) ? $installVersion : static::$version;
-		return version_compare( $version, $installVersion, '>=' );
-	}
-
-	/**
-	 *	@abstract				To be implemented by derived components
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component
-	 */
-	abstract public function render();
-
-	public function setBsVersion( string $bsVersion ): self
-	{
-		$this->bsVersion	= $bsVersion;
-		return $this;
+		/** @noinspection PhpUnhandledExceptionInspection */
+		/** @var self $structure */
+		$structure	= ObjectFactory::createObject( static::class, func_get_args() );
+		return $structure;
 	}
 }

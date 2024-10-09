@@ -1,18 +1,31 @@
-<?php
-use CeusMedia\Bootstrap\Link;
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
-class LinkTest extends PHPUnit\Framework\TestCase
+namespace CeusMedia\BootstrapTest;
+
+use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\Renderable;
+use PHPUnit\Framework\TestCase;
+use Stringable;
+
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Link
+ */
+class LinkTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$href	= 'https://example.com/link';
 		$label	= 'Link Label';
 		$class	= 'btn btn-small btn-danger';
 		$link	= new UnprotectedLink( $href, $label, $class );
 
-		$this->assertEquals( $href, $link->getUrl() );
-		$this->assertEquals( $label, $link->getContent() );
-		$this->assertEquals( explode( ' ', $class ), $link->getClasses() );
+		self::assertEquals( $href, $link->getUrl() );
+		self::assertEquals( $label, $link->getContent() );
+		self::assertEquals( explode( ' ', $class ), $link->getClasses() );
 	}
 }
 
@@ -23,7 +36,7 @@ class UnprotectedLink extends Link
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

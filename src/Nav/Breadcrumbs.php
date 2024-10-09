@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
@@ -24,22 +25,27 @@ use Exception;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 {@link https://ceusmedia.de/ Ceus Media}
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 class Breadcrumbs extends Structure
 {
 	use ClassAware;
 
-	protected $crumbs;
-	protected $divider;
+	protected array $crumbs		= [];
+	protected string $divider;
 
-	public function __construct( $divider = "/", $class = NULL )
+	/**
+	 *	@param		string			$divider
+	 *	@param		string|array	$class
+	 */
+	public function __construct( string $divider = '/', $class = NULL )
 	{
 		parent::__construct();
 		$this->setDivider( $divider );
-		$this->setClass( $class );
+		if( NULL !== $class )
+			$this->setClass( $class );
 	}
 
 	/**
@@ -59,23 +65,30 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		Link|string			$label
+	 *	@param		string|NULL			$url
+	 *	@param		string|NULL			$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		boolean				$active
+	 *	@return		self				Own instance for method chaining
 	 */
-	public function add( string $label, ?string $url = NULL, $class = NULL, $icon = NULL, bool $active = FALSE ): self
+	public function add( $label, ?string $url = NULL, ?string $class = NULL, $icon = NULL, bool $active = FALSE ): self
 	{
-		$this->crumbs[]	= (object) array(
+		$this->crumbs[]	= (object) [
 			'label'		=> $label,
 			'url'		=> (string) $url,
 			'class'		=> (string) $class,
 			'icon'		=> (string) $icon,
-			'active'	=> (bool) $active,
-		);
+			'active'	=> $active,
+		];
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		Link|string			$label
+	 *	@param		Icon|string|NULL	$icon
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addCurrent( $label, $icon = NULL ): self
 	{
@@ -85,11 +98,11 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@return		self		Own instance for method chaining
 	 */
 	public function addLink( Link $link ): self
 	{
-		$this->add( $link, NULL, NULL, NULL, FALSE );
+		$this->add( $link );
 		return $this;
 	}
 
@@ -99,8 +112,8 @@ class Breadcrumbs extends Structure
 	 */
 	public function render(): string
 	{
-		$list		= array();
-		$divider	= HtmlTag::create( 'span', "/", array( 'class' => 'divider' ) );
+		$list		= [];
+		$divider	= HtmlTag::create( 'span', "/", ['class' => 'divider'] );
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
@@ -111,31 +124,32 @@ class Breadcrumbs extends Structure
 			else
 				$content	= $crumb->label;
 
-			if( version_compare( $this->bsVersion, "3", '<' ) )
+			if( version_compare( $this->bsVersion, '3', '<' ) )
 				if( $nr < count( $this->crumbs ) - 1 )
 					$content	.= ' '.$divider;
-			$classesItem	= array( 'breadcrumb-item' );
+			$classesItem	= ['breadcrumb-item'];
 			if( $crumb->class )
 				$classesItem[]	= $crumb->class;
 			if( $crumb->active )
 				$classesItem[]	= 'active';
-			$attributes	= array( 'class' => join( ' ', $classesItem ) );
-			$icon		= "";
+			$attributes	= ['class' => join( ' ', $classesItem )];
+			$icon		= '';
 			if( $crumb->icon instanceof Icon )
 				$icon	= $crumb->icon->render().' ';
 			else if( $crumb->icon )
 				$icon	= new Icon( $crumb->icon ).' ';
 			$list[]	= HtmlTag::create( 'li', $icon.$content, $attributes );
 		}
-		$list	= HtmlTag::create( 'ul', $list, array( 'class' => 'breadcrumb' ) );
+		$list	= HtmlTag::create( 'ul', $list, ['class' => 'breadcrumb'] );
 		return HtmlTag::create( 'nav', $list );
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for chainability
+	 *	@param		string		$divider
+	 *	@return		self		Own instance for method chaining
 	 */
-	public function setDivider( $divider ): self
+	public function setDivider( string $divider ): self
 	{
 		$this->divider	= $divider;
 		return $this;

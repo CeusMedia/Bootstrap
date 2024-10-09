@@ -17,8 +17,8 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": "^7.4 | ^8",
-    "ceus-media/common": "^1.0 | 1.0.x-dev | ^0.9 | 0.9.x-dev | ^0.8",
+    "php": "^8.1",
+    "ceus-media/common": "^1.0 | 1.0.x-dev | ^0.9 | 0.9.x-dev",
     "nostalgiaz/bootstrap-switch": "^3.3"
   },
   "require-dev": {
@@ -38,15 +38,21 @@
     ]
   },
   "scripts": {
+    "dev:all": [
+      "@dev:test-syntax",
+      "@dev:phpunit",
+      "@dev:phpstan",
+      "@dev:rector"
+    ],
     "dev:install-quiet": "composer install --quiet",
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
       "@dev:install-quiet",
-      "php vendor/bin/phpunit --configuration util/phpunit9.xml --testsuite units"
+      "XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration util/phpunit10.xml --testsuite units"
     ],
     "dev:phpstan": [
       "@dev:install-quiet",
-      "vendor/bin/phpstan analyze --configuration=util/phpstan.neon --memory-limit=1G --xdebug --verbose"
+      "vendor/bin/phpstan analyze --configuration=util/phpstan.neon --memory-limit=1G --verbose"
     ],
     "dev:phpstan-clear": [
       "@dev:install-quiet",
