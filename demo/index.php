@@ -1,5 +1,6 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+declare(strict_types=1);
 
 use CeusMedia\Common\Net\HTTP\Request\Receiver as Request;
 use CeusMedia\Common\UI\HTML\Elements as Elements;
