@@ -1080,12 +1080,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "98e2b6eb2ce00e4d6d6602b90ccd6b57cc3e1f10"
+                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/98e2b6eb2ce00e4d6d6602b90ccd6b57cc3e1f10",
-                "reference": "98e2b6eb2ce00e4d6d6602b90ccd6b57cc3e1f10",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/df396882440f0eaaa18ef2f7f6c31e06221b77fb",
+                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb",
                 "shasum": ""
             },
             "require": {
@@ -1130,7 +1130,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-08T15:48:03+00:00"
+            "time": "2024-10-09T10:39:17+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -1187,19 +1187,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "f35c27c34ed586b18bbe1759dfee85ef614a0f08"
+                "reference": "8b818f1073841c1cb59547bb5853871ce8e7569f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/f35c27c34ed586b18bbe1759dfee85ef614a0f08",
-                "reference": "f35c27c34ed586b18bbe1759dfee85ef614a0f08",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/8b818f1073841c1cb59547bb5853871ce8e7569f",
+                "reference": "8b818f1073841c1cb59547bb5853871ce8e7569f",
                 "shasum": ""
             },
             "require": {
                 "ext-dom": "*",
                 "ext-libxml": "*",
                 "ext-xmlwriter": "*",
-                "nikic/php-parser": "^4.19.1 || ^5.1.0",
+                "nikic/php-parser": "^4.19.1 || ^5.3.1",
                 "php": ">=8.1",
                 "phpunit/php-file-iterator": "^4.1.0",
                 "phpunit/php-text-template": "^3.0.1",
@@ -1211,7 +1211,7 @@
                 "theseer/tokenizer": "^1.2.3"
             },
             "require-dev": {
-                "phpunit/phpunit": "^10.5"
+                "phpunit/phpunit": "^10.5.36"
             },
             "suggest": {
                 "ext-pcov": "PHP extension that provides line coverage",
@@ -1257,7 +1257,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-09-28T06:30:48+00:00"
+            "time": "2024-10-09T06:19:11+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1510,12 +1510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "aa0a8ce701ea7ee314b0dfaa8970dc94f3f8c870"
+                "reference": "d11dc31fd15a69a68698ad160eea69cfafab5bc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/aa0a8ce701ea7ee314b0dfaa8970dc94f3f8c870",
-                "reference": "aa0a8ce701ea7ee314b0dfaa8970dc94f3f8c870",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d11dc31fd15a69a68698ad160eea69cfafab5bc4",
+                "reference": "d11dc31fd15a69a68698ad160eea69cfafab5bc4",
                 "shasum": ""
             },
             "require": {
@@ -1587,7 +1587,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/phpunit/issues",
                 "security": "https://github.com/sebastianbergmann/phpunit/security/policy",
-                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5.36"
+                "source": "https://github.com/sebastianbergmann/phpunit/tree/10.5"
             },
             "funding": [
                 {
@@ -1603,7 +1603,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-08T15:36:51+00:00"
+            "time": "2024-10-09T11:23:03+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -1664,12 +1664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "40e206a694cd21527fd0bd46739eed9c64b45156"
+                "reference": "ab28bdf746431a18e0ce0289ebfe0c33060f21d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/40e206a694cd21527fd0bd46739eed9c64b45156",
-                "reference": "40e206a694cd21527fd0bd46739eed9c64b45156",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ab28bdf746431a18e0ce0289ebfe0c33060f21d8",
+                "reference": "ab28bdf746431a18e0ce0289ebfe0c33060f21d8",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-08T12:45:03+00:00"
+            "time": "2024-10-09T11:48:29+00:00"
         },
         {
             "name": "sebastian/cli-parser",

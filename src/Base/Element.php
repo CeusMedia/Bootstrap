@@ -53,14 +53,12 @@ abstract class Element extends Abstraction implements Renderable, Stringable
 	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Component instance for method chaining
+	 *	@return		static		Component instance for method chaining
 	 *	@throws		ReflectionException
 	 */
-	public static function create(): self
+	public static function create(): static
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		/** @var self $element */
-
+		/** @var static $element */
 		$element	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $element;
 	}
