@@ -42,7 +42,7 @@
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
       "@dev:install-quiet",
-      "php vendor/bin/phpunit --configuration util/phpunit9.xml --testsuite units"
+      "XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration util/phpunit10.xml --testsuite units"
     ],
     "dev:phpstan": [
       "@dev:install-quiet",
