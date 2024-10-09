@@ -96,9 +96,10 @@ class TabbableNavbar extends Structure
 			'data-target'	=> '.nav-collapse',
 			'class'			=> 'btn btn-navbar',
 		];
+		$brand		= $this->realizeRenderableOrStringableProperty( 'brand' );
 		$toggle		= HtmlTag::create( 'a', str_repeat( $toggleSpan, 3 ), $attributes );
 		$collapse	= HtmlTag::create( 'div', $listTabs, ['class' => "nav-collapse collapse"] );
-		$container	= HtmlTag::create( 'div', $toggle.strval( $this->brand ).$collapse, ['class' => "container"] );
+		$container	= HtmlTag::create( 'div', $toggle.$brand.$collapse, ['class' => "container"] );
 
 		$tabs		= HtmlTag::create( 'div', $container, ['class' => "navbar-inner"] );	//
 		$navbar		= HtmlTag::create( 'div', $tabs, ['class' => $this->classNavBar] );			//
