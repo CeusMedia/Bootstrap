@@ -1,8 +1,10 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+declare(strict_types=1);
 
 namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
 use Stringable;
@@ -41,7 +43,7 @@ class UnprotectedLink extends Link
 		return $this->content;
 	}
 
-	public function getUrl(): string
+	public function getUrl(): URL|string
 	{
 		return $this->url;
 	}

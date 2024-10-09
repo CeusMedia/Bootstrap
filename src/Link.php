@@ -1,11 +1,12 @@
 <?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+declare(strict_types=1);
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -16,6 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
+use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Stringable;
@@ -25,7 +27,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -33,17 +35,17 @@ class Link extends Element
 {
 	use AriaAware, DisabledAware, IconAware;
 
-	protected string $url;
+	protected URL|string $url;
 
 	/**
-	 *	@param		string					$url
+	 *	@param		URL|string					$url
 	 *	@param		Stringable|Renderable|string|NULL	$content
 	 *	@param		array|string|NULL		$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
 	 */
 	public function __construct(
-		string $url,
+		URL|string $url,
 		Stringable|Renderable|string|null $content,
 		array|string|null $class = NULL,
 		Icon|string|null $icon = NULL,
@@ -82,10 +84,10 @@ class Link extends Element
 	}
 
 	/**
-	 *	@access		public
+	 *	@param		URL|string	$url
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setUrl( string $url ): self
+	public function setUrl( URL|string $url ): self
 	{
 		$this->url	= $url;
 		return $this;

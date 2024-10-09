@@ -1,8 +1,12 @@
 <?php
+declare(strict_types=1);
+
+use CeusMedia\Common\UI\HTML\PageFrame as HtmlPage;
+
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
 
-use \CeusMedia\Bootstrap\Checkbox;
-use \CeusMedia\Bootstrap\Code;
+use CeusMedia\Bootstrap\Checkbox;
+use CeusMedia\Bootstrap\Code;
 
 $body	= '
 <div class="container">
@@ -33,8 +37,8 @@ require_once \'vendor/autoload.php\';</pre>
 	<pre>$html	= new Checkbox( ... );</pre>
 
 	<h2>Examples</h2>
-	'.new \CeusMedia\Bootstrap\Checkbox( 'check1', 1, TRUE, 'This is the label' ).'
-	'.new \CeusMedia\Bootstrap\Checkbox( 'check2', 1, FALSE, 'This one is not checked on load' ).'
+	'.new Checkbox( 'check1', 1, TRUE, 'This is the label' ).'
+	'.new Checkbox( 'check2', 1, FALSE, 'This one is not checked on load' ).'
 	<h3>Source Code</h3>
 	'.new Code( "
 \$input1	= new Checkbox( 'check1', 1, TRUE, 'This is the label' );
@@ -64,10 +68,9 @@ $styles		= [
 ];
 
 /*  --  OUTPUT  --  */
-$page	= new UI_HTML_PageFrame();
+$page	= new HtmlPage();
 $page->addBody( trim( $body ) );
 #$page->setTitle( $config['app.title'] );
 foreach( $scripts as $url ) $page->addJavaScript( $url );
 foreach( $styles as $url ) $page->addStylesheet( $url );
 print( $page->build() );
-?>

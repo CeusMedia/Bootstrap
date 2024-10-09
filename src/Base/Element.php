@@ -1,12 +1,13 @@
 <?php /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+declare(strict_types=1);
 
 /**
  *	Base class for every component working on one HTML Tag.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -27,7 +28,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2023 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -53,14 +54,12 @@ abstract class Element extends Abstraction implements Renderable, Stringable
 	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Component instance for method chaining
+	 *	@return		static		Component instance for method chaining
 	 *	@throws		ReflectionException
 	 */
-	public static function create(): self
+	public static function create(): static
 	{
-		/** @noinspection PhpUnhandledExceptionInspection */
-		/** @var self $element */
-
+		/** @var static $element */
 		$element	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $element;
 	}

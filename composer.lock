@@ -1080,12 +1080,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "ce3ffbdcca7f389f26ecb86237e4513e3369a9dd"
+                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/ce3ffbdcca7f389f26ecb86237e4513e3369a9dd",
-                "reference": "ce3ffbdcca7f389f26ecb86237e4513e3369a9dd",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/df396882440f0eaaa18ef2f7f6c31e06221b77fb",
+                "reference": "df396882440f0eaaa18ef2f7f6c31e06221b77fb",
                 "shasum": ""
             },
             "require": {
@@ -1130,7 +1130,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-09T09:14:40+00:00"
+            "time": "2024-10-09T10:39:17+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -1510,12 +1510,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "249a07845e665deb2dd13b8a548a78f6bb2adec9"
+                "reference": "d11dc31fd15a69a68698ad160eea69cfafab5bc4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/249a07845e665deb2dd13b8a548a78f6bb2adec9",
-                "reference": "249a07845e665deb2dd13b8a548a78f6bb2adec9",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/d11dc31fd15a69a68698ad160eea69cfafab5bc4",
+                "reference": "d11dc31fd15a69a68698ad160eea69cfafab5bc4",
                 "shasum": ""
             },
             "require": {
@@ -1603,7 +1603,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-10-09T05:19:03+00:00"
+            "time": "2024-10-09T11:23:03+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -1664,12 +1664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "737dedb8668f2462f05238db8d5eff4ae448dd1b"
+                "reference": "ab28bdf746431a18e0ce0289ebfe0c33060f21d8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/737dedb8668f2462f05238db8d5eff4ae448dd1b",
-                "reference": "737dedb8668f2462f05238db8d5eff4ae448dd1b",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/ab28bdf746431a18e0ce0289ebfe0c33060f21d8",
+                "reference": "ab28bdf746431a18e0ce0289ebfe0c33060f21d8",
                 "shasum": ""
             },
             "require": {
@@ -1716,7 +1716,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-10-09T06:01:15+00:00"
+            "time": "2024-10-09T11:48:29+00:00"
         },
         {
             "name": "sebastian/cli-parser",
