@@ -30,6 +30,7 @@ class Toolbar extends Structure
 {
 	use ClassAware;
 
+	/**	@var	array<Group|string>		$groups */
 	protected array $groups		= [];
 
 	public function __construct( array $groups = [] )
@@ -48,6 +49,9 @@ class Toolbar extends Structure
 		if( is_array( $group ) ) {
 			foreach( $group as $item )
 				$this->add( $item );
+		}
+		else if( $group instanceof Group ) {
+			$this->groups[] = $group;
 		}
 		else if( 0 !== strlen( $group ) )
 			$this->groups[]	= $group;

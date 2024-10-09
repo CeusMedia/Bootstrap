@@ -17,6 +17,7 @@ use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 
+use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Stringable;
@@ -34,17 +35,17 @@ class Link extends Element
 {
 	use AriaAware, DisabledAware, IconAware;
 
-	protected string $url;
+	protected URL|string $url;
 
 	/**
-	 *	@param		string					$url
+	 *	@param		URL|string					$url
 	 *	@param		Stringable|Renderable|string|NULL	$content
 	 *	@param		array|string|NULL		$class
 	 *	@param		Icon|string|NULL		$icon
 	 *	@param		bool					$disabled
 	 */
 	public function __construct(
-		string $url,
+		URL|string $url,
 		Stringable|Renderable|string|null $content,
 		array|string|null $class = NULL,
 		Icon|string|null $icon = NULL,
@@ -83,10 +84,10 @@ class Link extends Element
 	}
 
 	/**
-	 *	@access		public
+	 *	@param		URL|string	$url
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setUrl( string $url ): self
+	public function setUrl( URL|string $url ): self
 	{
 		$this->url	= $url;
 		return $this;

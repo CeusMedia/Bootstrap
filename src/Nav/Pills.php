@@ -122,7 +122,7 @@ class Pills extends Structure
 				$item		= HtmlTag::create( 'li', $trigger.$item->content, ['class' => 'dropdown '.$class] );
 			}
 			else{
-				$item	= HtmlTag::create( 'li', (string) $item->link, ['class' => $class] );
+				$item	= HtmlTag::create( 'li', $item->link, ['class' => $class] );
 			}
 			$items[]	= $item;
 		}

@@ -1,12 +1,13 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare(strict_types=1);
 
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
 
-use \CeusMedia\Bootstrap\Shiftbox;
-use \CeusMedia\Bootstrap\Code;
-use \CeusMedia\Common\UI\HTML\PageFrame as HtmlPage;
-use \CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use CeusMedia\Bootstrap\Shiftbox;
+use CeusMedia\Bootstrap\Code;
+use CeusMedia\Common\UI\HTML\PageFrame as HtmlPage;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	@link		http://www.larentis.eu/switch/ Bootstrap switch examples
