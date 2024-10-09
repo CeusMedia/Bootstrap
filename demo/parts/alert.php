@@ -1,6 +1,9 @@
 <?php
+declare(strict_types=1);
 
 use CeusMedia\Bootstrap\Alert;
+
+/** @var bool $isBs4 */
 
 $list	= [];
 if( $isBs4 ){

@@ -3,17 +3,19 @@
 
 use \CeusMedia\Bootstrap\Shiftbox;
 use \CeusMedia\Bootstrap\Code;
+use \CeusMedia\Common\UI\HTML\PageFrame as HtmlPage;
+use \CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	@link		http://www.larentis.eu/switch/ Bootstrap switch examples
  *	@link		https://github.com/nostalgiaz/bootstrap-switch bootstrap-switch@GitHub
  */
 
-$iconPower		= UI_HTML_Tag::create( 'i', '', array( 'class' => 'fa fa-fw fa-power-off' ) );
-$iconSwitch		= UI_HTML_Tag::create( 'i', '', array( 'class' => 'fa fa-fw fa-arrows-h' ) );
-$iconCircle		= UI_HTML_Tag::create( 'i', '', array( 'class' => 'fa fa-fw fa-circle-o-notch' ) );
-$iconCheck		= UI_HTML_Tag::create( 'i', '', array( 'class' => 'fa fa-fw fa-check' ) );
-$iconRemove		= UI_HTML_Tag::create( 'i', '', array( 'class' => 'fa fa-fw fa-remove' ) );
+$iconPower		= HtmlTag::create( 'i', '', ['class' => 'fa fa-fw fa-power-off'] );
+$iconSwitch		= HtmlTag::create( 'i', '', ['class' => 'fa fa-fw fa-arrows-h'] );
+$iconCircle		= HtmlTag::create( 'i', '', ['class' => 'fa fa-fw fa-circle-o-notch'] );
+$iconCheck		= HtmlTag::create( 'i', '', ['class' => 'fa fa-fw fa-check'] );
+$iconRemove		= HtmlTag::create( 'i', '', ['class' => 'fa fa-fw fa-remove'] );
 
 
 /*  --  YOUR CODE  --  */
@@ -22,7 +24,7 @@ $body	= '
 <div class="container">
 	<h1><span class="muted text-muted">CeusMedia Bootstrap</span> Shiftbox Demo</h1>
 	<div class="alert alert-info">
-		Check the <a href="http://bootstrapswitch.com/">Bootstrap Switch examples</a> to know, what this is about.
+		Check the <a href="https://bootstrapswitch.com/">Bootstrap Switch examples</a> to know, what this is about.
 	</div>
 	<h2>Usage</h2>
 	<h3>Composer</h3>
@@ -192,10 +194,9 @@ $styles		= [
 ];
 
 /*  --  OUTPUT  --  */
-$page	= new UI_HTML_PageFrame();
+$page	= new HtmlPage();
 $page->addBody( trim( $body ) );
 #$page->setTitle( $config['app.title'] );
 foreach( $scripts as $url ) $page->addJavaScript( $url );
 foreach( $styles as $url ) $page->addStylesheet( $url );
 print( $page->build() );
-?>

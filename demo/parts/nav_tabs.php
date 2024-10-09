@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 use CeusMedia\Bootstrap\Nav\Tabs;
 
 $component	= new Tabs( "tabs1" );

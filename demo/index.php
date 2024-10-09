@@ -27,8 +27,9 @@ $request	= new Request();
 
 $version	= "2.3.2";
 if( $request->get( 'version' ) && in_array( $request->get( 'version' ), $versions ) )
+	/** @var string $version */
 	$version	= $request->get( 'version' );
-$isBs4	= version_compare( $version, 4, '>=' );
+$isBs4	= version_compare( $version, '4', '>=' );
 CeusMedia\Bootstrap\Base\Element::$defaultBsVersion		= $version;
 CeusMedia\Bootstrap\Base\Structure::$defaultBsVersion	= $version;
 CeusMedia\Bootstrap\Icon::$defaultSet	= 'fontawesome';
@@ -58,34 +59,41 @@ foreach( $parts as $part ){
 
 
 $body	= Tag::create( 'div', [
-	Tag::create( 'div', array(
-		Tag::create( 'h1', '<span class="muted">CeusMedia</span> Component Demo', array( 'class' => 'muted text-muted display-4' ) ),
+	Tag::create( 'div', [
+		Tag::create( 'h1', '<span class="muted">CeusMedia</span> Component Demo', ['class' => 'muted text-muted display-4'] ),
 		Tag::create( 'h2', 'Bootstrap' ),
-	), array( 'class' => 'not-bs2-hero-unit not-bs4-jumbotron' ) ),
-	Tag::create( 'form', array(
-		Tag::create( 'div', array(
-			Tag::create( 'div', array(
-				Tag::create( 'select', Elements::Options( array_combine( $versions, $versions ), $version ), array(
+	], ['class' => 'not-bs2-hero-unit not-bs4-jumbotron'] ),
+	Tag::create( 'form', [
+		Tag::create( 'div', [
+			Tag::create( 'div', [
+				Tag::create( 'select', Elements::Options( array_combine( $versions, $versions ), $version ), [
 					'name'		=> 'version',
 					'class' 	=> 'bs2-span12 bs4-form-control',
 					'onchange'	=> 'this.form.submit()',
-				) ),
-			), array( 'class' => 'bs2-span3 bs4-form-group bs4-col-md-3' ) ),
-		), array( 'class' => 'bs2-row-fluid bs4-form-row' ) ),
-	), array( 'action' => './', 'method' => 'GET' ) ),
+				] ),
+			], ['class' => 'bs2-span3 bs4-form-group bs4-col-md-3'] ),
+		], ['class' => 'bs2-row-fluid bs4-form-row'] ),
+	], ['action' => './', 'method' => 'GET'] ),
 	join( $contents ),
 ], ['class' => 'container'] );
 
 
 $cdnBaseUrl	= 'https://cdn.ceusmedia.de/';
-//$cdnBaseUrl	= 'http://localhost/lib/GitHub/CeusMedia/AssetLibrary';
+//$cdnBaseUrl	= 'https://localhost/lib/GitHub/CeusMedia/AssetLibrary';
 
 $page		= new PageFrame();
 $page->addBody( BootstrapVersionProcessor::process( $body, $version ) );
 $page->addJavaScript( $cdnBaseUrl.'js/jquery/1.10.2.min.js' );
 if( $isBs4 ){
-	$page->addHead( Tag::create( 'link', NULL, array( 'rel' => 'stylesheet', 'href' => 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css', 'crossorigin' => 'anonymous' ) ) );
-	$page->addHead( Tag::create( 'script', '', array( 'src' => 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js', 'crossorigin' => 'anonymous' ) ) );
+	$page->addHead( Tag::create( 'link', NULL, [
+		'rel'			=> 'stylesheet',
+		'href'			=> 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
+		'crossorigin'	=> 'anonymous'
+	] ) );
+	$page->addHead( Tag::create( 'script', '', [
+		'src'			=> 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js',
+		'crossorigin'	=> 'anonymous'
+	] ) );
 }
 else {
 	$page->addStylesheet( $cdnBaseUrl.'css/bootstrap.min.css' );
@@ -94,36 +102,40 @@ else {
 $page->addStylesheet( $cdnBaseUrl.'fonts/FontAwesome/font-awesome.min.css' );
 $page->addStylesheet( 'style.css' );
 
-print $page->build( array(
-	'class'		=> join( ' ', array(
+print $page->build( [
+	'class'		=> join( ' ', [
 		'bs-'.BootstrapVersionProcessor::getMajorVersion( $version ),
-	) ),
-) );
+	] ),
+] );
 
 
 class BootstrapVersionProcessor
 {
-	static public function getMajorVersion( $version ): string
+	public static function getMajorVersion( string $version ): int
 	{
 		$versionParts	= explode( '.', $version );
 		return (int) array_shift( $versionParts );
 	}
 
-	static public function process( $content, $version ): string
+	public static function process( string $content, string $version ): string
 	{
 		$majorVersion	= self::getMajorVersion( $version );
 		$cssPrefix		= 'bs'.$majorVersion.'-';
-		if( substr_count( $content, $cssPrefix ) ){
-			while( preg_match( '/ class="[^"]*'.$cssPrefix.'/', $content ) ){
+		if( 0 !== substr_count( $content, $cssPrefix ) ){
+			while( 0 !== preg_match( '/ class="[^"]*'.$cssPrefix.'/', $content ) ){
 				$pattern	= '/(class=")([^"]*)?('.$cssPrefix.')([^ "]+)([^"]*)(")/';
+				/** @var string $content */
 				$content	= preg_replace( $pattern, '\\1\\2\\4\\5\\6', $content );
 			}
-			$otherVersions	= array_diff( array( 2, 3, 4 ), array( $majorVersion ) );
+			$otherVersions	= array_diff( [2, 3, 4], [$majorVersion] );
 			foreach( $otherVersions as $version ){
 				$pattern	= '/(class=")([^"]*)(bs'.$version.'-[^ "]+)([^"]*)(")/';
+				/** @var string $content */
 				$content	= preg_replace( $pattern, '\\1\\2\\4\\5', $content );
 			}
+			/** @var string $content */
 			$content	= preg_replace( '/(class=")\s*([^ ]*)\s*(")/', '\\1\\2\\3', $content );
+			/** @var string $content */
 			$content	= preg_replace( '/ class=""/', '', $content );
 		}
 		return $content;

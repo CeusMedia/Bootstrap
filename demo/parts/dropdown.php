@@ -1,15 +1,19 @@
 <?php
+declare(strict_types=1);
+
 use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger as DropdownTrigger;
+use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 $dropdown0	= new DropdownMenu();
-$dropdown0->addLink( new \CeusMedia\Bootstrap\Link( '#action-1-1', 'Link 1', '' , 'file') );
+$dropdown0->addLink( new Link( '#action-1-1', 'Link 1', '' , 'file') );
 $dropdown0->add( '#action-1-2', 'Link 2', '', 'file' );
 
 //$component	= new \CeusMedia\Bootstrap\Dropdown\Button( 'Dropdown-Button', $dropdown0, 'btn-info', 'star' );
 $trigger	= new DropdownTrigger( 'Dropdown-Button', 'btn-info', 'star' );
 
-$component	= \CeusMedia\Common\UI\HTML\Tag::create( 'div', $trigger.$dropdown0, array( 'class' => 'btn-group' ) );
+$component	= HtmlTag::create( 'div', $trigger.$dropdown0, ['class' => 'btn-group'] );
 
 print '<h3>DropdownButton</h3>'.$component;
 

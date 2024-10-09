@@ -1,7 +1,11 @@
 <?php
+declare(strict_types=1);
+
 use CeusMedia\Bootstrap\Button as Button;
 use CeusMedia\Bootstrap\Row;
 use CeusMedia\Bootstrap\RowSpan;
+
+/** @var bool $isBs4 */
 
 $buttons	= [];
 $buttons[]	= new Button( 'Primary', Button::STATE_PRIMARY );
