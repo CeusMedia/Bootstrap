@@ -1,4 +1,6 @@
 <?php
+declare(strict_types=1);
+
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
 
 use \CeusMedia\Bootstrap\Checkbox;

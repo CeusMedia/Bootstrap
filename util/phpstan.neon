@@ -8,6 +8,7 @@ parameters:
 	paths:
 		- ../src
 		- ../test
+		- ../demo
 	ignoreErrors:
 			-
 				identifier: missingType.iterableValue

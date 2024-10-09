@@ -1,5 +1,6 @@
 <?php /** @noinspection PhpUnused */
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+declare(strict_types=1);
 
 /**
  *	Base class for every component working on one HTML Tag.
