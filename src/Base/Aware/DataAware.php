@@ -7,13 +7,13 @@ use DomainException;
 
 trait DataAware
 {
-	/** @var array<string,mixed> $data */
+	/** @var array<string,string|int|float> $data */
 	protected array $data		= [];
 
 	/**
 	 *	@access		public
 	 *	@param		string		$key		...
-	 *	@param		mixed		$value		...
+	 *	@param		string|int|float		$value		...
 	 *	@param		boolean		$strict		...
 	 *	@return		static		Own instance for method chaining
 	 *	@throws		DomainException		if key is already set and strict mode is enabled
@@ -31,7 +31,7 @@ trait DataAware
 	protected function extendAttributesByData( array &$attributes ): self
 	{
 		foreach( $this->data as $key => $value )
-			$attributes['data-'.strtolower( $key )]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );
+			$attributes['data-'.strtolower( $key )]	= htmlentities( strval( $value ), ENT_QUOTES, 'UTF-8' );
 		return $this;
 	}
 }

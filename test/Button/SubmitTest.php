@@ -1,12 +1,13 @@
 <?php
 /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 declare(strict_types=1);
 
 namespace CeusMedia\BootstrapTest\Button;
 
-use CeusMedia\Bootstrap\Base\Aware as Traits;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Button\Submit as SubmitButton;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
@@ -51,7 +52,6 @@ class SubmitTest extends TestCase
 		$expected	= '<button name="save" type="submit" class="btn btn-primary">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
 	}
-
 
 	/**
 	 *	@covers		\CeusMedia\Bootstrap\Base\Aware\SizeAware::getSize
@@ -110,7 +110,7 @@ class UnprotectedSubmitButton extends SubmitButton
 		return $this->classes;
 	}
 
-	public function getContent(): array|string|Stringable|NULL
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

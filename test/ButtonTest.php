@@ -1,7 +1,7 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\BootstrapTest;
 
-use CeusMedia\Bootstrap\Base\Aware as Traits;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;

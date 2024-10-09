@@ -38,6 +38,12 @@
     ]
   },
   "scripts": {
+    "dev:all": [
+      "@dev:test-syntax",
+      "@dev:phpunit",
+      "@dev:phpstan",
+      "@dev:rector"
+    ],
     "dev:install-quiet": "composer install --quiet",
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
