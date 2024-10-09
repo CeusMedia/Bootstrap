@@ -7,6 +7,7 @@ use DomainException;
 
 trait DataAware
 {
+	/** @var array<string,mixed> $data */
 	protected array $data		= [];
 
 	/**
@@ -17,7 +18,7 @@ trait DataAware
 	 *	@return		static		Own instance for method chaining
 	 *	@throws		DomainException		if key is already set and strict mode is enabled
 	 */
-	public function setData( string $key, $value, bool $strict = TRUE ): static
+	public function setData( string $key, mixed $value, bool $strict = TRUE ): static
 	{
 		$key	= CamelCase::decode( $key );
 		$key	= str_replace( ' ', '-', strtolower( $key ) );

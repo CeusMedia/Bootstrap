@@ -16,6 +16,7 @@ use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link as BaseLink;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Exception;
+use Stringable;
 
 /**
  *	...
@@ -26,7 +27,7 @@ use Exception;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link
+class Link implements Stringable
 {
 	protected string $label;
 

@@ -40,6 +40,7 @@ class Icon extends Structure
 
 	protected string $icon;
 	protected ?string $set		= NULL;
+	/** @var array<string> $size */
 	protected array $size		= [];
 	protected string $style;
 
@@ -104,17 +105,17 @@ class Icon extends Structure
 	 *	- modifiers: see FontAwesome doc
 	 *
 	 *	@access		public
-	 *	@param		array|string	$sizes 		One or many size or modifier class name
+	 *	@param		string|array<string>	$sizes 		One or many size or modifier class name
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function setSize( $sizes ): self
+	public function setSize( string|array $sizes ): self
 	{
 		$this->size		= [];
 		if( is_string( $sizes ) )
 			$sizes	= (array) preg_split( "/\s+/", trim( $sizes ) );
 		foreach( $sizes as $size )
-			if( strlen( trim( $size ) ) > 0 )
-				$this->size[]	= trim( $size );
+			if( strlen( trim( (string) $size ) ) > 0 )
+				$this->size[]	= trim( (string) $size );
 		return $this;
 	}
 
@@ -153,9 +154,9 @@ class Icon extends Structure
 				case 'fontawesome':
 				case 'fontawesome4':
 				case 'fontawesome5':
-					$size	= $size === 'fixed' ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
-					if( preg_match( $regExpFactor = '/^x([1-9])$/', $size ) )						//  translate sizes like 'x2' (allowed: 1-9)
-						$size	= preg_replace( $regExpFactor, '\\1x', $size );					//  ... to 2x
+					$size	= 'fixed' === $size ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
+					if( preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )				//  translate sizes like 'x2' (allowed: 1-9)
+						$size	= preg_replace( $regExpFactor, '\\1x', (string) $size );	//  ... to 2x
 					$list[]	= 'fa-'.$size;															//  ...
 					break;
 				default:																			//  icon set not known
@@ -165,9 +166,12 @@ class Icon extends Structure
 		return $list;
 	}
 
+	/**
+	 *	@return		array
+	 */
 	protected function realizeStyle(): array
 	{
-		$style	= $this->style ? $this->style : static::$defaultStyle;
+		$style	= $this->style ?: static::$defaultStyle;
 		$list	= [];
 		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':

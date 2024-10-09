@@ -154,7 +154,7 @@ class Dialog extends Structure
 				case 'aria-hidden':
 					break;
 				case 'class':
-					$attributes['class']	.= strlen( trim( $value ) ) ? ' '.$value : '';
+					$attributes['class']	.= strlen( trim( (string) $value ) ) ? ' '.$value : '';
 					break;
 				default:
 					$attributes[$key]	= $value;

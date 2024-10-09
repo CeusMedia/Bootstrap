@@ -3,11 +3,19 @@ namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Base\Aware as Traits;
 use CeusMedia\Bootstrap\Button;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Button
+ */
 class ButtonTest extends TestCase
 {
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
 	public function testConstruct(): void
 	{
 		$label	= 'Button Label';
@@ -23,6 +31,7 @@ class ButtonTest extends TestCase
 
 	/**
 	 *	@covers		::render
+	 *	@return		void
 	 */
 	public function testRender(): void
 	{
@@ -38,8 +47,9 @@ class ButtonTest extends TestCase
 	}
 
 	/**
-	 *	@covers		Traits\SizeAware::getSize
-	 *	@covers		Traits\SizeAware::setSize
+	 *	@covers		\CeusMedia\Bootstrap\Base\Aware\SizeAware::getSize
+	 *	@covers		\CeusMedia\Bootstrap\Base\Aware\SizeAware::setSize
+	 *	@return		void
 	 */
 	public function testSetSize(): void
 	{
@@ -61,6 +71,10 @@ class ButtonTest extends TestCase
 		self::assertEquals( Button::SIZE_LARGE, join( ' ', $button->getClasses() ) );
 	}
 
+	/**
+	 *	@covers		::setBlock
+	 *	@return		void
+	 */
 	public function testSetBlock(): void
 	{
 		$button	= new UnprotectedButton( 'Block Button' );
@@ -81,6 +95,10 @@ class ButtonTest extends TestCase
 		self::assertEquals( ['btn-large', 'btn-lg'], $button->getClasses() );
 	}
 
+	/**
+	 *	@covers		::setType
+	 *	@return		void
+	 */
 	public function testSetType(): void
 	{
 		self::markTestSkipped();
@@ -96,7 +114,7 @@ class UnprotectedButton extends Button
 		return $this->classes;
 	}
 
-	public function getContent(): array|string|Stringable|NULL
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

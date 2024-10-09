@@ -10,7 +10,7 @@ trait ClassAware
 	 *	Appends new class names to prior added or set class names.
 	 *	Accepts string with whitespace separated class names or list of class names.
 	 *	@access		public
-	 *	@param		string|array	$class
+	 *	@param		string|array<string>	$class
 	 *	@return		static			Own instance for method chaining
 	 */
 	public function addClass( array|string $class ): static

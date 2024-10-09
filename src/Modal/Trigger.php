@@ -26,6 +26,7 @@ use RangeException;
 use ReflectionException;
 use RuntimeException;
 
+use Stringable;
 use function sprintf;
 
 /**
@@ -37,13 +38,13 @@ use function sprintf;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger
+class Trigger implements Stringable
 {
 	use IdAware, ClassAware, IconAware;
 
-	protected array $attributes	= [];
-	protected ?string $label;
-	protected ?string $modalId;
+	protected array $attributes		= [];
+	protected ?string $label		= NULL;
+	protected ?string $modalId		= NULL;
 	protected string $type			= "button";
 
 	/**

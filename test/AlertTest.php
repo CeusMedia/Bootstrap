@@ -2,11 +2,20 @@
 namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Alert;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Alert
+ */
 class AlertTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$label	= 'Alert Message';
 		$class	= Alert::CLASS_SUCCESS;
@@ -21,9 +30,10 @@ class AlertTest extends TestCase
 	}
 
 	/**
-	 *	@covers		::render
+	 *	@covers		::useDismiss
+	 *	@return		void
 	 */
-	public function testUseDismiss()
+	public function testUseDismiss(): void
 	{
 		$label	= 'Alert Message';
 		$class	= Alert::CLASS_SUCCESS;
@@ -47,7 +57,7 @@ class UnprotectedAlert extends Alert
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

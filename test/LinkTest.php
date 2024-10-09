@@ -1,12 +1,22 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Link
+ */
 class LinkTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$href	= 'https://example.com/link';
 		$label	= 'Link Label';
@@ -26,7 +36,7 @@ class UnprotectedLink extends Link
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

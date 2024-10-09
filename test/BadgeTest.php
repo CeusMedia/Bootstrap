@@ -2,11 +2,20 @@
 namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Badge;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Badge
+ */
 class BadgeTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$text	= 'Badge Text';
 		$badge	= new UnprotectedBadge( $text );
@@ -21,8 +30,9 @@ class BadgeTest extends TestCase
 
 	/**
 	 *	@covers		::render
+	 *	@return		void
 	 */
-	public function testRender()
+	public function testRender(): void
 	{
 		$text	= 'Badge Text';
 		$badge	= new UnprotectedBadge( $text );
@@ -45,7 +55,7 @@ class UnprotectedBadge extends Badge
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}

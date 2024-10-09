@@ -10,8 +10,15 @@ use CeusMedia\Bootstrap\Button\Submit as SubmitButton;
 use PHPUnit\Framework\TestCase;
 use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Button\Submit
+ */
 class SubmitTest extends TestCase
 {
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
 	public function testConstruct(): void
 	{
 		$name	= 'save';
@@ -29,6 +36,7 @@ class SubmitTest extends TestCase
 
 	/**
 	 *	@covers		::render
+	 *	@return		void
 	 */
 	public function testRender(): void
 	{
@@ -46,8 +54,9 @@ class SubmitTest extends TestCase
 
 
 	/**
-	 *	@covers		Traits\SizeAware::getSize
-	 *	@covers		Traits\SizeAware::setSize
+	 *	@covers		\CeusMedia\Bootstrap\Base\Aware\SizeAware::getSize
+	 *	@covers		\CeusMedia\Bootstrap\Base\Aware\SizeAware::setSize
+	 *	@return		void
 	 */
 	public function testSetSize(): void
 	{
@@ -69,6 +78,10 @@ class SubmitTest extends TestCase
 		self::assertEquals( Button::SIZE_LARGE, join( ' ', $button->getClasses() ) );
 	}
 
+	/**
+	 *	@covers		::setBlock
+	 *	@return		void
+	 */
 	public function testSetBlock(): void
 	{
 		$button	= new UnprotectedSubmitButton( 'blockTest', 'Block Button' );

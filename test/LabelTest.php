@@ -1,12 +1,22 @@
-<?php
+<?php /** @noinspection ALL */
+
 namespace CeusMedia\BootstrapTest;
 
 use CeusMedia\Bootstrap\Label;
+use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
+use Stringable;
 
+/**
+ * @coversDefaultClass	\CeusMedia\Bootstrap\Label
+ */
 class LabelTest extends TestCase
 {
-	public function testConstruct()
+	/**
+	 *	@covers		::__construct
+	 *	@return		void
+	 */
+	public function testConstruct(): void
 	{
 		$text	= 'Label Text';
 		$label	= new UnprotectedLabel( $text );
@@ -21,8 +31,9 @@ class LabelTest extends TestCase
 
 	/**
 	 *	@covers		::render
+	 *	@return		void
 	 */
-	public function testRender()
+	public function testRender(): void
 	{
 		$text	= 'Label Text';
 		$label	= new UnprotectedLabel( $text );
@@ -45,7 +56,7 @@ class UnprotectedLabel extends Label
 		return $this->classes;
 	}
 
-	public function getContent(): string
+	public function getContent(): Renderable|Stringable|array|string|NULL
 	{
 		return $this->content;
 	}
