@@ -53,13 +53,13 @@ class Icon extends Structure
 	 *	@param		array|string|NULL	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
-	public function __construct( string $icon, ?string $style = NULL, $size = NULL )
+	public function __construct( string $icon, string $style = NULL, array|string $size = NULL )
 	{
 		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
 		$this->setStyle( $style ?: static::$defaultStyle );
-		if( $size !== NULL )
+		if( NULL !== $size )
 			$this->setSize( $size );
 	}
 

@@ -125,10 +125,10 @@ class TabbableNavbar extends Structure
 	 *	@param		URL|string|NULL		$url
 	 *	@return		self				Own instance for method chaining
 	 */
-	public function setBrand( Stringable|Renderable|string $label, URL|string|null $url = NULL ): self
+	public function setBrand( Stringable|Renderable|string $label, URL|string $url = NULL ): self
 	{
 		$this->brand	= HtmlTag::create( 'span', $label, ['class' => 'brand'] );
-		if( $url !== NULL )
+		if( NULL !== $url )
 			$this->brand	= new Link( $url, $label, "brand" );
 		return $this;
 	}

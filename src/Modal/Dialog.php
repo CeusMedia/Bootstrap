@@ -167,7 +167,7 @@ class Dialog extends Structure
 			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document'] );
 		}
 		$modal	= HtmlTag::create( 'div', [$content], $attributes );
-		if( $this->formAction !== NULL ){
+		if( NULL !== $this->formAction ){
 			$attributes	= array_merge( $this->formAttributes, [
 				'action'	=> $this->formAction,
 				'method'	=> 'POST',
