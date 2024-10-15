@@ -73,6 +73,7 @@ class Dialog extends Structure implements Renderable, Stringable
 	protected string $buttonSubmitIconClass	= '';
 	protected string $buttonSubmitLabel		= 'submit';
 	protected string $headerCloseButtonIcon	= '×';
+	protected string $dialogClass			= '';
 	protected bool $fade					= FALSE;
 	protected ?string $formAction			= NULL;
 	protected array $formAttributes			= [];
@@ -268,8 +269,7 @@ class Dialog extends Structure implements Renderable, Stringable
 	 */
 	public function setDialogClass( string $class ): static
 	{
-		$this->dialogClass	= $class;
-		return $this;
+		return $this->addClass( $class );
 	}
 
 	/**
