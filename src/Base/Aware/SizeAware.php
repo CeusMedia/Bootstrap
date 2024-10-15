@@ -34,7 +34,7 @@ trait SizeAware
 				$foundSize	= $size;
 			}
 		}
-		if( $foundSize !== NULL ){
+		if( NULL !== $foundSize ){
 			$reflector	= new ClassConstantReflector( static::class );
 			$constant	= $reflector->getKeyByValue( $foundSize, 'SIZE_' );
 			return 'SIZE_'.$constant;
