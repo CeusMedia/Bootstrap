@@ -74,12 +74,12 @@ class Trigger implements Stringable
 	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for method chaining
+	 *	@return		static		Modal trigger instance for method chaining
 	 *	@throws		ReflectionException
 	 */
-	public static function create(): self
+	public static function create(): static
 	{
-		/** @var Trigger $trigger */
+		/** @var static $trigger */
 		$trigger	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $trigger;
 	}
@@ -99,13 +99,13 @@ class Trigger implements Stringable
 		}
 	}
 
-	public function asButton( bool $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): static
 	{
 		$this->type		= $asButton ? "button" : "link";
 		return $this;
 	}
 
-	public function asLink( bool $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): static
 	{
 		$this->type		= $asLink ? "link" : "button";
 		return $this;
@@ -165,9 +165,9 @@ class Trigger implements Stringable
 	 *	All others will set or override existing values.
 	 *	@access		public
 	 *	@param		array		$attributes		Map of button attributes
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setAttributes( array $attributes ): self
+	public function setAttributes( array $attributes ): static
 	{
 		$this->attributes	= $attributes;
 		return $this;
@@ -177,10 +177,10 @@ class Trigger implements Stringable
 	 *	...
 	 *	@access		public
 	 *	@param		string		$label			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setLabel( string $label ): self
+	public function setLabel( string $label ): static
 	{
 		$this->label	= $label;
 		return $this;
@@ -190,10 +190,10 @@ class Trigger implements Stringable
 	 *	...
 	 *	@access		public
 	 *	@param		string		$modalId		...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setModalId( string $modalId ): self
+	public function setModalId( string $modalId ): static
 	{
 		$this->modalId	= $modalId;
 		return $this;
