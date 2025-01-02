@@ -20,6 +20,7 @@ use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Icon;
 
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use Exception;
@@ -39,7 +40,7 @@ use function sprintf;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger implements Stringable
+class Trigger implements Renderable, Stringable
 {
 	use IdAware, ClassAware, IconAware;
 

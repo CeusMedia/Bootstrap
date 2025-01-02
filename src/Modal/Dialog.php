@@ -38,7 +38,7 @@ use Stringable;
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Dialog extends Structure
+class Dialog extends Structure implements Renderable, Stringable
 {
 	use AriaAware, ClassAware, DataAware, IdAware, SizeAware;
 
