@@ -73,7 +73,6 @@ class Dialog extends Structure
 	protected string $buttonSubmitIconClass	= '';
 	protected string $buttonSubmitLabel		= 'submit';
 	protected string $headerCloseButtonIcon	= '×';
-	protected string $dialogClass			= '';
 	protected bool $fade					= FALSE;
 	protected ?string $formAction			= NULL;
 	protected array $formAttributes			= [];
@@ -99,6 +98,7 @@ class Dialog extends Structure
 	/**
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component or exception message
+	 *	@todo		allow to throw exception since PHP 7.4
 	 */
 	public function __toString(): string
 	{
@@ -116,12 +116,12 @@ class Dialog extends Structure
 	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Modal trigger instance for method chaining
+	 *	@return		static		Modal trigger instance for method chaining
 	 * @noinspection PhpDocMissingThrowsInspection
 	 */
-	public static function create(): self
+	public static function create(): static
 	{
-		/** @var self $dialog */
+		/** @var static $dialog */
 		/** @noinspection PhpUnhandledExceptionInspection */
 		$dialog	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $dialog;
@@ -185,9 +185,9 @@ class Dialog extends Structure
 	 *	Set value for class will be added.
 	 *	@access		public
 	 *	@param		array		$attributes		Map of button attributes
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function setAttributes( array $attributes ): self
+	public function setAttributes( array $attributes ): static
 	{
 		$this->attributes	= $attributes;
 		return $this;
@@ -197,10 +197,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		Stringable|Renderable|string		$body			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setBody( Stringable|Renderable|string $body ): self
+	public function setBody( Stringable|Renderable|string $body ): static
 	{
 		$this->body		= $body;
 		return $this;
@@ -210,10 +210,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		boolean		$centered			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setCentered( bool $centered ): self
+	public function setCentered( bool $centered ): static
 	{
 		$class	= 'modal-dialog-centered';
 		$centered ? $this->addClass( $class ) : $this->removeClass( $class );
@@ -224,10 +224,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$class			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonClass( string $class ): self
+	public function setCloseButtonClass( string $class ): static
 	{
 		$this->buttonCloseClass	= $class;
 		return $this;
@@ -237,10 +237,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$class			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonIconClass( string $class ): self
+	public function setCloseButtonIconClass( string $class ): static
 	{
 		$this->buttonCloseIconClass	= $class;
 		return $this;
@@ -250,10 +250,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$label			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setCloseButtonLabel( string $label ): self
+	public function setCloseButtonLabel( string $label ): static
 	{
 		$this->buttonCloseLabel	= $label;
 		return $this;
@@ -263,10 +263,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$class			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setDialogClass( string $class ): self
+	public function setDialogClass( string $class ): static
 	{
 		$this->dialogClass	= $class;
 		return $this;
@@ -276,10 +276,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		boolean		$fade			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setFade( bool $fade ): self
+	public function setFade( bool $fade ): static
 	{
 		$this->fade	= $fade;
 		return $this;
@@ -290,10 +290,10 @@ class Dialog extends Structure
 	 *	@access		public
 	 *	@param		string		$action			...
 	 *	@param		array		$attributes		...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setFormAction( string $action, array $attributes = [] ): self
+	public function setFormAction( string $action, array $attributes = [] ): static
 	{
 		$this->formAction		= $action;
 		$this->formAttributes	= $attributes;
@@ -304,10 +304,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		bool		$isUpload		...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setFormIsUpload( bool $isUpload = TRUE ): self
+	public function setFormIsUpload( bool $isUpload = TRUE ): static
 	{
 		$this->formIsUpload		= $isUpload;
 		return $this;
@@ -317,10 +317,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string|NULL		$onSubmit		...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setFormSubmit( ?string $onSubmit ): self
+	public function setFormSubmit( ?string $onSubmit ): static
 	{
 		$this->formOnSubmit	= $onSubmit;
 		return $this;
@@ -330,10 +330,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		Stringable|Renderable|string		$heading		...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setHeading( Stringable|Renderable|string $heading ): self
+	public function setHeading( Stringable|Renderable|string $heading ): static
 	{
 		$this->heading		= $heading;
 		return $this;
@@ -343,10 +343,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$icon			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setHeaderCloseButtonIcon( string $icon ): self
+	public function setHeaderCloseButtonIcon( string $icon ): static
 	{
 		$this->headerCloseButtonIcon	= $icon;
 		return $this;
@@ -356,10 +356,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$class			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonClass( string $class ): self
+	public function setSubmitButtonClass( string $class ): static
 	{
 		$this->buttonSubmitClass	= $class;
 		return $this;
@@ -369,10 +369,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$class			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonIconClass( string $class ): self
+	public function setSubmitButtonIconClass( string $class ): static
 	{
 		$this->buttonSubmitIconClass	= $class;
 		return $this;
@@ -382,10 +382,10 @@ class Dialog extends Structure
 	 *	...
 	 *	@access		public
 	 *	@param		string		$label			...
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function setSubmitButtonLabel( string $label ): self
+	public function setSubmitButtonLabel( string $label ): static
 	{
 		$this->buttonSubmitLabel	= $label;
 		return $this;
@@ -395,10 +395,10 @@ class Dialog extends Structure
 	 *	Enable or disable footer.
 	 *	@access		public
 	 *	@param		boolean		$use		Flag: use footer (default: yes)
-	 *	@return		self
+	 *	@return		static
 	 *	@todo		code doc
 	 */
-	public function useFooter( bool $use = TRUE ): self
+	public function useFooter( bool $use = TRUE ): static
 	{
 		$this->useFooter	= $use;
 		return $this;
@@ -408,9 +408,9 @@ class Dialog extends Structure
 	 *	Enable or disable header.
 	 *	@access		public
 	 *	@param		boolean		$use		Flag: use header (default: yes)
-	 *	@return		self
+	 *	@return		static
 	 */
-	public function useHeader( bool $use = TRUE ): self
+	public function useHeader( bool $use = TRUE ): static
 	{
 		$this->useHeader	= $use;
 		return $this;

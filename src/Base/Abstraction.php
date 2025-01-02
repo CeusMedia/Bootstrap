@@ -41,7 +41,7 @@ abstract class Abstraction implements Stringable
 		return version_compare( $version, $installVersion, '>=' );
 	}
 
-	public function setBsVersion( string $bsVersion ): self
+	public function setBsVersion( string $bsVersion ): static
 	{
 		$this->bsVersion	= $bsVersion;
 		return $this;
