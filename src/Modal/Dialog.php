@@ -454,6 +454,6 @@ class Dialog extends Structure
 			'aria-hidden'	=> 'true',
 		] );
 		$heading	= HtmlTag::create( 'h3', $this->heading, ['id' => $this->id.'-label'] );
-		return HtmlTag::create( 'div', [$heading, $buttonClose], ['class' => 'modal-header'] );
+		return HtmlTag::create( 'div', [$buttonClose, $heading], ['class' => 'modal-header'] );
 	}
 }
