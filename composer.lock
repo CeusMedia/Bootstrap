@@ -195,20 +195,20 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CeusMedia/DocCreator.git",
-                "reference": "812fef23604ef7ba5e090cfb4d594bd333c4e171"
+                "reference": "54f095d09ebf15c18fc1669359c1df2fec1e90e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CeusMedia/DocCreator/zipball/812fef23604ef7ba5e090cfb4d594bd333c4e171",
-                "reference": "812fef23604ef7ba5e090cfb4d594bd333c4e171",
+                "url": "https://api.github.com/repos/CeusMedia/DocCreator/zipball/54f095d09ebf15c18fc1669359c1df2fec1e90e3",
+                "reference": "54f095d09ebf15c18fc1669359c1df2fec1e90e3",
                 "shasum": ""
             },
             "require": {
                 "ceus-media/common": "^1.0 | 1.0.x-dev | dev-master",
+                "ceus-media/markdown": "^0.2 | 0.2.x-dev",
                 "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
                 "ceus-media/template-engine": "^0.5 | 0.5.x-dev",
                 "ext-zlib": "*",
-                "league/commonmark": "*",
                 "php": "^8.1"
             },
             "require-dev": {
@@ -245,7 +245,67 @@
                 "jabber": "cwuerker@ceusmedia.de",
                 "source": "https://github.com/CeusMedia/DocCreator/tree/1.0.x"
             },
-            "time": "2023-12-15T01:57:22+00:00"
+            "time": "2025-01-27T01:31:47+00:00"
+        },
+        {
+            "name": "ceus-media/markdown",
+            "version": "0.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CeusMedia/Markdown.git",
+                "reference": "95aa03d6853ea4a540559884dcd405d0cd7c526a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CeusMedia/Markdown/zipball/95aa03d6853ea4a540559884dcd405d0cd7c526a",
+                "reference": "95aa03d6853ea4a540559884dcd405d0cd7c526a",
+                "shasum": ""
+            },
+            "require": {
+                "kzykhys/ciconia": "v1.0.3",
+                "league/commonmark": "2.6.0",
+                "league/html-to-markdown": "5.1.1",
+                "michelf/php-markdown": "2.0.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "cebe/markdown": "1.2.1",
+                "erusev/parsedown": "2.0.x-dev",
+                "phpunit/phpunit": "^10",
+                "picas/markdown-extended": "*"
+            },
+            "suggest": {
+                "cebe/markdown": "A super fast, highly extensible markdown parser for PHP",
+                "erusev/parsedown": "Better Markdown Parser in PHP",
+                "picas/markdown-extended": "A PHP parser for the Markdown Extended syntax"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CeusMedia\\Markdown\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Christian Würker",
+                    "email": "christian.wuerker@ceusmedia.de",
+                    "homepage": "https://ceusmedia.de/",
+                    "role": "Developer"
+                }
+            ],
+            "support": {
+                "email": "office@ceusmedia.de",
+                "issues": "https://github.com/CeusMedia/Markdown/issues",
+                "jabber": "ceus-media@jabber.org",
+                "source": "https://github.com/CeusMedia/Markdown/tree/0.2.x"
+            },
+            "time": "2024-12-23T17:16:26+00:00"
         },
         {
             "name": "ceus-media/php-parser",
@@ -442,17 +502,76 @@
             "time": "2024-07-08T12:26:09+00:00"
         },
         {
-            "name": "league/commonmark",
-            "version": "dev-main",
+            "name": "kzykhys/ciconia",
+            "version": "v1.0.3",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "dfe07db97886facb6d9b93be98cb8ca26448e67f"
+                "url": "https://github.com/kzykhys/Ciconia.git",
+                "reference": "52d43ec35a656ef1bda07fdd8398081801f960ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/dfe07db97886facb6d9b93be98cb8ca26448e67f",
-                "reference": "dfe07db97886facb6d9b93be98cb8ca26448e67f",
+                "url": "https://api.github.com/repos/kzykhys/Ciconia/zipball/52d43ec35a656ef1bda07fdd8398081801f960ae",
+                "reference": "52d43ec35a656ef1bda07fdd8398081801f960ae",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">5.4.0",
+                "symfony/console": ">=2.3,<2.5-dev",
+                "symfony/options-resolver": ">=2.3,<2.5-dev"
+            },
+            "require-dev": {
+                "symfony/finder": ">=2.3,<2.5-dev",
+                "symfony/stopwatch": ">=2.3,<2.5-dev"
+            },
+            "bin": [
+                "bin/ciconia"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kazuyuki Hayashi",
+                    "email": "hayashi@valnur.net"
+                }
+            ],
+            "description": "The Markdown parser for PHP5.4",
+            "keywords": [
+                "cli",
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/kzykhys/Ciconia/issues",
+                "source": "https://github.com/kzykhys/Ciconia/tree/master"
+            },
+            "time": "2014-01-23T08:14:37+00:00"
+        },
+        {
+            "name": "league/commonmark",
+            "version": "2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/commonmark.git",
+                "reference": "d150f911e0079e90ae3c106734c93137c184f932"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/d150f911e0079e90ae3c106734c93137c184f932",
+                "reference": "d150f911e0079e90ae3c106734c93137c184f932",
                 "shasum": ""
             },
             "require": {
@@ -546,7 +665,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-12-29T14:14:05+00:00"
+            "time": "2024-12-07T15:34:16+00:00"
         },
         {
             "name": "league/config",
@@ -630,6 +749,151 @@
                 }
             ],
             "time": "2024-09-23T00:17:42+00:00"
+        },
+        {
+            "name": "league/html-to-markdown",
+            "version": "5.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/thephpleague/html-to-markdown.git",
+                "reference": "0b4066eede55c48f38bcee4fb8f0aa85654390fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/thephpleague/html-to-markdown/zipball/0b4066eede55c48f38bcee4fb8f0aa85654390fd",
+                "reference": "0b4066eede55c48f38bcee4fb8f0aa85654390fd",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-xml": "*",
+                "php": "^7.2.5 || ^8.0"
+            },
+            "require-dev": {
+                "mikehaertl/php-shellcommand": "^1.1.0",
+                "phpstan/phpstan": "^1.8.8",
+                "phpunit/phpunit": "^8.5 || ^9.2",
+                "scrutinizer/ocular": "^1.6",
+                "unleashedtech/php-coding-standard": "^2.7 || ^3.0",
+                "vimeo/psalm": "^4.22 || ^5.0"
+            },
+            "bin": [
+                "bin/html-to-markdown"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "League\\HTMLToMarkdown\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Colin O'Dell",
+                    "email": "colinodell@gmail.com",
+                    "homepage": "https://www.colinodell.com",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Nick Cernis",
+                    "email": "nick@cern.is",
+                    "homepage": "http://modernnerd.net",
+                    "role": "Original Author"
+                }
+            ],
+            "description": "An HTML-to-markdown conversion helper for PHP",
+            "homepage": "https://github.com/thephpleague/html-to-markdown",
+            "keywords": [
+                "html",
+                "markdown"
+            ],
+            "support": {
+                "issues": "https://github.com/thephpleague/html-to-markdown/issues",
+                "source": "https://github.com/thephpleague/html-to-markdown/tree/5.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://www.colinodell.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://www.paypal.me/colinpodell/10.00",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/colinodell",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/league/html-to-markdown",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2023-07-12T21:21:09+00:00"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "eb176f173fbac58a045aff78e55f833264b34e71"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/michelf/php-markdown/zipball/eb176f173fbac58a045aff78e55f833264b34e71",
+                "reference": "eb176f173fbac58a045aff78e55f833264b34e71",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "phpstan/phpstan": ">=1.0",
+                "phpstan/phpstan-phpunit": ">=1.0",
+                "phpunit/phpunit": "^9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Michelf\\": "Michelf/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "https://michelf.ca/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "https://daringfireball.net/"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "https://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "support": {
+                "issues": "https://github.com/michelf/php-markdown/issues",
+                "source": "https://github.com/michelf/php-markdown/tree/2.0.0"
+            },
+            "time": "2022-09-26T12:21:08+00:00"
         },
         {
             "name": "myclabs/deep-copy",
@@ -2646,6 +2910,62 @@
             "time": "2025-01-01T09:45:24+00:00"
         },
         {
+            "name": "symfony/console",
+            "version": "2.4.x-dev",
+            "target-dir": "Symfony/Component/Console",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/console.git",
+                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/console/zipball/39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
+                "reference": "39dd1c85ffdfc3c5fb008019dd027af05f64ec36",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/event-dispatcher": "~2.1"
+            },
+            "suggest": {
+                "symfony/event-dispatcher": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Console\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony Console Component",
+            "homepage": "http://symfony.com",
+            "support": {
+                "source": "https://github.com/symfony/console/tree/v2.4.10"
+            },
+            "time": "2014-09-22T08:51:05+00:00"
+        },
+        {
             "name": "symfony/deprecation-contracts",
             "version": "dev-main",
             "source": {
@@ -2712,6 +3032,61 @@
                 }
             ],
             "time": "2024-09-25T14:21:43+00:00"
+        },
+        {
+            "name": "symfony/options-resolver",
+            "version": "2.4.x-dev",
+            "target-dir": "Symfony/Component/OptionsResolver",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/options-resolver.git",
+                "reference": "45f5e4f9b49eef5d88d68fbd36dbf27023283e44"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/options-resolver/zipball/45f5e4f9b49eef5d88d68fbd36dbf27023283e44",
+                "reference": "45f5e4f9b49eef5d88d68fbd36dbf27023283e44",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\OptionsResolver\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony OptionsResolver Component",
+            "homepage": "http://symfony.com",
+            "keywords": [
+                "config",
+                "configuration",
+                "options"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/options-resolver/tree/v2.4.10"
+            },
+            "time": "2014-09-22T08:51:05+00:00"
         },
         {
             "name": "symfony/polyfill-php80",
