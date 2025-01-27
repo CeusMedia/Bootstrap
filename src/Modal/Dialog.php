@@ -42,13 +42,13 @@ class Dialog extends Structure implements Renderable, Stringable
 {
 	use AriaAware, ClassAware, DataAware, IdAware, SizeAware;
 
-	public const SIZE_DEFAULT				= '';
-	public const SIZE_SMALL					= 'modal-sm';
-	public const SIZE_MEDIUM				= 'modal-md';
-	public const SIZE_LARGE					= 'modal-lg';
-	public const SIZE_EXTRA_LARGE			= 'modal-xl';
+	public const string SIZE_DEFAULT		= '';
+	public const string SIZE_SMALL			= 'modal-sm';
+	public const string SIZE_MEDIUM			= 'modal-md';
+	public const string SIZE_LARGE			= 'modal-lg';
+	public const string SIZE_EXTRA_LARGE	= 'modal-xl';
 
-	public const SIZES						= [
+	public const array SIZES				= [
 		self::SIZE_DEFAULT,
 		self::SIZE_SMALL,
 		self::SIZE_MEDIUM,
@@ -162,7 +162,7 @@ class Dialog extends Structure implements Renderable, Stringable
 			}
 		}
 		$content	= [$header, $body, $footer];
-		if( TRUE === version_compare( $this->bsVersion, '4', '>=' ) ){
+		if( version_compare( $this->bsVersion, '4', '>=' ) ){
 			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-content'] );
 			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document'] );
 		}
@@ -268,8 +268,7 @@ class Dialog extends Structure implements Renderable, Stringable
 	 */
 	public function setDialogClass( string $class ): static
 	{
-		$this->dialogClass	= $class;
-		return $this;
+		return $this->addClass( $class );
 	}
 
 	/**
@@ -418,6 +417,10 @@ class Dialog extends Structure implements Renderable, Stringable
 
 	/*  --  PROTECTED  --  */
 
+	/**
+	 *	@return		string
+	 *	@todo		code doc
+	 */
 	protected function renderFooter(): string
 	{
 		if( !$this->useFooter )
@@ -443,6 +446,10 @@ class Dialog extends Structure implements Renderable, Stringable
 		return HtmlTag::create( 'div', [$buttonClose, $buttonSubmit], ['class' => 'modal-footer'] );
 	}
 
+	/**
+	 *	@return		string
+	 *	@todo		code doc
+	 */
 	protected function renderHeader(): string
 	{
 		if( !$this->useHeader )

@@ -13,7 +13,6 @@ declare(strict_types=1);
  */
 namespace CeusMedia\Bootstrap\Modal;
 
-use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
@@ -58,7 +57,7 @@ class Trigger implements Renderable, Stringable
 	 *	@param		Icon|string|NULL	$icon
 	 *	@return		void
 	 */
-	public function __construct( ?string $modalId = NULL, ?string $label = NULL, $class = NULL, $icon = NULL )
+	public function __construct( ?string $modalId = NULL, ?string $label = NULL, string|array|NULL $class = NULL, Icon|string|NULL $icon = NULL )
 	{
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
