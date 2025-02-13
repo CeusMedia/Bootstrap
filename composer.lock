@@ -206,7 +206,6 @@
             "require": {
                 "ceus-media/common": "^1.1 | 1.1.x-dev",
                 "ceus-media/markdown": "^0.2 | 0.2.x-dev | ^0.3 | 0.3.x-dev",
-                "ceus-media/markdown": "^0.2 | 0.2.x-dev",
                 "ceus-media/php-parser": "^0.4 | 0.4.x-dev | ^0.5 | 0.5.x-dev",
                 "ceus-media/template-engine": "^0.5 | 0.5.x-dev | ^0.6 | 0.6.x-dev",
                 "ext-zlib": "*",
