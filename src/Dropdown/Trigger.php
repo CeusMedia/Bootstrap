@@ -93,7 +93,7 @@ class Trigger extends Structure
 	 */
 	public function asLink( bool $asLink = TRUE ): self
 	{
-		$this->type		= (bool) $asLink ? "link" : "button";
+		$this->type		= $asLink ? 'link' : 'button';
 		return $this;
 	}
 

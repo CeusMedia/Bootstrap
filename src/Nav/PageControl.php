@@ -45,6 +45,7 @@ class PageControl extends Structure
 
 	public function __construct( string $baseUrl, int $page, int $pages )
 	{
+		parent::__construct();
 		$this->baseUrl			= $baseUrl;
 		$this->page				= abs( $page );
 		$this->pages			= abs( $pages );
@@ -70,9 +71,9 @@ class PageControl extends Structure
 
 	protected function getUrl( int $page = 0 ): string
 	{
-		$fragment	= $this->fragment ? "#".$this->fragment : "";
+		$fragment	= '' !== $this->fragment ? '#'.$this->fragment : '';
 		$part		= sprintf( $this->patternUrl, $page );
-		if( !$page && $this->patternUrl == "/%s" )
+		if( 0 === $page && "/%s" === $this->patternUrl )
 			$part	= '';
 		return $this->baseUrl.$part.$fragment;
 	}
@@ -84,8 +85,8 @@ class PageControl extends Structure
 	public function render(): string
 	{
 		if( $this->pages <= 1 )
-			return "";
-		$size	= $this->size ? 'btn-'.$this->size : NULL;
+			return '';
+		$size	= NULL !== $this->size ? 'btn-'.$this->size : NULL;
 		$buttons	= [
 			(object) [
 				'url'		=> $this->getUrl(),

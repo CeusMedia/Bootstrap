@@ -30,7 +30,7 @@ class NavPillItemDropdown
 	{
 		$this->label		= $label;
 		$this->content		= $dropdown;
-		$this->class		= 'nav-link'.( $class ? ' '.$class : '' );
+		$this->class		= 'nav-link'.( NULL !== $class ? ' '.$class : '' );
 		$this->icon			= $icon;
 		$this->iconActive	= $iconActive;
 	}

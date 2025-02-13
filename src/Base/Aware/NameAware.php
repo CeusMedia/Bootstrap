@@ -30,7 +30,7 @@ trait NameAware
 	{
 		$this->name	= $name;
 		if( !is_a( $this, Button::class ) )
-			$this->setId( $name ? 'input_'.$name : "" );
+			$this->setId( NULL !== $name ? 'input_'.$name : '' );
 		return $this;
 	}
 }

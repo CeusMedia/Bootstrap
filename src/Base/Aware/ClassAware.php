@@ -20,11 +20,14 @@ trait ClassAware
 		$classes	= [];
 		if( is_array( $class ) )
 			$classes	= $class;
-		else
-			$classes	= preg_split( '/\s+/', trim( $class ) ) ?: [];
+		else{
+			$list		= preg_split( '/\s+/', trim( $class ) );
+			if( FALSE !== $list )
+				$classes	= $list;
+		}
 		foreach( $classes as $item ){
 			$item	= trim( $item );
-			if( 0 !== strlen( $item ) && !in_array( $item, $this->classes ) )
+			if( '' !== $item && !in_array( $item, $this->classes, TRUE ) )
 				$this->classes[]	= trim( $item );
 		}
 		return $this;
@@ -37,8 +40,8 @@ trait ClassAware
 	 */
 	public function removeClass( string $class ): static
 	{
-		if( strlen( trim( $class ) ) !== 0 ){
-			$index	= array_search( trim( $class ), $this->classes );
+		if( '' !== trim( $class ) ){
+			$index	= array_search( trim( $class ), $this->classes, TRUE );
 			if( $index !== FALSE )
 				unset( $this->classes[$index] );
 			$this->classes	= array_values( $this->classes );

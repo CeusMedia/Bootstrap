@@ -156,7 +156,7 @@ class Dialog extends Structure implements Renderable, Stringable
 				case 'aria-hidden':
 					break;
 				case 'class':
-					$attributes['class']	.= strlen( trim( (string) $value ) ) ? ' '.$value : '';
+					$attributes['class']	.= '' !== trim( (string) $value ) ? ' '.$value : '';
 					break;
 				default:
 					$attributes[$key]	= $value;
@@ -424,22 +424,22 @@ class Dialog extends Structure implements Renderable, Stringable
 			return '';
 		$iconClose		= '';
 		$iconSubmit		= '';
-		if( $this->buttonCloseIconClass )
+		if( '' !== $this->buttonCloseIconClass )
 		 	$iconClose	= new Icon( $this->buttonCloseIconClass );
-		if( $this->buttonSubmitIconClass )
+		if( '' !== $this->buttonSubmitIconClass )
 		 	$iconSubmit	= new Icon( $this->buttonSubmitIconClass );
 		$labelClose		= $iconClose.$this->buttonCloseLabel;
 		$labelSubmit	= $iconSubmit.$this->buttonSubmitLabel;
-		if( $iconClose && $this->buttonCloseLabel )
+		if( '' !== $iconClose && '' !== $this->buttonCloseLabel )
 			$labelClose = $iconClose.'&nbsp;'.$this->buttonCloseLabel;
-		if( $iconSubmit && $this->buttonSubmitLabel )
+		if( '' !== $iconSubmit && '' !== $this->buttonSubmitLabel )
 			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
 
 		$buttonClose	= new Button( $labelClose, $this->buttonCloseClass );
 		$buttonClose->setAria( 'hidden', 'true' )->setData( 'dismiss', 'modal' );
 		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
 		$buttonSubmit->setType( Button::TYPE_SUBMIT );
-		$buttonSubmit	= $this->formAction ? $buttonSubmit : '';
+		$buttonSubmit	= ( '' !== ( $this->formAction ?? '' ) ) ? $buttonSubmit : '';
 		return HtmlTag::create( 'div', [$buttonClose, $buttonSubmit], ['class' => 'modal-footer'] );
 	}
 

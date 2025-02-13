@@ -48,13 +48,13 @@ class Group extends Structure
 	 *	@param		array|object|string		$button
 	 *	@return		self		Own instance for method chaining
 	 */
-	public function add( $button ): self
+	public function add( array|object|string $button ): self
 	{
 		if( is_array( $button ) ){
 			foreach( $button as $item )
 				$this->add( $item );
 		}
-		else if( $button )
+		else
 			$this->buttons[]	= $button;
 		return $this;
 	}
@@ -68,7 +68,7 @@ class Group extends Structure
 		$classes		= ['btn-group'];
 //		if( $this->stacked )
 //			$classes[]	= 'btn-group-vertical';
-		if( count( $this->classes ) )
+		if( [] !== $this->classes )
 			$classes	= array_merge( $classes, $this->classes );
 		$attributes	= ['class' => join( ' ', $classes )];
 		$this->extendAttributesByAria( $attributes );

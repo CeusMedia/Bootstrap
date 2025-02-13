@@ -67,7 +67,7 @@ class Pills extends Structure
 	 */
 	public function add( string $url, Stringable|Renderable|string|null $label, ?string $class = NULL, Icon|string|null $icon = NULL ): self
 	{
-		$class	= 'nav-link'.( $class ? ' '.$class : '' );
+		$class	= 'nav-link'.( ( '' !== ( $class ?? '' ) ) ? ' '.$class : '' );
 		$link	= new Link( $url, $label, $class, $icon );
 		$this->addLink( $link );
 		return $this;
@@ -117,7 +117,9 @@ class Pills extends Structure
 			$class		= $this->active === $nr ? "active" : NULL;
 //			if( $item->type === "dropdown" ){
 			if( $item instanceof NavPillItemDropdown ){
-				$icon		= $this->active === $nr && $item->iconActive ? $item->iconActive : $item->icon;
+				$icon		= $item->icon;
+				if( $this->active === $nr && NULL !== $item->iconActive )
+					$icon	= $item->iconActive;
 				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
 				$item		= HtmlTag::create( 'li', $trigger.$item->content, ['class' => 'dropdown '.$class] );
 			}

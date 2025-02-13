@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0bd6367e4badc852ff7fc2f44d283119",
+    "content-hash": "cea9fc1866f9eb7c777e4016e3c5d8ab",
     "packages": [
         {
             "name": "ceus-media/common",
@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CeusMedia/Common.git",
-                "reference": "e871b269d9a18d5d1a9445fb81371ecf71c7388a"
+                "reference": "117a8791a07305585f53c1eb8e8d9af146b5651d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CeusMedia/Common/zipball/e871b269d9a18d5d1a9445fb81371ecf71c7388a",
-                "reference": "e871b269d9a18d5d1a9445fb81371ecf71c7388a",
+                "url": "https://api.github.com/repos/CeusMedia/Common/zipball/117a8791a07305585f53c1eb8e8d9af146b5651d",
+                "reference": "117a8791a07305585f53c1eb8e8d9af146b5651d",
                 "shasum": ""
             },
             "require": {
@@ -25,10 +25,9 @@
                 "psr/simple-cache": "^3.0"
             },
             "require-dev": {
-                "ceus-media/database": "^0.6 || 0.6.x-dev",
-                "ceus-media/doc-creator": "^1 | 1.0.x-dev",
-                "ceus-media/php-parser": "^0.4 | 0.4.x-dev",
-                "erusev/parsedown": "~1.0",
+                "ceus-media/database": "0.6.* | 0.6.x-dev",
+                "ceus-media/doc-creator": "1.0.* | 1.0.x-dev",
+                "ceus-media/php-parser": "0.4.* | 0.4.x-dev",
                 "ext-bz2": "*",
                 "ext-curl": "*",
                 "ext-dom": "*",
@@ -46,11 +45,10 @@
                 "ext-xsl": "*",
                 "ext-zip": "*",
                 "ext-zlib": "*",
-                "michelf/php-markdown": "^1.7",
-                "php-parallel-lint/php-parallel-lint": "^1.3",
-                "phpstan/phpstan": "^1",
-                "phpstan/phpstan-strict-rules": "^1",
-                "phpunit/phpunit": "^9 | ^10",
+                "php-parallel-lint/php-parallel-lint": "1.*",
+                "phpstan/phpstan": "1.*",
+                "phpstan/phpstan-strict-rules": "1.*",
+                "phpunit/phpunit": "10.*",
                 "rector/rector": "*"
             },
             "type": "library",
@@ -80,7 +78,7 @@
                 "jabber": "cwuerker@ceusmedia.de",
                 "source": "https://github.com/CeusMedia/Common/tree/1.0.x"
             },
-            "time": "2025-01-02T03:36:08+00:00"
+            "time": "2025-02-11T01:48:38+00:00"
         },
         {
             "name": "nostalgiaz/bootstrap-switch",
@@ -195,12 +193,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CeusMedia/DocCreator.git",
-                "reference": "54f095d09ebf15c18fc1669359c1df2fec1e90e3"
+                "reference": "c2a4a7b966145d12746514677dc6f18479564245"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CeusMedia/DocCreator/zipball/54f095d09ebf15c18fc1669359c1df2fec1e90e3",
-                "reference": "54f095d09ebf15c18fc1669359c1df2fec1e90e3",
+                "url": "https://api.github.com/repos/CeusMedia/DocCreator/zipball/c2a4a7b966145d12746514677dc6f18479564245",
+                "reference": "c2a4a7b966145d12746514677dc6f18479564245",
                 "shasum": ""
             },
             "require": {
@@ -245,7 +243,7 @@
                 "jabber": "cwuerker@ceusmedia.de",
                 "source": "https://github.com/CeusMedia/DocCreator/tree/1.0.x"
             },
-            "time": "2025-01-27T01:31:47+00:00"
+            "time": "2025-02-10T09:59:52+00:00"
         },
         {
             "name": "ceus-media/markdown",
@@ -313,25 +311,25 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/CeusMedia/PHP-Parser.git",
-                "reference": "a4092449f3e6909a066c6964273727add0c7fa7c"
+                "reference": "24d6a9cab5a5db23b0e0c88201eaff8a882a3dfd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CeusMedia/PHP-Parser/zipball/a4092449f3e6909a066c6964273727add0c7fa7c",
-                "reference": "a4092449f3e6909a066c6964273727add0c7fa7c",
+                "url": "https://api.github.com/repos/CeusMedia/PHP-Parser/zipball/24d6a9cab5a5db23b0e0c88201eaff8a882a3dfd",
+                "reference": "24d6a9cab5a5db23b0e0c88201eaff8a882a3dfd",
                 "shasum": ""
             },
             "require": {
-                "ceus-media/common": "^1.0 | 1.0@dev | dev-master",
+                "ceus-media/common": "^1.0 | 1.0.x-dev",
                 "ext-zlib": "*",
                 "php": "^8.1"
             },
             "require-dev": {
-                "ceus-media/doc-creator": "^0.9.6 | 0.9.x-dev | dev-master",
+                "ceus-media/doc-creator": "^1.0 | 1.0.x-dev",
                 "php-parallel-lint/php-parallel-lint": "^1.3 | dev-master",
                 "phpstan/phpstan": "^1",
                 "phpstan/phpstan-strict-rules": "^1",
-                "phpunit/phpunit": "^9.5 | ^10"
+                "phpunit/phpunit": "^10"
             },
             "type": "library",
             "autoload": {
@@ -363,7 +361,7 @@
                 "jabber": "cwuerker@ceusmedia.de",
                 "source": "https://github.com/CeusMedia/PHP-Parser/tree/0.4.x"
             },
-            "time": "2024-10-24T15:25:02+00:00"
+            "time": "2025-02-10T08:56:10+00:00"
         },
         {
             "name": "ceus-media/template-engine",
@@ -901,12 +899,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "4764e040f8743e92b86c36f488f32d0265dd1dae"
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/4764e040f8743e92b86c36f488f32d0265dd1dae",
-                "reference": "4764e040f8743e92b86c36f488f32d0265dd1dae",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/024473a478be9df5fdaca2c793f2232fe788e414",
+                "reference": "024473a478be9df5fdaca2c793f2232fe788e414",
                 "shasum": ""
             },
             "require": {
@@ -946,7 +944,7 @@
             ],
             "support": {
                 "issues": "https://github.com/myclabs/DeepCopy/issues",
-                "source": "https://github.com/myclabs/DeepCopy/tree/1.x"
+                "source": "https://github.com/myclabs/DeepCopy/tree/1.13.0"
             },
             "funding": [
                 {
@@ -954,7 +952,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-11-26T13:04:49+00:00"
+            "time": "2025-02-12T12:17:51+00:00"
         },
         {
             "name": "nette/schema",
@@ -1024,12 +1022,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "2b48b24abf3b59c3699ca99e144deb5c0020208f"
+                "reference": "be534713c227aeef57ce1883fc17bc9f9e29eca2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/2b48b24abf3b59c3699ca99e144deb5c0020208f",
-                "reference": "2b48b24abf3b59c3699ca99e144deb5c0020208f",
+                "url": "https://api.github.com/repos/nette/utils/zipball/be534713c227aeef57ce1883fc17bc9f9e29eca2",
+                "reference": "be534713c227aeef57ce1883fc17bc9f9e29eca2",
                 "shasum": ""
             },
             "require": {
@@ -1103,7 +1101,7 @@
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/master"
             },
-            "time": "2024-12-12T10:02:15+00:00"
+            "time": "2025-02-03T00:58:56+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -1349,12 +1347,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpstan/phpstan.git",
-                "reference": "b57bcad0a4c9540049bf5f3a2bfb627884544a02"
+                "reference": "14faee1e548a17eb25efcab28932ec1579e24580"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/b57bcad0a4c9540049bf5f3a2bfb627884544a02",
-                "reference": "b57bcad0a4c9540049bf5f3a2bfb627884544a02",
+                "url": "https://api.github.com/repos/phpstan/phpstan/zipball/14faee1e548a17eb25efcab28932ec1579e24580",
+                "reference": "14faee1e548a17eb25efcab28932ec1579e24580",
                 "shasum": ""
             },
             "require": {
@@ -1399,7 +1397,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-24T21:04:26+00:00"
+            "time": "2025-02-12T08:33:07+00:00"
         },
         {
             "name": "phpstan/phpstan-strict-rules",
@@ -1456,12 +1454,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d98175c41a42ed4988f97e48b243cbad69de8aff"
+                "reference": "89e694721a7721fccf4cc665dd3d75049984e97a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d98175c41a42ed4988f97e48b243cbad69de8aff",
-                "reference": "d98175c41a42ed4988f97e48b243cbad69de8aff",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/89e694721a7721fccf4cc665dd3d75049984e97a",
+                "reference": "89e694721a7721fccf4cc665dd3d75049984e97a",
                 "shasum": ""
             },
             "require": {
@@ -1526,7 +1524,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2025-01-01T10:02:44+00:00"
+            "time": "2025-02-08T08:52:03+00:00"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -1779,12 +1777,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "a02bd723e7c6aa8236e1c1b821a4c450ff1ec821"
+                "reference": "ae230ce971b4d09d9415a15afd284fe37b65685e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/a02bd723e7c6aa8236e1c1b821a4c450ff1ec821",
-                "reference": "a02bd723e7c6aa8236e1c1b821a4c450ff1ec821",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ae230ce971b4d09d9415a15afd284fe37b65685e",
+                "reference": "ae230ce971b4d09d9415a15afd284fe37b65685e",
                 "shasum": ""
             },
             "require": {
@@ -1872,7 +1870,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-01-26T08:28:57+00:00"
+            "time": "2025-02-10T13:49:12+00:00"
         },
         {
             "name": "psr/event-dispatcher",
@@ -3224,8 +3222,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "ceus-media/common": 20,
-        "ceus-media/doc-creator": 20,
-        "php-parallel-lint/php-parallel-lint": 20
+        "ceus-media/doc-creator": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

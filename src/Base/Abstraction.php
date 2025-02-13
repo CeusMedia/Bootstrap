@@ -62,11 +62,9 @@ abstract class Abstraction implements Stringable
 			return $this->render();
 		}
 		catch( Exception $e ){
-			$message	= '... failed: '.$e->getMessage();
-			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );						//  trigger recoverable user error
-//			print $e->getMessage();																//  if app is still alive: print exception message
-//			exit;																				//  if app is still alive: exit application
-//			return '';
+//			$message	= '... failed: '.$e->getMessage();
+//			trigger_error( $message, E_USER_ERROR | E_RECOVERABLE_ERROR );		//  trigger recoverable user error
+			return '';
 		}
 	}
 
@@ -82,6 +80,7 @@ abstract class Abstraction implements Stringable
 	{
 		if( !property_exists( $this, $propertyName ) )
 			throw new \DomainException( 'Property "'.$propertyName.'" does not exist.' );
+		/** @phpstan-ignore-next-line */
 		$value = $this->{$propertyName};
 		if( $value instanceof Renderable )
 			$value = $value->render();

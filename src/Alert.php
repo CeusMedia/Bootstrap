@@ -50,7 +50,7 @@ class Alert extends Element
 	public function render(): string
 	{
 		$class	= 'alert';
-		if( count( $this->classes ) )
+		if( [] !== $this->classes )
 			$class	.= ' '.join( ' ', $this->classes );
 
 		$dismiss	= '';

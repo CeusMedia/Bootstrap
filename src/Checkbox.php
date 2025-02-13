@@ -73,8 +73,8 @@ class Checkbox extends Structure
 		$this->setChecked( $checked );
 		$this->label	= $label;
 		$this->icon		= $icon;
-		foreach( $data as $key => $value )
-			$this->setData( $key, $value );
+		foreach( $data as $key => $v )
+			$this->setData( $key, $v );
 	}
 
 	/**

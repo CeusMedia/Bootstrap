@@ -122,9 +122,9 @@ class Trigger implements Renderable, Stringable
 	 */
 	public function render(): string
 	{
-		if( !$this->label )
+		if( '' === ( $this->label ?? '' ) )
 			throw new RuntimeException( 'No label set' );
-		if( !$this->modalId )
+		if( '' === ( $this->modalId ?? '' ) )
 			throw new RuntimeException( 'No modal ID set' );
 		$attributes	= [
 			'id'			=> $this->id,
@@ -148,7 +148,7 @@ class Trigger implements Renderable, Stringable
 			}
 		}
 		$label	= $this->label;
-		if( $this->icon )
+		if( NULL !== $this->icon )
 			$label	= $this->icon.'&nbsp;'.$label;
 
 		if( $this->type === 'link' )

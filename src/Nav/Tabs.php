@@ -105,7 +105,7 @@ class Tabs extends Structure
 	{
 		$listTabs	= [];
 		$listPanes	= [];
-		if( !$this->activeId )
+		if( '' === ( $this->activeId ?? '' ) )
 			$this->setActive( 0 );
 		foreach( $this->tabs as $tab ){
 			$classesItem	= ['nav-item'];

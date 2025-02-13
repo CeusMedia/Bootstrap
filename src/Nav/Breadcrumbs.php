@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\Breadcrumb;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Icon;
@@ -73,15 +74,16 @@ class Breadcrumbs extends Structure
 	 *	@param		boolean				$active
 	 *	@return		self				Own instance for method chaining
 	 */
-	public function add( $label, ?string $url = NULL, ?string $class = NULL, $icon = NULL, bool $active = FALSE ): self
+	public function add( Link|string $label, ?string $url = NULL, ?string $class = NULL, Icon|string $icon = NULL, bool $active = FALSE ): self
 	{
-		$this->crumbs[]	= (object) [
-			'label'		=> $label,
-			'url'		=> (string) $url,
-			'class'		=> (string) $class,
-			'icon'		=> (string) $icon,
-			'active'	=> $active,
-		];
+		$crumb	= new Breadcrumb();
+		$crumb->label	= $label;
+		$crumb->url		= (string) $url;
+		$crumb->class	= (string) $class;
+		$crumb->icon	= (string) $icon;
+		$crumb->active	= $active;
+
+		$this->crumbs[]	= $crumb;
 		return $this;
 	}
 
@@ -118,7 +120,7 @@ class Breadcrumbs extends Structure
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
-			else if( strlen( trim( $crumb->url ) ) ){
+			else if( '' !== trim( $crumb->url ) ){
 				$link		= new Link( $crumb->url, $crumb->label );
 				$content	= $link->render();
 			}
