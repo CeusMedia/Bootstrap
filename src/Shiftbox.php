@@ -48,8 +48,8 @@ class Shiftbox extends Element
 		$this->setName( $name );
 		$this->setValue( $value );
 		$this->setChecked( $checked );
-		foreach( $data as $key => $value )
-			$this->setData( $key, $value );
+		foreach( $data as $key => $v )
+			$this->setData( $key, $v );
 	}
 
 	/**

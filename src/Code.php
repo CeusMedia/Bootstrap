@@ -75,6 +75,7 @@ class Code extends Element
 		foreach( explode( "\n", $content ) as $line ){
 			$line	= trim( $line, "\r" );
 			while( substr_count( $line, "\t" ) ){
+				/** @var int $pos */
 				$pos	= strpos( $line, "\t" );
 				$indent	= static::$tabSize - ( $pos % static::$tabSize );
 				$subst	= str_repeat( " ", $indent );

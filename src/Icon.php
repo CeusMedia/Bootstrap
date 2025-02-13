@@ -58,7 +58,7 @@ class Icon extends Structure
 		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
-		$this->setStyle( $style ?: static::$defaultStyle );
+		$this->setStyle( NULL !== $style ? $style : static::$defaultStyle );
 		if( NULL !== $size )
 			$this->setSize( $size );
 	}
@@ -148,7 +148,7 @@ class Icon extends Structure
 
 	protected function realizeSizes(): array
 	{
-		$sizes	= $this->size ?: static::$defaultSize;
+		$sizes	= [] !== $this->size ? $this->size : static::$defaultSize;
 		$list	= [];
 		foreach( $sizes as $size ){
 			switch( strtolower( $this->set ?? '' ) ){
@@ -156,7 +156,7 @@ class Icon extends Structure
 				case 'fontawesome4':
 				case 'fontawesome5':
 					$size	= 'fixed' === $size ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
-					if( preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )				//  translate sizes like 'x2' (allowed: 1-9)
+					if( 1 === preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )		//  translate sizes like 'x2' (allowed: 1-9)
 						$size	= preg_replace( $regExpFactor, '\\1x', (string) $size );	//  ... to 2x
 					$list[]	= 'fa-'.$size;															//  ...
 					break;
@@ -172,7 +172,7 @@ class Icon extends Structure
 	 */
 	protected function realizeStyle(): array
 	{
-		$style	= $this->style ?: static::$defaultStyle;
+		$style	= '' !== $this->style ? $this->style : static::$defaultStyle;
 		$list	= [];
 		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':
@@ -202,7 +202,7 @@ class Icon extends Structure
 		$icon		= preg_replace( "/ +/", " ", $icon ) ?? '';
 		$parts		= explode( " ", $icon );
 		$list		= [];
-		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
+		if( 1 === preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
 		foreach( $this->realizeStyle() as $style )
 			$list[]	= $style;

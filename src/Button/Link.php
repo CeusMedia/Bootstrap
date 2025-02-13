@@ -74,11 +74,11 @@ class Link extends Element
 			'id'		=> $this->id,
 			'class'		=> 'btn '.join( ' ', $this->classes ),
 			'href'		=> $this->url,
-			'title'		=> $this->title ? addslashes( $this->title ) : NULL,
+			'title'		=> NULL !== $this->title ? addslashes( $this->title ) : NULL,
 			'role'		=> 'button',
 			'onclick'	=> NULL,
 		];
-		if( $this->confirm ){
+		if( NULL !== $this->confirm ){
 			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
 		}
 		if( $this->disabled ){
