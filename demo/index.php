@@ -46,6 +46,7 @@ $parts	= [
 	'modal',
 	'nav_tabs',
 	'nav_pills',
+	'nav_list',
 	'badge',
 //	'pagination',
 	'pagecontrol',
