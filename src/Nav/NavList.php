@@ -13,10 +13,12 @@ declare(strict_types=1);
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\NavListItem;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
-
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use Exception;
 
@@ -33,6 +35,7 @@ class NavList extends Structure
 {
 	protected ?string $current		= NULL;
 
+	/** @var NavListItem[] $items */
 	protected array $items			= [];
 
 	/**
@@ -52,33 +55,34 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		string				$url
+	 *	@param		URL|string			$url
 	 *	@param		string				$label
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		string|NULL			$class
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( string $url, string $label, $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): self
+	public function add( URL|string $url, string $label, Icon|string $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'link',
-			'url'		=> $url,
-			'label'		=> $label,
-			'icon'		=> $icon,
-			'class'		=> $class,
-		];
+		$item	= new NavListItem();
+		$item->type		= 'link';
+		$item->url		= $url;
+		$item->label	= $label;
+		$item->icon		= is_string( $icon ) ? new Icon( $icon ) : $icon;
+		$item->class	= $class;
+
+		$this->items[]	= $item;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addDivider(): self
+	public function addDivider(): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'divider',
-		];
+		$item	= new NavListItem();
+		$item->type		= 'divider';
+		$this->items[]	= $item;
 		return $this;
 	}
 
@@ -87,29 +91,30 @@ class NavList extends Structure
 	 *	@param		string				$label
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		string|NULL			$class
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function addHeader( string $label, Icon|string|null $icon = NULL, string $class = NULL ): self
+	public function addHeader( string $label, Icon|string|null $icon = NULL, string $class = NULL ): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'header',
-			'label'		=> $label,
-			'icon'		=> $icon,
-			'class'		=> trim( 'nav-header autocut '.$class ),
-		];
+		$item	= new NavListItem();
+		$item->type		= 'header';
+		$item->label	= $label;
+		$item->icon		= is_string( $icon ) ? new Icon( $icon ) : $icon;
+		$item->class	= trim( 'nav-header autocut '.$class );
+
+		$this->items[]	= $item;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addNavList( NavList $list ): self
+	public function addNavList( NavList $list ): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'navlist',
-			'list'		=> $list,
-		];
+		$item	= new NavListItem();
+		$item->type		= 'navlist';
+		$item->list		= $list;
+		$this->items[]	= $item;
 		return $this;
 	}
 
@@ -127,20 +132,23 @@ class NavList extends Structure
 					break;
 				case 'header':
 					$label	= $item->label;
-					if( $item->icon )
-						$label	= new Icon( $item->icon ).' '.$label;
+					if( NULL !== $item->icon )
+						$label	= $item->icon->render().' '.$label;
 					$list[]	= HtmlTag::create( 'li', $label, ['class' => $item->class] );
 					break;
 				case 'navlist':
-					$list[]	= $item->list->render();
+					if( NULL !== $item->list )
+						$list[]	= $item->list->render();
 					break;
 				case 'link':
+					if( NULL === $item->url )
+						throw new DataMissingException( 'No URL provided for link' );
 					$attr	= [
 						'class' => [''],
 						'title' => $item->label
 					];
 					$invert	= FALSE;
-					if( $item->url == $this->current ){
+					if( $item->url === $this->current ){
 						$attr['class'][]	= 'active';
 						$invert	= TRUE;
 					}
@@ -157,9 +165,9 @@ class NavList extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string		$url
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setCurrent( string $url ): self
+	public function setCurrent( string $url ): static
 	{
 		$this->current	= $url;
 		return $this;

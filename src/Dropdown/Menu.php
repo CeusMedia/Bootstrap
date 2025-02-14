@@ -106,14 +106,15 @@ class Menu extends Structure
 		$link->setRole( 'button' );
 		if( $class )
 			$link->addClass( $class );
-		$this->items[]	= (object) [
-			'type'		=> 'dropdown',
-			'content'	=> $link,
-			'submenu'	=> $dropdown,
-			'class'		=> $class,
-			'icon'		=> $icon,
-			'disabled'	=> $disabled,
-		];*/
+
+		$item	= new MenuItem();
+		$item->type		= 'dropdown';
+		$item->content	= $link;
+		$item->submenu	= $dropdown;
+		$item->class	= $class;
+		$item->icon		= $icon;
+		$item->disabled	= $disabled;
+		$this->items[]	= $item;*/
 		return $this;
 	}
 
