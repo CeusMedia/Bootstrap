@@ -27,13 +27,13 @@ use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
  */
 class Badge extends Element
 {
-	const CLASS_IMPORTANT	= 'badge-important badge-danger';
-	const CLASS_INVERSE		= 'badge-inverse';
-	const CLASS_INFO		= 'badge-info';
-	const CLASS_SUCCESS		= 'badge-success';
-	const CLASS_WARNING		= 'badge-warning';
+	public const CLASS_IMPORTANT	= 'badge-important badge-danger';
+	public const CLASS_INVERSE		= 'badge-inverse';
+	public const CLASS_INFO		= 'badge-info';
+	public const CLASS_SUCCESS		= 'badge-success';
+	public const CLASS_WARNING		= 'badge-warning';
 
-	const CLASSES			= [
+	public const CLASSES			= [
 		self::CLASS_IMPORTANT,
 		self::CLASS_INVERSE,
 		self::CLASS_INFO,

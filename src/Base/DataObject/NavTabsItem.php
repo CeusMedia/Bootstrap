@@ -36,8 +36,9 @@ class NavTabsItem
 		Stringable|Renderable|string $label,
 		Stringable|Renderable|string $content,
 		bool $disabled = FALSE
-	): self
+	): static
 	{
-		return new self( $id, $url, $label, $content, $disabled );
+		$className	= static::class;
+		return new $className( $id, $url, $label, $content, $disabled );
 	}
 }

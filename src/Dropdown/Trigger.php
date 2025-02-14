@@ -78,20 +78,20 @@ class Trigger extends Structure
 	/**
 	 *	@access		public
 	 *	@param		bool		$asButton
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function asButton( bool $asButton = TRUE ): self
+	public function asButton( bool $asButton = TRUE ): static
 	{
-		$this->type		= $asButton ? "button" : "link";
+		$this->type		= $asButton ? 'button' : 'link';
 		return $this;
 	}
 
 	/**
 	 *	@access		public
 	 *	@param		bool		$asLink
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function asLink( bool $asLink = TRUE ): self
+	public function asLink( bool $asLink = TRUE ): static
 	{
 		$this->type		= $asLink ? 'link' : 'button';
 		return $this;

@@ -29,10 +29,13 @@ trait DataAware
 		return $this;
 	}
 
-	protected function extendAttributesByData( array &$attributes ): self
+	protected function extendAttributesByData( array &$attributes ): static
 	{
-		foreach( $this->data as $key => $value )
-			$attributes['data-'.strtolower( $key )]	= htmlentities( strval( $value ), ENT_QUOTES, 'UTF-8' );
+		foreach( $this->data as $key => $value ){
+			$k	= 'data-'.strtolower( $key );
+			$v	= htmlentities( (string) $value, ENT_QUOTES, 'UTF-8' );
+			$attributes[$k]	= $v;
+		}
 		return $this;
 	}
 }

@@ -65,9 +65,9 @@ class Menu extends Structure
 	 *	@param		string|array|NULL	$class
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		bool				$disabled
-	 *	@return		self				Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( string $url, string $label, array|string $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): self
+	public function add( string $url, string $label, array|string $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
 	{
 		$item	= new MenuItem();
 		$item->type		= 'link';
@@ -79,11 +79,11 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addDivider(): self
+	public function addDivider(): static
 	{
-		$item	= new MenuItem();
+		$item			= new MenuItem();
 		$item->type		= 'divider';
 		$this->items[]	= $item;
 		return $this;
@@ -91,15 +91,15 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@param		string			$label
-	 *	@param		Menu			$dropdown
-	 *	@param		string|array	$class
-	 *	@param		Icon|string		$icon
-	 *	@param		bool			$disabled
-	 *	@return		self			Own instance for method chaining
-	 *	@deprecated					not supported in Bootstrap 4.4, so disabled for all others, too
+	 *	@param		string				$label
+	 *	@param		Menu				$dropdown
+	 *	@param		string|array|NULL	$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		bool				$disabled
+	 *	@return		static				Own instance for method chaining
+	 *	@deprecated						not supported in Bootstrap 4.4, so disabled for all others, too
 	 */
-	public function addDropdown( string $label, Menu $dropdown, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
+	public function addDropdown( string $label, Menu $dropdown, string|array $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
 	{
 		\trigger_error( 'Not supported in Bootstrap 4.4, so disabled for all others, too', E_USER_DEPRECATED );
 /*		$link		= new \CeusMedia\Bootstrap\Link( '#', $label, 'dropdown-item', $icon, $disabled );
@@ -122,9 +122,9 @@ class Menu extends Structure
 	 *	@access		public
 	 *	@param		Link			$link		Link to add
 	 *	@param		bool			$disabled	Flag: disable menu item, default: no
-	 *	@return		self			Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function addLink( Link $link, bool $disabled = FALSE ): self
+	public function addLink( Link $link, bool $disabled = FALSE ): static
 	{
 		$item	= new MenuItem();
 		$item->type		= 'link';
@@ -176,9 +176,9 @@ class Menu extends Structure
 	/**
 	 *	@access		public
 	 *	@param		bool		$left
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setAlign( bool $left = TRUE ): self
+	public function setAlign( bool $left = TRUE ): static
 	{
 		$this->alignLeft	= $left;
 		return $this;
@@ -187,9 +187,9 @@ class Menu extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string		$label
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setAriaLabel( string $label ): self
+	public function setAriaLabel( string $label ): static
 	{
 		$this->setAria( 'label', $label );
 		return $this;

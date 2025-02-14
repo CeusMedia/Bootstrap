@@ -77,9 +77,9 @@ class Progress extends Structure
 	 *	@param		float			$width		Values: 0-100
 	 *	@param		string|NULL		$class
 	 *	@param		string|NULL		$label
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function addBar( float $width, ?string $class = NULL, ?string $label = NULL ): self
+	public function addBar( float $width, ?string $class = NULL, ?string $label = NULL ): static
 	{
 		$this->bars[]	= ProgressBar::create( $width, $class, $label );
 		return $this;

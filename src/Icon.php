@@ -77,9 +77,9 @@ class Icon extends Structure
 	 *	Set icon by its icon class name plus modifying class names.
 	 *	@access		public
 	 *	@param		string		$icon 		Icon class name plus modifying class names
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setIcon( string $icon ): self
+	public function setIcon( string $icon ): static
 	{
 		$this->icon		= $icon;
 		return $this;
@@ -89,9 +89,9 @@ class Icon extends Structure
 	 *	Set icon set, like fontawesome[4|5] or glyphicons.
 	 *	@access		public
 	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setSet( string $set ): self
+	public function setSet( string $set ): static
 	{
 		$this->set	= trim( $set );
 		return $this;
@@ -107,9 +107,9 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string|array<string>	$sizes 		One or many size or modifier class name
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 */
-	public function setSize( string|array $sizes ): self
+	public function setSize( string|array $sizes ): static
 	{
 		$this->size		= [];
 		if( is_string( $sizes ) )
@@ -135,10 +135,10 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string		$style 		Icon set style
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 *	@todo		code doc
 	 */
-	public function setStyle( string $style ): self
+	public function setStyle( string $style ): static
 	{
 		$this->style	= trim( $style );
 		return $this;

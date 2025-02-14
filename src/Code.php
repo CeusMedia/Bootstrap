@@ -57,9 +57,9 @@ class Code extends Element
 	/**
 	 *	@access		public
 	 *	@param		bool		$scrollable
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setScrollable( bool $scrollable ): self
+	public function setScrollable( bool $scrollable ): static
 	{
 		$this->scrollable	= $scrollable;
 		return $this;

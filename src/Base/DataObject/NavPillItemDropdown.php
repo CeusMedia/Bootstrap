@@ -20,12 +20,24 @@ class NavPillItemDropdown
 
 	public Icon|string|null $iconActive		= NULL;
 
+	public static function create(
+		string $label,
+		DropdownMenu|string $dropdown,
+		string $class = NULL,
+		Icon|string $icon = NULL,
+		Icon|string $iconActive = NULL
+	): static
+	{
+		$className	= static::class;
+		return new $className( $label, $dropdown, $class, $icon, $iconActive );
+	}
+
 	public function __construct(
 		string $label,
 		DropdownMenu|string $dropdown,
-		string|null $class = NULL,
-		Icon|string|null $icon = NULL,
-		Icon|string|null $iconActive = NULL
+		string $class = NULL,
+		Icon|string $icon = NULL,
+		Icon|string $iconActive = NULL
 	)
 	{
 		$this->label		= $label;
@@ -33,16 +45,5 @@ class NavPillItemDropdown
 		$this->class		= 'nav-link'.( NULL !== $class ? ' '.$class : '' );
 		$this->icon			= $icon;
 		$this->iconActive	= $iconActive;
-	}
-
-	public static function create(
-		string $label,
-		DropdownMenu|string $dropdown,
-		string|null $class = NULL,
-		Icon|string|null $icon = NULL,
-		Icon|string|null $iconActive = NULL
-	): self
-	{
-		return new self( $label, $dropdown, $class, $icon, $iconActive );
 	}
 }

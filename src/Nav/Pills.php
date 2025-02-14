@@ -63,9 +63,9 @@ class Pills extends Structure
 	 *	@param		Stringable|Renderable|string|NULL	$label
 	 *	@param		string|NULL				$class
 	 *	@param		Icon|string|NULL		$icon
-	 *	@return		self					Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 */
-	public function add( string $url, Stringable|Renderable|string|null $label, ?string $class = NULL, Icon|string|null $icon = NULL ): self
+	public function add( string $url, Stringable|Renderable|string|null $label, ?string $class = NULL, Icon|string|null $icon = NULL ): static
 	{
 		$class	= 'nav-link'.( ( '' !== ( $class ?? '' ) ) ? ' '.$class : '' );
 		$link	= new Link( $url, $label, $class, $icon );
@@ -75,9 +75,9 @@ class Pills extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addLink( Link $link ): self
+	public function addLink( Link $link ): static
 	{
 		$link->addClass( 'nav-link' );
 		$this->items[]	= NavPillItemLink::create( $link );
@@ -91,10 +91,10 @@ class Pills extends Structure
 	 *	@param		string|NULL			$class
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		Icon|string|NULL	$iconActive
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): self
+	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string $icon = NULL, Icon|string $iconActive = NULL ): static
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
 			$label		= HtmlTag::create( 'a', $label, [
@@ -134,9 +134,9 @@ class Pills extends Structure
 	/**
 	 *	@access		public
 	 *	@param		int			$nr
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setActive( int $nr ): self
+	public function setActive( int $nr ): static
 	{
 		$this->active	= $nr;
 		return $this;
@@ -145,9 +145,9 @@ class Pills extends Structure
 	/**
 	 *	@access		public
 	 *	@param		bool		$stacked
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setStacked( bool $stacked = TRUE ): self
+	public function setStacked( bool $stacked = TRUE ): static
 	{
 		$this->stacked	= $stacked;
 		return $this;

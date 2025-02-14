@@ -72,9 +72,9 @@ class Breadcrumbs extends Structure
 	 *	@param		string|NULL			$class
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		boolean				$active
-	 *	@return		self				Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( Link|string $label, ?string $url = NULL, ?string $class = NULL, Icon|string $icon = NULL, bool $active = FALSE ): self
+	public function add( Link|string $label, ?string $url = NULL, ?string $class = NULL, Icon|string $icon = NULL, bool $active = FALSE ): static
 	{
 		$crumb	= new Breadcrumb();
 		$crumb->label	= $label;
@@ -91,9 +91,9 @@ class Breadcrumbs extends Structure
 	 *	@access		public
 	 *	@param		Link|string			$label
 	 *	@param		Icon|string|NULL	$icon
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addCurrent( $label, $icon = NULL ): self
+	public function addCurrent( Link|string $label, Icon|string $icon = NULL ): static
 	{
 		$this->add( $label, NULL, NULL, $icon, TRUE );
 		return $this;
@@ -101,9 +101,9 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addLink( Link $link ): self
+	public function addLink( Link $link ): static
 	{
 		$this->add( $link );
 		return $this;
@@ -150,9 +150,9 @@ class Breadcrumbs extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string		$divider
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setDivider( string $divider ): self
+	public function setDivider( string $divider ): static
 	{
 		$this->divider	= $divider;
 		return $this;

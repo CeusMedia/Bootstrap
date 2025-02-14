@@ -95,9 +95,9 @@ class Link implements Stringable
 	/**
 	 *	@access		public
 	 *	@param		boolean		$useCaret
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function toggleCaret( bool $useCaret = TRUE ): self
+	public function toggleCaret( bool $useCaret = TRUE ): static
 	{
 		$this->caret	= $useCaret;
 		return $this;

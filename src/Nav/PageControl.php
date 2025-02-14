@@ -38,10 +38,10 @@ class PageControl extends Structure
 	public ?string $size				= NULL;
 	public string $fragment;
 
-	const SIZE_MINI			= 'mini';
-	const SIZE_SMALL		= 'small';
-	const SIZE_DEFAULT		= '';
-	const SIZE_LARGE		= 'large';
+	public const SIZE_MINI			= 'mini';
+	public const SIZE_SMALL			= 'small';
+	public const SIZE_DEFAULT		= '';
+	public const SIZE_LARGE			= 'large';
 
 	public function __construct( string $baseUrl, int $page, int $pages )
 	{
