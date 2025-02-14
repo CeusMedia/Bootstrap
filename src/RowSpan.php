@@ -51,9 +51,9 @@ class RowSpan extends Element
 	/**
 	 *	@access		public
 	 *	@param		integer		$size		Size of column (1-12)
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setSize( int $size ): self
+	public function setSize( int $size ): static
 	{
 		$this->size		= $size;
 		return $this;

@@ -23,8 +23,14 @@ class NavPillItemLink
 		$this->class	= $class ?? 'nav-item';
 	}
 
-	public static function create( Renderable|Stringable|string $link, string|null $class = NULL ): self
+	/**
+	 *	@param		Renderable|Stringable|string	$link
+	 *	@param		string|NULL						$class
+	 *	@return		static
+	 */
+	public static function create( Renderable|Stringable|string $link, string|null $class = NULL ): static
 	{
-		return new self( $link, $class );
+		$className	= static::class;
+		return new $className( $link, $class );
 	}
 }

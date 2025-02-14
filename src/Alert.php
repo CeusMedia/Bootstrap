@@ -71,9 +71,9 @@ class Alert extends Element
 	 *	Enables or disables dismiss button, which is disabled by default.
 	 *	@access		public
 	 *	@param		boolean		$use		Flag: enable or disable dismiss button, default: enable
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function useDismiss( bool $use = TRUE ): self
+	public function useDismiss( bool $use = TRUE ): static
 	{
 		$this->useDismiss = $use;
 		return $this;

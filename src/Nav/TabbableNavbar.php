@@ -44,9 +44,9 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function add( string $id, string $label, string $content ): self
+	public function add( string $id, string $label, string $content ): static
 	{
 		$this->index[]			= $id;
 		$this->tabs[$id]		= $label;
@@ -111,9 +111,9 @@ class TabbableNavbar extends Structure
 	 *	Sets active tab by its number.
 	 *	@access		public
 	 *	@param		integer		$nr			Number of tab to mark as active.
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setActive( int $nr ): self
+	public function setActive( int $nr ): static
 	{
 		$this->active	= $nr;
 		return $this;
@@ -123,9 +123,9 @@ class TabbableNavbar extends Structure
 	 *	@access		public
 	 *	@param		Stringable|Renderable|string	$label
 	 *	@param		URL|string|NULL		$url
-	 *	@return		self				Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function setBrand( Stringable|Renderable|string $label, URL|string $url = NULL ): self
+	public function setBrand( Stringable|Renderable|string $label, URL|string $url = NULL ): static
 	{
 		$this->brand	= HtmlTag::create( 'span', $label, ['class' => 'brand'] );
 		if( NULL !== $url )
@@ -135,9 +135,9 @@ class TabbableNavbar extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setFixed( string $position = NULL ): self
+	public function setFixed( string $position = NULL ): static
 	{
 		$this->classNavBar = match ($position) {
 			'top'		=> "navbar navbar-fixed-top",

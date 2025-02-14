@@ -99,9 +99,9 @@ class Link extends Element
 	/**
 	 *	@access		public
 	 *	@param		string|NULL		$message
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function setConfirm( ?string $message = NULL ): self
+	public function setConfirm( ?string $message = NULL ): static
 	{
 		$this->confirm	= $message;
 		return $this;
@@ -110,9 +110,9 @@ class Link extends Element
 	/**
 	 *	@access		public
 	 *	@param		string		$title
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setTitle( string $title ): self
+	public function setTitle( string $title ): static
 	{
 		$this->title	= $title;
 		return $this;
@@ -121,9 +121,9 @@ class Link extends Element
 	/**
 	 *	@access		public
 	 *	@param		string		$url
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setUrl( string $url ): self
+	public function setUrl( string $url ): static
 	{
 		$this->url		= $url;
 		return $this;

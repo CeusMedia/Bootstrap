@@ -46,9 +46,9 @@ class Group extends Structure
 	/**
 	 *	@access		public
 	 *	@param		array|object|string		$button
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 */
-	public function add( array|object|string $button ): self
+	public function add( array|object|string $button ): static
 	{
 		if( is_array( $button ) ){
 			foreach( $button as $item )
@@ -77,9 +77,9 @@ class Group extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setStacked( bool $stacked = TRUE ): self
+	public function setStacked( bool $stacked = TRUE ): static
 	{
 		$class		= 'btn-group-vertical';
 		$stacked	? $this->addClass( $class ) : $this->removeClass( $class );

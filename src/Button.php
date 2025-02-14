@@ -115,7 +115,7 @@ class Button extends Element
 		return HtmlTag::create( 'button', $icon.$content, $attributes );
 	}
 
-	public function setBlock( bool $block = TRUE ): self
+	public function setBlock( bool $block = TRUE ): static
 	{
 		$block ? $this->addClass( 'btn-block' ): $this->removeClass( 'btn-block' );
 		return $this;
@@ -123,11 +123,11 @@ class Button extends Element
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setType( string $type ): self
+	public function setType( string $type ): static
 	{
-		if( !in_array( $type, self::TYPES, TRUE ) )
+		if( !in_array( $type, static::TYPES, TRUE ) )
 			throw new RangeException( 'Invalid type' );
 		$this->type	= $type;
 		return $this;

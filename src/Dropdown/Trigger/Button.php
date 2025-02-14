@@ -93,9 +93,9 @@ class Button extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function useCaret( bool $useCaret = TRUE ): self
+	public function useCaret( bool $useCaret = TRUE ): static
 	{
 		$this->caret	= $useCaret;
 		return $this;
