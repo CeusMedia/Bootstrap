@@ -144,7 +144,7 @@ class NavList extends Structure
 					if( NULL === $item->url )
 						throw new DataMissingException( 'No URL provided for link' );
 					$attr	= [
-						'class' => [''],
+						'class' => explode( ' ', $item->class ?? '' ),
 						'title' => $item->label
 					];
 					$invert	= FALSE;
