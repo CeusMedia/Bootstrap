@@ -4,13 +4,13 @@ declare(strict_types=1);
 use CeusMedia\Common\UI\HTML\PageFrame as HtmlPage;
 
 (@include '../vendor/autoload.php') or die('Please use composer to install required packages.');
+require __DIR__.'/VersionProcessor.php';
+require __DIR__.'/DemoAppTemplate.php';
 
 use CeusMedia\Bootstrap\Checkbox;
 use CeusMedia\Bootstrap\Code;
 
-$body	= '
-<div class="container">
-	<h1><span class="muted text-muted">CeusMedia Bootstrap</span> Checkbox Demo</h1>
+$content	= '
 	<h2>Usage</h2>
 	<h3>Composer</h3>
 	<p>
@@ -50,27 +50,12 @@ use \CeusMedia\Bootstrap\Checkbox;
 \$input	= new Checkbox( 'check1', 1, TRUE, 'This is the label' );" ).'
 	<p class="alert alert-warning">
 		Don\'t forget to load Bootstrap and checkbox.css!
-	</p>
-</div>';
+	</p>';
 
-$pathCDN	= "https://cdn.ceusmedia.de/";
-$scripts	= [
-	$pathCDN."js/jquery/1.10.2.js",
-	$pathCDN."js/bootstrap.min.js",
-];
-$styles		= [
-	$pathCDN."css/bootstrap/2.3.2/bootstrap.min.css",
-//	$pathCDN."css/bootstrap/3.3.7/bootstrap.min.css",
-//	$pathCDN."css/bootstrap/4.0.0/bootstrap.min.css",
-//	$pathCDN."css/bootstrap-responsive.min.css",
-	"https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css",
-	"checkbox.css",
-];
 
-/*  --  OUTPUT  --  */
-$page	= new HtmlPage();
-$page->addBody( trim( $body ) );
-#$page->setTitle( $config['app.title'] );
-foreach( $scripts as $url ) $page->addJavaScript( $url );
-foreach( $styles as $url ) $page->addStylesheet( $url );
-print( $page->build() );
+$a = new DemoAppTemplate( 'Checkbox Demo', './2_checkbox.php' );
+$a->setBootstrapVersion( 5 );
+$a->setFontAwesomeVersion( 6 );
+$a->setContent( $content );
+$a->addStyle( 'checkbox.css' );
+$a->run();

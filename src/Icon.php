@@ -155,6 +155,7 @@ class Icon extends Structure
 				case 'fontawesome':
 				case 'fontawesome4':
 				case 'fontawesome5':
+				case 'fontawesome6':
 					$size	= 'fixed' === $size ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
 					if( 1 === preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )		//  translate sizes like 'x2' (allowed: 1-9)
 						$size	= preg_replace( $regExpFactor, '\\1x', (string) $size );	//  ... to 2x
@@ -178,6 +179,12 @@ class Icon extends Structure
 			case 'glyphicons':
 				if( $this->style === 'white' )
 					$list[]	= 'icon-white';
+				break;
+			case 'fontawesome6':
+				$style	= 'fa';
+				if( '' !== trim( $this->style ) )
+					$style	= 'fa-'.trim( $this->style );
+				$list[]	= $style;
 				break;
 			case 'fontawesome5':
 				$style	= 'fas';
@@ -214,6 +221,7 @@ class Icon extends Structure
 				case 'fontawesome':
 				case 'fontawesome4':
 				case 'fontawesome5':
+				case 'fontawesome6':
 					$part	= 'fa-'.$part;
 					break;
 			}
