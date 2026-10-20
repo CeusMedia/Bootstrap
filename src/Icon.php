@@ -187,13 +187,13 @@ class Icon extends Structure
 				$list[]	= $style;
 				break;
 			case 'fontawesome5':
-				$style	= 'fas';
+				$style	= 'fa fas';
 				if( $this->style === 'regular' )
-					$style	= 'far';
+					$style	= 'fa far';
 				else if( $this->style === 'light' )
-					$style	= 'fal';
+					$style	= 'fa fal';
 				else if( $this->style === 'brand' )
-					$style	= 'fab';
+					$style	= 'fa fab';
 				$list[]	= $style;
 				break;
 			case 'fontawesome4':
