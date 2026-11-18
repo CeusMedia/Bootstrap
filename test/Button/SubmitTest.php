@@ -12,6 +12,7 @@ use Stringable;
 
 /**
  * @coversDefaultClass	\CeusMedia\Bootstrap\Button\Submit
+ * @covers			\CeusMedia\Bootstrap\Button\Submit
  */
 class SubmitTest extends TestCase
 {

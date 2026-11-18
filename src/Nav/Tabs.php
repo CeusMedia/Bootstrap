@@ -7,13 +7,14 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2013-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\DataObject\NavTabsItem;
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
@@ -25,7 +26,7 @@ use RuntimeException;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2013-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -97,39 +98,29 @@ class Tabs extends Structure
 	}
 
 	/**
-	 *	Renders and returns tabs.
+	 *	Renders tabs and tab panes for set Bootstrap version.
+	 *	Bootstrap 2 and 3 mark list items as active or disabled,
+	 *	Bootstrap 4 and 5 mark links (class nav-link).
+	 *	If no tab is set active, the first enabled tab is active.
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
+		$version	= $this->getBsVersion();
+		$isLegacy	= match( $version ){
+			BsVersion::V2, BsVersion::V3	=> TRUE,
+			BsVersion::V4, BsVersion::V5	=> FALSE,
+		};
+		$activeId	= $this->activeId ?? $this->getFirstEnabledId();
 		$listTabs	= [];
 		$listPanes	= [];
-		if( '' === ( $this->activeId ?? '' ) )
-			$this->setActive( 0 );
 		foreach( $this->tabs as $tab ){
-			$classesItem	= ['nav-item'];
-			$classesLink	= ['nav-link'];
+			$isActive	= $tab->id === $activeId;
+			$listTabs[]	= $this->renderTab( $tab, $isActive, $isLegacy, $version );
 			$classesPane	= ['tab-pane'];
-			$dataLink		= [];
-			if( $tab->id === $this->activeId ){
-				$classesItem[]	= 'active';
-				$classesPane[]	= 'show active';
-			}
-			$label			= $tab->label;#htmlentities( $tab->label, ENT_QUOTES, 'UTF-8' );
-			$attr			= ['href' => $tab->url];
-			if( $tab->url === '#' || $tab->url === '#'.$tab->id ){
-				$attr['href']		= '#'.$tab->id;
-				$dataLink['toggle'] = 'tab';
-			}
-			$attr['class']	= join( ' ', $classesLink );
-			$link			= HtmlTag::create( 'a', $label, $attr, $dataLink );
-			if( $tab->disabled ){
-				$classesItem[]	= 'disabled';
-				$link			= HtmlTag::create( 'a', $label, ['class' => 'nav-link'] );
-			}
-			$attr			= ['class' => join( ' ', $classesItem )];
-			$listTabs[]		= HtmlTag::create( 'li', $link, $attr );
+			if( $isActive )
+				$classesPane[]	= $isLegacy ? 'active' : 'show active';
 			$listPanes[]	= HtmlTag::create( 'div', $tab->content, [
 				'class'	=> join( ' ', $classesPane ),
 				'id'	=> $tab->id,
@@ -157,9 +148,54 @@ class Tabs extends Structure
 		$id		= is_int( $idOrIndex ) ? $this->getIdByIndex( $idOrIndex ) : $idOrIndex;
 		$tab	= $this->getTabById( $id );
 		if( $tab->disabled )
-			throw new RuntimeException( 'Tag with ID %s is disabled and cannot be active' );
+			throw new RuntimeException( sprintf( 'Tab with ID %s is disabled and cannot be active', $id ) );
 		$this->activeId	= $id;
 		return $this;
+	}
+
+	protected function getFirstEnabledId(): ?string
+	{
+		foreach( $this->tabs as $tab )
+			if( !$tab->disabled )
+				return $tab->id;
+		return NULL;
+	}
+
+	protected function renderTab( NavTabsItem $tab, bool $isActive, bool $isLegacy, BsVersion $version ): string
+	{
+		$isToggle	= '#' === $tab->url || '#'.$tab->id === $tab->url;					//  pane on this page, otherwise link to other page
+		$classesLink	= $isLegacy ? [] : ['nav-link'];
+		$classesItem	= $isLegacy ? [] : ['nav-item'];
+		$attributes	= [
+			'href'			=> $isToggle ? '#'.$tab->id : $tab->url,
+			'role'			=> BsVersion::V2 !== $version && $isToggle ? 'tab' : NULL,
+			'aria-controls'	=> BsVersion::V2 !== $version && $isToggle ? $tab->id : NULL,
+			'aria-selected'	=> $isLegacy || !$isToggle ? NULL : ( $isActive ? 'true' : 'false' ),
+		];
+		if( $isToggle )
+			$attributes[$this->dialect()->data( 'toggle' )]	= 'tab';
+		if( $tab->disabled ){
+			$attributes['href']		= NULL;
+			$attributes[$this->dialect()->data( 'toggle' )]	= NULL;
+			if( $isLegacy )
+				$classesItem[]	= 'disabled';
+			else{
+				$classesLink[]	= 'disabled';
+				$attributes['aria-disabled']	= 'true';
+			}
+		}
+		else if( $isActive ){
+			if( $isLegacy )
+				$classesItem[]	= 'active';
+			else
+				$classesLink[]	= 'active';
+		}
+		$attributes	= array_merge( ['class' => [] !== $classesLink ? join( ' ', $classesLink ) : NULL], $attributes );
+		$link		= HtmlTag::create( 'a', $tab->label, $attributes );
+		return HtmlTag::create( 'li', $link, [
+			'class'	=> [] !== $classesItem ? join( ' ', $classesItem ) : NULL,
+			'role'	=> BsVersion::V3 === $version ? 'presentation' : NULL,
+		] );
 	}
 
 	protected function getIndexById( string $id ): int
@@ -168,7 +204,7 @@ class Tabs extends Structure
 			if( $item->id === $id )
 				return $nr;
 		}
-		throw new RangeException( sprintf( 'No tab available for ID %d', $id ) );
+		throw new RangeException( sprintf( 'No tab available for ID %s', $id ) );
 	}
 
 	protected function getIdByIndex( int $index ): string

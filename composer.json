@@ -16,6 +16,7 @@
     "jabber": "cwuerker@ceusmedia.de"
   },
   "minimum-stability": "dev",
+  "prefer-stable": true,
   "require": {
     "php": "^8.3",
     "ceus-media/common": "1.1.* | 1.1.x-dev",
@@ -24,10 +25,10 @@
   "require-dev": {
     "ceus-media/doc-creator": "1.1.* | 1.1.x-dev",
     "phpunit/phpunit": "10.*",
-    "phpstan/phpstan": "1.*",
-    "phpstan/phpstan-strict-rules": "1.*",
+    "phpstan/phpstan": "2.*",
+    "phpstan/phpstan-strict-rules": "2.*",
     "php-parallel-lint/php-parallel-lint": "1.*",
-    "rector/rector": "1.*"
+    "rector/rector": "2.*"
   },
   "autoload": {
     "psr-4": {
@@ -48,7 +49,12 @@
     "dev:update-quiet": "composer update --quiet",
     "dev:phpunit": [
       "@dev:install-quiet",
-      "XDEBUG_MODE=coverage php vendor/bin/phpunit --configuration util/phpunit.xml --testsuite units"
+      "@php vendor/bin/phpunit --configuration util/phpunit.xml --testsuite units --no-coverage"
+    ],
+    "dev:phpunit-coverage": [
+      "@dev:install-quiet",
+      "@putenv XDEBUG_MODE=coverage",
+      "@php vendor/bin/phpunit --configuration util/phpunit.xml --testsuite units --coverage-text"
     ],
     "dev:phpstan": [
       "@dev:install-quiet",
@@ -78,7 +84,8 @@
   "scripts-descriptions": {
     "dev:install": "Installs project dependencies for Development stage",
     "dev:update": "Updates project dependencies for Development stage",
-    "dev:unit": "Run unit tests",
+    "dev:phpunit": "Run unit tests, without code coverage",
+    "dev:phpunit-coverage": "Run unit tests with code coverage (needs Xdebug or PCOV in PHP running composer), reports in doc/Test/",
     "dev:phpstan": "Validate codebase with PHPStan",
     "dev:phpstan-clear": "Clear PHPStan cache",
     "dev:phpstan-save": "Store current results in ignore list",

@@ -6,10 +6,13 @@ namespace CeusMedia\BootstrapTest;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Common\Renderable;
 use PHPUnit\Framework\TestCase;
+use RangeException;
 use Stringable;
 
 /**
  * @coversDefaultClass	\CeusMedia\Bootstrap\Button
+ * @covers			\CeusMedia\Bootstrap\Button
+ * @covers			\CeusMedia\Bootstrap\Base\ButtonClassResolver
  */
 class ButtonTest extends TestCase
 {
@@ -45,6 +48,35 @@ class ButtonTest extends TestCase
 		$button		= new Button( $label, Button::STATE_PRIMARY );
 		$expected	= '<button type="button" class="btn btn-primary">Button Label</button>';
 		self::assertEquals( $expected, $button->render() );
+	}
+
+	/**
+	 *	@return		array<string,array{string,string,string}>
+	 */
+	public static function versionProvider(): array
+	{
+		return [
+			'Bootstrap 2'	=> ['2.3.2', 'btn', 'btn btn-inverse btn-mini btn-block'],
+			'Bootstrap 3'	=> ['3.4.1', 'btn btn-default', 'btn btn-default btn-xs btn-block'],
+			'Bootstrap 4'	=> ['4.6.2', 'btn btn-secondary', 'btn btn-dark btn-sm btn-block'],
+			'Bootstrap 5'	=> ['5.3.3', 'btn btn-secondary', 'btn btn-dark btn-sm w-100'],
+		];
+	}
+
+	/**
+	 *	@covers		::render
+	 *	@covers		::setBlock
+	 *	@dataProvider	versionProvider
+	 *	@return		void
+	 */
+	public function testRenderForVersion( string $version, string $expectedDefault, string $expectedStyled ): void
+	{
+		$button		= ( new Button( 'Label' ) )->setBsVersion( $version );
+		self::assertEquals( '<button type="button" class="'.$expectedDefault.'">Label</button>', $button->render() );
+
+		$button		= ( new Button( 'Label', Button::STATE_INVERSE ) )->setBsVersion( $version );
+		$button->setSize( Button::SIZE_MINI )->setBlock();
+		self::assertEquals( '<button type="button" class="'.$expectedStyled.'">Label</button>', $button->render() );
 	}
 
 	/**
@@ -102,9 +134,13 @@ class ButtonTest extends TestCase
 	 */
 	public function testSetType(): void
 	{
-		self::markTestSkipped();
-//		$button	= new UnprotectedButton( 'Typed Button' );
+		$button	= new Button( 'Typed Button', NULL, 'icon-ok' );
+		self::assertSame( '<button type="button" class="btn"><i class="icon-icon-ok"></i> Typed Button</button>', $button->render() );
+		self::assertStringStartsWith( '<button type="submit"', $button->setType( Button::TYPE_SUBMIT )->render() );
+		self::assertStringStartsWith( '<button type="reset"', $button->setType( Button::TYPE_RESET )->render() );
 
+		$this->expectException( RangeException::class );
+		$button->setType( 'link' );
 	}
 }
 

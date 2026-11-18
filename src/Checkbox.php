@@ -6,7 +6,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2013-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  *	@link			https://github.com/nostalgiaz/bootstrap-switch	requires Bootstrap Switch URL description
@@ -16,6 +16,7 @@ declare(strict_types=1);
 namespace CeusMedia\Bootstrap;
 
 use CeusMedia\Bootstrap\Base\Structure;
+use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Base\Aware\NameAware;
@@ -29,7 +30,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2013-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2013-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -43,8 +44,8 @@ class Checkbox extends Structure
 	/** @var	Stringable|Renderable|string|NULL		$label */
 	protected $label;
 
-	/** @var	string						$label */
-	protected string $icon;
+	/** @var	Icon|string					$icon */
+	protected Icon|string $icon;
 
 	/** @var	bool						$checked */
 	protected bool $checked;
@@ -54,7 +55,7 @@ class Checkbox extends Structure
 	 *	@param		string|int|float|NULL	$value
 	 *	@param		bool					$checked
 	 *	@param		Stringable|Renderable|string|NULL	$label
-	 *	@param		string					$icon
+	 *	@param		Icon|string				$icon		Icon object, short name (like "star") or complete class names (like "fa fa-star")
 	 *	@param		array					$data
 	 */
 	public function __construct(
@@ -62,7 +63,7 @@ class Checkbox extends Structure
 		string|int|float|null $value = NULL,
 		bool $checked = FALSE,
 		Stringable|Renderable|string|null $label = NULL,
-		string $icon = 'fa fa-check',
+		Icon|string $icon = 'fa fa-check',
 		array $data = []
 	)
 	{
@@ -78,6 +79,10 @@ class Checkbox extends Structure
 	}
 
 	/**
+	 *	Renders custom styled checkbox with icon, which needs assets/checkbox.css of this library.
+	 *	The markup is the same for all Bootstrap versions, since Bootstrap does not provide checkboxes with icons.
+	 *	The icon is rendered by Icon component, so short names (like "star") are resolved for the current icon set,
+	 *	complete class names (like "fa fa-star") are kept.
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
@@ -91,12 +96,13 @@ class Checkbox extends Structure
 			'checked'	=> $this->checked ? "checked" : NULL,
 		];
 		$this->extendAttributesByData( $attributes );
-		$label		= $this->realizeRenderableOrStringableProperty( 'label' );
+		$label		= $this->realizeRenderableOrStringableProperty( 'label' ) ?? '';
 		$input		= HtmlTag::create( 'input', NULL, $attributes );
-		$icon		= HtmlTag::create( 'i', '', ['class' => "cr-icon ".$this->icon] );
-		$overlay	= HtmlTag::create( 'span', $icon, ['class' => "cr"] );
+		$icon		= $this->icon instanceof Icon ? $this->icon : new Icon( $this->icon );
+		$icon		= HtmlTag::create( 'span', $icon->render(), ['class' => 'cr-icon'] );		//  container to position icon, works for font and SVG icons
+		$overlay	= HtmlTag::create( 'span', $icon, ['class' => 'cr'] );
 		$label		= HtmlTag::create( 'label', $input.$overlay.$label );
-		return HtmlTag::create( 'div', $label, ['class' => 'checkbox'] );
+		return HtmlTag::create( 'div', $label, ['class' => 'checkbox cr-checkbox'] );
 	}
 
 	/**

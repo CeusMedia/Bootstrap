@@ -71,7 +71,7 @@ trait ClassAware
 	 */
 	protected function extendAttributesByClass( array &$attributes ): static
 	{
-		$attributes['class']	= join( ' ', $this->classes );
+		$attributes['class']	= [] !== $this->classes ? join( ' ', $this->classes ) : NULL;		//  omit empty class attribute
 		return $this;
 	}
 }

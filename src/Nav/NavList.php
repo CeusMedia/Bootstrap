@@ -7,27 +7,27 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\DataObject\NavListItem;
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
 use CeusMedia\Common\ADT\URL;
 use CeusMedia\Common\Exception\Data\Missing as DataMissingException;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-use Exception;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -40,28 +40,13 @@ class NavList extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
-	/**
-	 *	@access		public
 	 *	@param		URL|string			$url
 	 *	@param		string				$label
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		string|NULL			$class
 	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( URL|string $url, string $label, Icon|string $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): static
+	public function add( URL|string $url, string $label, Icon|string|null $icon = NULL, ?string $class = NULL/*, array $attr = [], $data = [], $events = []*/ ): static
 	{
 		$item	= new NavListItem();
 		$item->type		= 'link';
@@ -93,7 +78,7 @@ class NavList extends Structure
 	 *	@param		string|NULL			$class
 	 *	@return		static				Own instance for method chaining
 	 */
-	public function addHeader( string $label, Icon|string|null $icon = NULL, string $class = NULL ): static
+	public function addHeader( string $label, Icon|string|null $icon = NULL, ?string $class = NULL ): static
 	{
 		$item	= new NavListItem();
 		$item->type		= 'header';
@@ -119,47 +104,31 @@ class NavList extends Structure
 	}
 
 	/**
+	 *	Renders navigation list for set Bootstrap version.
+	 *	Bootstrap 2 has a list navigation (nav-list), later versions use stacked pills,
+	 *	with headers and dividers borrowed from dropdowns (Bootstrap 3 and 4) or utilities (Bootstrap 5).
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
-		$list	= [];
+		$version	= $this->getBsVersion();
+		$list		= [];
 		foreach( $this->items as $item ){
-			switch( $item->type ){
-				case 'divider':
-					$list[]	= HtmlTag::create( 'li', "", ['class' => 'divider'] );
-					break;
-				case 'header':
-					$label	= $item->label;
-					if( NULL !== $item->icon )
-						$label	= $item->icon->render().' '.$label;
-					$list[]	= HtmlTag::create( 'li', $label, ['class' => $item->class] );
-					break;
-				case 'navlist':
-					if( NULL !== $item->list )
-						$list[]	= $item->list->render();
-					break;
-				case 'link':
-					if( NULL === $item->url )
-						throw new DataMissingException( 'No URL provided for link' );
-					$attr	= [
-						'class' => explode( ' ', $item->class ?? '' ),
-						'title' => $item->label
-					];
-					$invert	= FALSE;
-					if( $item->url === $this->current ){
-						$attr['class'][]	= 'active';
-						$invert	= TRUE;
-					}
-					$link	= new Link( $item->url, $item->label, 'autocut' );
-					$link->setIcon( $item->icon, $invert ? 'white' : '' );
-					$attr['class']	= join( " ", $attr['class'] );
-					$list[]	= HtmlTag::create( 'li', $link, $attr );
-					break;
-			}
+			$list[]	= match( $item->type ){
+				'divider'	=> $this->renderDivider( $version ),
+				'header'	=> $this->renderHeader( $item, $version ),
+				'navlist'	=> NULL !== $item->list ? ( clone $item->list )->setBsVersion( $this->bsVersion )->render() : '',
+				'link'		=> $this->renderLink( $item, $version ),
+				default		=> '',
+			};
 		}
-		return HtmlTag::create( 'ul', $list, ['class' => 'nav nav-list'] );
+		$class	= match( $version ){
+			BsVersion::V2	=> 'nav nav-list',
+			BsVersion::V3	=> 'nav nav-pills nav-stacked',
+			BsVersion::V4, BsVersion::V5	=> 'nav nav-pills flex-column',
+		};
+		return HtmlTag::create( 'ul', $list, ['class' => $class] );
 	}
 
 	/**
@@ -171,5 +140,67 @@ class NavList extends Structure
 	{
 		$this->current	= $url;
 		return $this;
+	}
+
+	/*  --  PROTECTED  --  */
+
+	protected function renderDivider( BsVersion $version ): string
+	{
+		return match( $version ){
+			BsVersion::V2	=> HtmlTag::create( 'li', '', ['class' => 'divider'] ),
+			BsVersion::V3	=> HtmlTag::create( 'li', '', ['class' => 'nav-divider', 'role' => 'separator'] ),
+			BsVersion::V4	=> HtmlTag::create( 'li', '', ['class' => 'dropdown-divider', 'role' => 'separator'] ),
+			BsVersion::V5	=> HtmlTag::create( 'li', '', ['class' => 'border-top my-2', 'role' => 'separator'] ),	//  like dropdown-divider of Bootstrap 4
+		};
+	}
+
+	protected function renderHeader( NavListItem $item, BsVersion $version ): string
+	{
+		$label	= $item->label;
+		if( NULL !== $item->icon )
+			$label	= $item->icon->render().' '.$label;
+		$custom	= preg_split( '/\s+/', trim( $item->class ?? '' ), -1, PREG_SPLIT_NO_EMPTY );
+		$custom	= array_diff( FALSE !== $custom ? $custom : [], ['nav-header', 'autocut'] );	//  keep classes given by user
+		$class	= match( $version ){
+			BsVersion::V2	=> 'nav-header',
+			BsVersion::V3, BsVersion::V4	=> 'dropdown-header',
+			BsVersion::V5	=> 'px-4 py-2 small text-muted',		//  like dropdown-header of Bootstrap 4, which depends on dropdown CSS variables in Bootstrap 5
+		};
+		return HtmlTag::create( 'li', $label, ['class' => join( ' ', array_merge( [$class, 'autocut'], $custom ) )] );
+	}
+
+	/**
+	 *	@throws		DataMissingException	if no URL is set
+	 */
+	protected function renderLink( NavListItem $item, BsVersion $version ): string
+	{
+		if( NULL === $item->url )
+			throw new DataMissingException( 'No URL provided for link' );
+		$classes	= preg_split( '/\s+/', trim( $item->class ?? '' ), -1, PREG_SPLIT_NO_EMPTY );
+		$classes	= FALSE !== $classes ? $classes : [];
+		$isActive	= in_array( 'active', $classes, TRUE ) || $item->url === $this->current;
+		$classes	= array_values( array_diff( $classes, ['active'] ) );
+
+		$link	= new Link( $item->url, $item->label, 'autocut' );
+		$link->setBsVersion( $this->bsVersion );
+		$link->setIcon( $item->icon, $isActive ? 'white' : '' );
+		switch( $version ){
+			case BsVersion::V2:
+			case BsVersion::V3:
+				if( $isActive )
+					$classes[]	= 'active';
+				break;
+			case BsVersion::V4:
+			case BsVersion::V5:
+				$link->addClass( 'nav-link' );
+				if( $isActive )
+					$link->addClass( 'active' )->setAria( 'current', 'page' );
+				array_unshift( $classes, 'nav-item' );
+				break;
+		}
+		return HtmlTag::create( 'li', $link, [
+			'class'	=> [] !== $classes ? join( ' ', $classes ) : NULL,
+			'title'	=> $item->label,
+		] );
 	}
 }

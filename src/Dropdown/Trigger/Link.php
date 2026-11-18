@@ -6,29 +6,29 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
 
+use CeusMedia\Bootstrap\Base\BsVersion;
+use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link as BaseLink;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-use Exception;
-use Stringable;
 
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Link implements Stringable
+class Link extends Structure
 {
 	protected string $label;
 
@@ -52,6 +52,7 @@ class Link implements Stringable
 		bool $caret = TRUE
 	)
 	{
+		parent::__construct();
 		$this->label	= $label;
 		$this->class	= is_array( $class ) ? join( ' ', $class ) : $class;
 		$this->icon		= $icon;
@@ -60,33 +61,24 @@ class Link implements Stringable
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
-	/**
-	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
-		$caret	= ' '.HtmlTag::create( 'span', "", ['class' => 'caret'] );
+		$caret	= match( $this->getBsVersion() ){
+			BsVersion::V2, BsVersion::V3	=> ' '.HtmlTag::create( 'span', "", ['class' => 'caret'] ),
+			BsVersion::V4, BsVersion::V5	=> '',											//  caret is drawn by CSS
+		};
 		if( !$this->caret )
 			$caret	= '';
 		$link	= new BaseLink( "#", $this->label.$caret );
-		/** @var BaseLink $link */
-		$link	= BaseLink::create( "#", $this->label.$caret );
-		$link->setClass( 'dropdown-toggle '.$this->class );
-		$link->setData( 'toggle', "dropdown" );
+		$link->setBsVersion( $this->bsVersion );
+		$hasToggleClass	= $this->caret || match( $this->getBsVersion() ){
+			BsVersion::V2, BsVersion::V3	=> TRUE,
+			BsVersion::V4, BsVersion::V5	=> FALSE,										//  this class draws the caret
+		};
+		$link->setClass( ( $hasToggleClass ? 'dropdown-toggle ' : '' ).$this->class );
+		$link->setData( $this->dialect()->dataKey( 'toggle' ), "dropdown" );
 		if( NULL !== $this->icon )
 			$link->setIcon( $this->icon );
 		return $link->render();

@@ -7,12 +7,13 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Button;
 
+use CeusMedia\Bootstrap\Base\ButtonClassResolver;
 use CeusMedia\Bootstrap\Base\Element;
 use CeusMedia\Bootstrap\Base\Aware\DisabledAware;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
@@ -30,7 +31,7 @@ use function join;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -72,23 +73,25 @@ class Link extends Element
 	{
 		$attributes	= [
 			'id'		=> $this->id,
-			'class'		=> 'btn '.join( ' ', $this->classes ),
+			'class'		=> join( ' ', ButtonClassResolver::resolve( $this->getBsVersion(), $this->classes ) ),
 			'href'		=> $this->url,
-			'title'		=> NULL !== $this->title ? addslashes( $this->title ) : NULL,
+			'title'		=> $this->title,
 			'role'		=> 'button',
 			'onclick'	=> NULL,
 		];
-		if( NULL !== $this->confirm ){
-			$attributes['onclick']	= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
+		$this->extendAttributesByData( $attributes );
+		$this->extendAttributesByEvents( $attributes );
+		if( NULL !== $this->confirm ){												//  confirmation before click events
+			$confirm				= 'if(!confirm(\''.addslashes( $this->confirm ).'\'))return false;';
+			$attributes['onclick']	= $confirm.( NULL !== $attributes['onclick'] ? ' '.$attributes['onclick'] : '' );
 		}
-		if( $this->disabled ){
+		if( $this->disabled ){														//  keep URL and click handler for re-enabling
 			$attributes['class']	.= ' disabled';
 			$attributes['data-attr-href']		= $attributes['href'];
 			$attributes['data-attr-onclick']	= $attributes['onclick'];
 			$attributes['href']		= NULL;
 			$attributes['onclick']	= NULL;
 		}
-		$this->extendAttributesByEvents( $attributes );
 		$icon		= (string) $this->icon;
 		$content	= $this->getContentAsString();
 		if( 0 !== strlen( $icon ) && 0 !== strlen( $content ) )

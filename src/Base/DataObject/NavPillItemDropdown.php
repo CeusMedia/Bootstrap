@@ -23,9 +23,9 @@ class NavPillItemDropdown
 	public static function create(
 		string $label,
 		DropdownMenu|string $dropdown,
-		string $class = NULL,
-		Icon|string $icon = NULL,
-		Icon|string $iconActive = NULL
+		?string $class = NULL,
+		Icon|string|null $icon = NULL,
+		Icon|string|null $iconActive = NULL
 	): static
 	{
 		$className	= static::class;
@@ -35,9 +35,9 @@ class NavPillItemDropdown
 	public function __construct(
 		string $label,
 		DropdownMenu|string $dropdown,
-		string $class = NULL,
-		Icon|string $icon = NULL,
-		Icon|string $iconActive = NULL
+		?string $class = NULL,
+		Icon|string|null $icon = NULL,
+		Icon|string|null $iconActive = NULL
 	)
 	{
 		$this->label		= $label;

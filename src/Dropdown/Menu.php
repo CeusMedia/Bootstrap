@@ -7,13 +7,14 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\DataObject\MenuItem;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
@@ -27,7 +28,7 @@ use OutOfBoundsException;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -42,22 +43,6 @@ class Menu extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			$string	= $this->render();
-			return $string;
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
-	/**
-	 *	@access		public
 	/**
 	 *	Constructor.
 	 *	@param		string				$url
@@ -67,7 +52,7 @@ class Menu extends Structure
 	 *	@param		bool				$disabled
 	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( string $url, string $label, array|string $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
+	public function add( string $url, string $label, array|string|null $class = NULL, Icon|string|null $icon = NULL, bool $disabled = FALSE ): static
 	{
 		$item	= new MenuItem();
 		$item->type		= 'link';
@@ -99,7 +84,7 @@ class Menu extends Structure
 	 *	@return		static				Own instance for method chaining
 	 *	@deprecated						not supported in Bootstrap 4.4, so disabled for all others, too
 	 */
-	public function addDropdown( string $label, Menu $dropdown, string|array $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
+	public function addDropdown( string $label, Menu $dropdown, string|array|null $class = NULL, Icon|string|null $icon = NULL, bool $disabled = FALSE ): static
 	{
 		\trigger_error( 'Not supported in Bootstrap 4.4, so disabled for all others, too', E_USER_DEPRECATED );
 /*		$link		= new \CeusMedia\Bootstrap\Link( '#', $label, 'dropdown-item', $icon, $disabled );
@@ -135,42 +120,32 @@ class Menu extends Structure
 	}
 
 	/**
+	 *	Renders dropdown menu for set Bootstrap version.
+	 *	Bootstrap 2 and 3 use list items containing links, Bootstrap 4 uses links directly
+	 *	within a div, Bootstrap 5 uses list items containing links with item class.
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
-		$list	= [];
+		$version	= $this->getBsVersion();
+		$list		= [];
 		foreach( $this->items as $item ){
-			$attributes	= ['class' => NULL];# 'class' => 'active' );
-			switch( $item->type ){
-				case "dropdown":
-					$attributes['class']	= 'dropdown-submenu';
-					$content	= is_object( $item->content ) ? $item->content->render() : $item->content;
-					$submenu	= is_object( $item->submenu ) ? $item->submenu->render() : $item->submenu;
-					$item->content	= $content.$submenu;
-					break;
-				case "divider":
-					$attributes['class']	= 'divider';
-					break;
-				case "link":
-					$attributes['class']	= 'dropdown-item';
-					break;
-				default:
-					throw new OutOfBoundsException( 'Invalid dropdown item time: '.$item->type );
-			}
-			if( $item->disabled )
-				$attributes['class']	.= ' disabled';
-			$list[]	= HtmlTag::create( 'li', $item->content, $attributes );
+			$list[]	= match( $item->type ){
+				'divider'	=> $this->renderDivider( $version ),
+				'link'		=> $this->renderLinkItem( $item, $version ),
+				default		=> throw new OutOfBoundsException( 'Invalid dropdown item type: '.$item->type ),
+			};
 		}
 		$attributes	= [
-			'class'		=> "dropdown-menu",
+			'class'		=> $this->dialect()->classes( 'dropdown-menu', $this->alignLeft ? '' : 'dropdown-menu-end' ),
 		];
-		if( !$this->alignLeft ){
-			$additionalClass		= version_compare( $this->bsVersion, '4', '>=' ) ? 'dropdown-menu-right' : 'pull-right';
-			$attributes['class']	= $attributes['class'].' '.$additionalClass;
-		}
-		return HtmlTag::create( 'ul', $list, $attributes );
+		$this->extendAttributesByAria( $attributes );
+		$tagName	= match( $version ){
+			BsVersion::V2, BsVersion::V3, BsVersion::V5	=> 'ul',
+			BsVersion::V4								=> 'div',
+		};
+		return HtmlTag::create( $tagName, $list, $attributes );
 	}
 
 	/**
@@ -193,5 +168,41 @@ class Menu extends Structure
 	{
 		$this->setAria( 'label', $label );
 		return $this;
+	}
+
+	/*  --  PROTECTED  --  */
+
+	protected function renderDivider( BsVersion $version ): string
+	{
+		return match( $version ){
+			BsVersion::V2	=> HtmlTag::create( 'li', '', ['class' => 'divider'] ),
+			BsVersion::V3	=> HtmlTag::create( 'li', '', ['role' => 'separator', 'class' => 'divider'] ),
+			BsVersion::V4	=> HtmlTag::create( 'div', '', ['class' => 'dropdown-divider'] ),
+			BsVersion::V5	=> HtmlTag::create( 'li', HtmlTag::create( 'hr', NULL, ['class' => 'dropdown-divider'] ) ),
+		};
+	}
+
+	protected function renderLinkItem( MenuItem $item, BsVersion $version ): string
+	{
+		$content	= $item->content;
+		if( $content instanceof Link ){
+			$content	= clone $content;												//  do not change given link object
+			$content->setBsVersion( $this->bsVersion );
+		}
+		switch( $version ){
+			case BsVersion::V2:
+			case BsVersion::V3:
+				$attributes	= ['class' => $item->disabled ? 'disabled' : NULL];
+				return HtmlTag::create( 'li', $content, $attributes );
+			case BsVersion::V4:
+			case BsVersion::V5:
+				if( $content instanceof Link ){
+					$content->addClass( 'dropdown-item' );
+					if( $item->disabled )
+						$content->addClass( 'disabled' );
+				}
+				$html	= $content instanceof Renderable ? $content->render() : (string) $content;
+				return BsVersion::V5 === $version ? HtmlTag::create( 'li', $html ) : $html;
+		}
 	}
 }

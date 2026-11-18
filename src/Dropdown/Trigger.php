@@ -6,7 +6,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -27,7 +27,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -48,7 +48,7 @@ class Trigger extends Structure
 	 */
 	public function __construct(
 		Stringable|Renderable|string|array|null $label,
-		array|string $class = NULL,
+		array|string|null $class = NULL,
 		Icon|string|null $icon = NULL,
 		bool $caret = TRUE
 	)
@@ -58,21 +58,6 @@ class Trigger extends Structure
 		$this->setClass( $class );
 		$this->setIcon( $icon );
 		$this->caret	= $caret;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( \Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
 	}
 
 	/**
@@ -107,6 +92,7 @@ class Trigger extends Structure
 			"button"	=> new TriggerButton( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
 			default		=> new TriggerLink( $this->getContentAsString(), $this->classes, $this->icon, $this->caret ),
 		};
+		$trigger->setBsVersion( $this->bsVersion );
 		return $trigger->render();
 	}
 }

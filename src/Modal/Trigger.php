@@ -7,27 +7,24 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Modal;
 
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
+use CeusMedia\Bootstrap\Base\ButtonClassResolver;
+use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\IconAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
 use CeusMedia\Bootstrap\Icon;
 
-use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
-use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
-use Exception;
 use RangeException;
-use ReflectionException;
 use RuntimeException;
 
-use Stringable;
 use function sprintf;
 
 /**
@@ -35,11 +32,11 @@ use function sprintf;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Trigger implements Renderable, Stringable
+class Trigger extends Structure
 {
 	use IdAware, ClassAware, IconAware;
 
@@ -59,6 +56,7 @@ class Trigger implements Renderable, Stringable
 	 */
 	public function __construct( ?string $modalId = NULL, ?string $label = NULL, string|array|NULL $class = NULL, Icon|string|NULL $icon = NULL )
 	{
+		parent::__construct();
 		if( !is_null( $modalId ) )
 			$this->setModalId( $modalId );
 		if( !is_null( $label ) )
@@ -69,35 +67,6 @@ class Trigger implements Renderable, Stringable
 			$this->setIcon( $icon );
 	}
 
-	/**
-	 *	Create modal trigger object by static call.
-	 *	For arguments see code doc of constructor.
-	 *	@static
-	 *	@access		public
-	 *	@return		static		Modal trigger instance for method chaining
-	 *	@throws		ReflectionException
-	 */
-	public static function create(): static
-	{
-		/** @var static $trigger */
-		$trigger	= ObjectFactory::createObject( static::class, func_get_args() );
-		return $trigger;
-	}
-
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
 
 	public function asButton( bool $asButton = TRUE ): static
 	{
@@ -129,8 +98,8 @@ class Trigger implements Renderable, Stringable
 			'id'			=> $this->id,
 			'href'			=> "#".$this->modalId,
 			'role'			=> "button",
-			'class'			=> "btn ".join( ' ', $this->classes ),
-			'data-toggle'	=> "modal",
+			'class'			=> join( ' ', ButtonClassResolver::resolve( $this->getBsVersion(), $this->classes ) ),
+			$this->dialect()->data( 'toggle' )	=> "modal",
 		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
@@ -138,6 +107,7 @@ class Trigger implements Renderable, Stringable
 				case 'href':
 				case 'role':
 				case 'data-toggle':
+				case 'data-bs-toggle':
 					break;
 /*				case 'class':
 					$attributes['class']	.= strlen( trim( $value ) ) ? ' '.$value : '';

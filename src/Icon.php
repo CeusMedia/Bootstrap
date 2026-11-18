@@ -6,7 +6,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -17,10 +17,12 @@ use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 use function explode;
+use function in_array;
 use function is_string;
 use function join;
 use function preg_match;
 use function preg_split;
+use function str_starts_with;
 use function strtolower;
 use function trim;
 
@@ -29,7 +31,7 @@ use function trim;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -53,12 +55,12 @@ class Icon extends Structure
 	 *	@param		array|string|NULL	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
-	public function __construct( string $icon, string $style = NULL, array|string $size = NULL )
+	public function __construct( string $icon, ?string $style = NULL, array|string|null $size = NULL )
 	{
 		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
-		$this->setStyle( NULL !== $style ? $style : static::$defaultStyle );
+		$this->setStyle( $style ?? static::$defaultStyle );
 		if( NULL !== $size )
 			$this->setSize( $size );
 	}
@@ -177,24 +179,19 @@ class Icon extends Structure
 		$list	= [];
 		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':
-				if( $this->style === 'white' )
+				if( 'white' === $style )
 					$list[]	= 'icon-white';
 				break;
 			case 'fontawesome6':
-				$style	= 'fa';
-				if( '' !== trim( $this->style ) )
-					$style	= 'fa-'.trim( $this->style );
-				$list[]	= $style;
+				$list[]	= '' !== $style ? 'fa-'.$style : 'fa';
 				break;
 			case 'fontawesome5':
-				$style	= 'fa fas';
-				if( $this->style === 'regular' )
-					$style	= 'fa far';
-				else if( $this->style === 'light' )
-					$style	= 'fa fal';
-				else if( $this->style === 'brand' )
-					$style	= 'fa fab';
-				$list[]	= $style;
+				$list[]	= match( $style ){
+					'regular'	=> 'fa far',
+					'light'		=> 'fa fal',
+					'brand'		=> 'fa fab',
+					default		=> 'fa fas',
+				};
 				break;
 			case 'fontawesome4':
 			case 'fontawesome':
@@ -204,31 +201,46 @@ class Icon extends Structure
 		return $list;
 	}
 
+	/**
+	 *	Indicates whether given icon string already contains a FontAwesome style class
+	 *	(like fa, fas, far, fal, fab, fad, fat or fa-solid, fa-regular, fa-brands, ...).
+	 *	In this case, the icon string is considered to be complete and will not be prefixed.
+	 *	@param		string		$icon
+	 *	@return		bool
+	 */
+	protected static function hasFontAwesomeStyleClass( string $icon ): bool
+	{
+		$regExp	= '/(^| )(fa[srlbdt]?|fa-(solid|regular|light|thin|duotone|brands|sharp))( |$)/';
+		return 1 === preg_match( $regExp, $icon );
+	}
+
 	protected function resolve( string $icon ): string
 	{
-		$icon		= preg_replace( "/ +/", " ", $icon ) ?? '';
+		$icon		= trim( preg_replace( "/ +/", " ", $icon ) ?? '' );
 		$parts		= explode( " ", $icon );
-		$list		= [];
-		if( 1 === preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
-			return $icon;
-		foreach( $this->realizeStyle() as $style )
-			$list[]	= $style;
-		foreach( $parts as $part ){
-			switch( strtolower( $this->set ?? '' ) ){
-				case 'glyphicons':
-					$part	= "icon-".$part;
-					break;
-				case 'fontawesome':
-				case 'fontawesome4':
-				case 'fontawesome5':
-				case 'fontawesome6':
-					$part	= 'fa-'.$part;
-					break;
+		if( static::hasFontAwesomeStyleClass( $icon ) )									//  icon classes are complete already
+			$list	= $parts;															//  ... so take them as they are
+		else{
+			$list	= $this->realizeStyle();
+			foreach( $parts as $part ){
+				switch( strtolower( $this->set ?? '' ) ){
+					case 'glyphicons':
+						$part	= "icon-".$part;
+						break;
+					case 'fontawesome':
+					case 'fontawesome4':
+					case 'fontawesome5':
+					case 'fontawesome6':
+						if( !str_starts_with( $part, 'fa-' ) )									//  avoid double prefix
+							$part	= 'fa-'.$part;
+						break;
+				}
+				$list[]		= $part;
 			}
-			$list[]		= $part;
 		}
 		foreach( $this->realizeSizes() as $class )
-			$list[]	= $class;
+			if( !in_array( $class, $list, TRUE ) )										//  avoid size given twice
+				$list[]	= $class;
 		return join( " ", $list );
 	}
 }

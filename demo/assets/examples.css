@@ -1,0 +1,69 @@
+/*  Styles for example based demos (components, modal, checkbox, shiftbox)  */
+.demo-section {
+	margin-top: 1.5em;
+	padding-top: 0.5em;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	}
+.demo-example {
+	margin-bottom: 2em;
+	}
+.demo-preview {
+	padding: 1em;
+	margin-bottom: 0.5em;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	}
+.demo-preview::after {						/*  clear floats of previewed components  */
+	content: "";
+	display: table;
+	clear: both;
+	}
+.demo-example pre {
+	max-height: 24em;
+	overflow: auto;
+	font-size: 0.85em;
+	}
+.demo-toc {
+	columns: 3;
+	}
+.demo-status td,
+.demo-status th {
+	padding: 0.2em 0.6em;
+	}
+
+/*  generated HTML below examples  */
+.demo-html summary {
+	display: list-item;															/*  Bootstrap 3 hides the disclosure marker  */
+	cursor: pointer;
+	font-size: 0.85em;
+	color: #888;
+	margin-bottom: 0.5em;
+	}
+
+/*  compare demo: each example in all versions  */
+.demo-compare {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 1em;
+	}
+.demo-compare iframe {
+	display: block;
+	width: 100%;
+	min-height: 60px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	}
+.demo-compare-wide {
+	grid-template-columns: minmax(0, 1fr);
+	}
+.demo-compare-label {
+	font-size: 0.85em;
+	color: #888;
+	margin-bottom: 0.25em;
+	}
+.demo-compare-sections {
+	margin-bottom: 1em;
+	}
+.demo-frame {
+	padding: 10px;
+	}

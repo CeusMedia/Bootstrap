@@ -6,12 +6,13 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Dropdown\Trigger;
 
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
@@ -22,7 +23,6 @@ use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
-use Exception;
 use Stringable;
 
 /**
@@ -30,7 +30,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Dropdown_Trigger
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -65,29 +65,19 @@ class Button extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
-
-	/**
-	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
-		$caret	= $this->caret ? ' '.HtmlTag::create( 'span', '', ['class' => 'caret'] ) : '';
-		$button	= new BaseButton( $this->getContentAsString().$caret, $this->classes, $this->icon );
-		$button->addClass( 'dropdown-toggle' );
-		$button->setData( 'toggle', 'dropdown' );
+		$button	= new BaseButton( $this->getContentAsString().$this->renderCaret(), $this->classes, $this->icon );
+		$button->setBsVersion( $this->bsVersion );
+		$hasToggleClass	= $this->caret || match( $this->getBsVersion() ){
+			BsVersion::V2, BsVersion::V3	=> TRUE,
+			BsVersion::V4, BsVersion::V5	=> FALSE,										//  this class draws the caret
+		};
+		if( $hasToggleClass )
+			$button->addClass( 'dropdown-toggle' );
+		$button->setData( $this->dialect()->dataKey( 'toggle' ), 'dropdown' );
 		return $button->render();
 	}
 
@@ -99,5 +89,20 @@ class Button extends Structure
 	{
 		$this->caret	= $useCaret;
 		return $this;
+	}
+
+	/**
+	 *	Returns caret markup for Bootstrap 2 and 3.
+	 *	Since Bootstrap 4, the caret is drawn by CSS of class "dropdown-toggle".
+	 *	@return		string
+	 */
+	protected function renderCaret(): string
+	{
+		if( !$this->caret )
+			return '';
+		return match( $this->getBsVersion() ){
+			BsVersion::V2, BsVersion::V3	=> ' '.HtmlTag::create( 'span', '', ['class' => 'caret'] ),
+			BsVersion::V4, BsVersion::V5	=> '',
+		};
 	}
 }

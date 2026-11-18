@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 /**
- *	Base class for every component working on one HTML Tag.
+ *	Base class for components having content and class, given to constructor.
+ *	Provides class, content, data, event and ID handling.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -18,21 +19,20 @@ use CeusMedia\Bootstrap\Base\Aware\DataAware;
 use CeusMedia\Bootstrap\Base\Aware\EventAware;
 use CeusMedia\Bootstrap\Base\Aware\ContentAware;
 use CeusMedia\Bootstrap\Base\Aware\IdAware;
-use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use CeusMedia\Common\Renderable;
-use ReflectionException;
 use Stringable;
 
 /**
- *	Base class for every component working on one HTML Tag.
+ *	Base class for components having content and class, given to constructor.
+ *	Provides class, content, data, event and ID handling.
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-abstract class Element extends Abstraction implements Renderable, Stringable
+abstract class Element extends Abstraction
 {
 	use ClassAware, ContentAware, DataAware, EventAware, IdAware;
 
@@ -49,18 +49,4 @@ abstract class Element extends Abstraction implements Renderable, Stringable
 			$this->setClass( $class );
 	}
 
-	/**
-	 *	Create object of inheriting element class by static call.
-	 *	For arguments see code doc of constructor.
-	 *	@static
-	 *	@access		public
-	 *	@return		static		Component instance for method chaining
-	 *	@throws		ReflectionException
-	 */
-	public static function create(): static
-	{
-		/** @var static $element */
-		$element	= ObjectFactory::createObject( static::class, func_get_args() );
-		return $element;
-	}
 }

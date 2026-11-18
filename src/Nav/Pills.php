@@ -7,7 +7,7 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Nav
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -15,6 +15,7 @@ namespace CeusMedia\Bootstrap\Nav;
 
 use CeusMedia\Bootstrap\Base\DataObject\NavPillItemDropdown;
 use CeusMedia\Bootstrap\Base\DataObject\NavPillItemLink;
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
@@ -22,7 +23,6 @@ use CeusMedia\Bootstrap\Dropdown\Menu as DropdownMenu;
 use CeusMedia\Bootstrap\Dropdown\Trigger\Link as TriggerLink;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
-use Exception;
 use Stringable;
 
 /**
@@ -30,7 +30,7 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap_Nav
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
@@ -41,21 +41,6 @@ class Pills extends Structure
 	/** @var array<NavPillItemLink|NavPillItemDropdown> $items */
 	protected array $items	= [];
 	protected bool $stacked	= FALSE;
-
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
 
 	/**
 	 *	@access		public
@@ -94,7 +79,7 @@ class Pills extends Structure
 	 *	@return		static				Own instance for method chaining
 	 *	@todo		rename to addMenu or addDropdownMenu
 	 */
-	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string $icon = NULL, Icon|string $iconActive = NULL ): static
+	public function addDropdown( DropdownMenu $dropdown, string $label, ?string $class = NULL, Icon|string|null $icon = NULL, Icon|string|null $iconActive = NULL ): static
 	{
 /*		if( version_compare( $this->bsVersion, 4, '>=' ) )
 			$label		= HtmlTag::create( 'a', $label, [
@@ -107,28 +92,29 @@ class Pills extends Structure
 	}
 
 	/**
+	 *	Renders pills for set Bootstrap version.
+	 *	Bootstrap 2 and 3 mark list items as active, Bootstrap 4 and 5 mark links (class nav-link).
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
+		$version	= $this->getBsVersion();
+		$isLegacy	= match( $version ){
+			BsVersion::V2, BsVersion::V3	=> TRUE,
+			BsVersion::V4, BsVersion::V5	=> FALSE,
+		};
 		$items	= [];
 		foreach( $this->items as $nr => $item ){
-			$class		= $this->active === $nr ? "active" : NULL;
-//			if( $item->type === "dropdown" ){
-			if( $item instanceof NavPillItemDropdown ){
-				$icon		= $item->icon;
-				if( $this->active === $nr && NULL !== $item->iconActive )
-					$icon	= $item->iconActive;
-				$trigger	= new TriggerLink( $item->label, $item->class, $icon );
-				$item		= HtmlTag::create( 'li', $trigger.$item->content, ['class' => 'dropdown '.$class] );
-			}
-			else{
-				$item	= HtmlTag::create( 'li', $item->link, ['class' => $class] );
-			}
-			$items[]	= $item;
+			$isActive	= $this->active === $nr;
+			$items[]	= $item instanceof NavPillItemDropdown
+				? $this->renderDropdownItem( $item, $isActive, $isLegacy )
+				: $this->renderLinkItem( $item, $isActive, $isLegacy );
 		}
-		return HtmlTag::create( 'div', $items, ['class' => 'nav nav-pills'] );
+		$classStacked	= $isLegacy ? 'nav-stacked' : 'flex-column';
+		return HtmlTag::create( 'ul', $items, [
+			'class'	=> 'nav nav-pills'.( $this->stacked ? ' '.$classStacked : '' ),
+		] );
 	}
 
 	/**
@@ -151,5 +137,46 @@ class Pills extends Structure
 	{
 		$this->stacked	= $stacked;
 		return $this;
+	}
+
+	/*  --  PROTECTED  --  */
+
+	protected function renderDropdownItem( NavPillItemDropdown $item, bool $isActive, bool $isLegacy ): string
+	{
+		$icon		= $isActive && NULL !== $item->iconActive ? $item->iconActive : $item->icon;
+		$classes	= preg_split( '/\s+/', $item->class, -1, PREG_SPLIT_NO_EMPTY );
+		$classes	= FALSE !== $classes ? $classes : [];
+		if( $isLegacy )																//  Bootstrap 2 and 3: no nav-link
+			$classes	= array_diff( $classes, ['nav-link'] );
+		else if( $isActive )														//  Bootstrap 4 and 5: active link
+			$classes[]	= 'active';
+		$trigger	= new TriggerLink( $item->label, join( ' ', $classes ), $icon );
+		$trigger->setBsVersion( $this->bsVersion );
+		$menu		= $item->content;
+		if( $menu instanceof DropdownMenu ){
+			$menu	= clone $menu;													//  do not change given menu object
+			$menu->setBsVersion( $this->bsVersion );
+		}
+		$classItem	= $isLegacy
+			? 'dropdown'.( $isActive ? ' active' : '' )
+			: 'nav-item dropdown';
+		return HtmlTag::create( 'li', $trigger->render().$menu, ['class' => $classItem] );
+	}
+
+	protected function renderLinkItem( NavPillItemLink $item, bool $isActive, bool $isLegacy ): string
+	{
+		$link	= $item->link;
+		if( $link instanceof Link ){
+			$link	= clone $link;													//  do not change given link object
+			$link->setBsVersion( $this->bsVersion );
+			if( $isLegacy )
+				$link->removeClass( 'nav-link' );
+			else if( $isActive )
+				$link->addClass( 'active' )->setAria( 'current', 'page' );
+		}
+		$classItem	= $isLegacy
+			? ( $isActive ? 'active' : NULL )
+			: $item->class;
+		return HtmlTag::create( 'li', $link, ['class' => $classItem] );
 	}
 }

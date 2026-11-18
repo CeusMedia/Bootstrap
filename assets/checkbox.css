@@ -1,0 +1,95 @@
+/*
+ *	Custom styled checkbox (and radio) with icon, for CeusMedia\Bootstrap\Checkbox.
+ *	Works with Bootstrap 2 to 5 and with font icons (FontAwesome 4, glyphicons)
+ *	as well as SVG icons (FontAwesome 5 and 6 loaded by JavaScript).
+ *
+ *	Rules apply to classes "cr-checkbox" (and "cr-radio") only, so other checkboxes and radios in Bootstrap's ".checkbox" and ".radio" structure are not affected.
+ *
+ *	Markup:
+ *	<div class="checkbox cr-checkbox">
+ *		<label><input type="checkbox"/><span class="cr"><span class="cr-icon"><i class="fa fa-check"></i></span></span>Label</label>
+ *	</div>
+ */
+
+.cr-checkbox,
+.cr-radio {
+	position: relative;
+	display: block;
+}
+
+/*  reset indentation of Bootstrap 2 (.checkbox) and Bootstrap 3 (.checkbox label), made for native inputs  */
+.cr-checkbox,
+.cr-checkbox label {
+	min-height: 0;
+	padding-left: 0;
+}
+
+.cr-checkbox label,
+.cr-radio label {
+	display: block;
+	cursor: pointer;
+}
+
+.cr-checkbox label:after,
+.cr-radio label:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+.cr-checkbox .cr,
+.cr-radio .cr {
+	position: relative;
+	display: inline-block;
+	border: 1px solid #a9a9a9;
+	border-radius: .25em;
+	width: 1.3em;
+	height: 1.3em;
+	float: left;
+	margin-right: .5em;
+}
+
+.cr-radio .cr {
+	border-radius: 50%;
+}
+
+/*  icon container is centered by transform, independent of icon type (font or SVG)  */
+.cr-checkbox .cr .cr-icon,
+.cr-radio .cr .cr-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	font-size: .8em;
+	line-height: 1;
+	transform: translate(-50%, -50%);
+}
+
+.cr-checkbox .cr .cr-icon > *,
+.cr-radio .cr .cr-icon > * {
+	display: block;
+	margin: 0;
+}
+
+.cr-checkbox label input[type="checkbox"],
+.cr-radio label input[type="radio"] {
+	display: none;
+}
+
+/*  animation: icon zooms in when checked  */
+.cr-checkbox label input[type="checkbox"] + .cr > .cr-icon,
+.cr-radio label input[type="radio"] + .cr > .cr-icon {
+	transform: translate(-50%, -50%) scale(3) rotateZ(-20deg);
+	opacity: 0;
+	transition: all .3s ease-in;
+}
+
+.cr-checkbox label input[type="checkbox"]:checked + .cr > .cr-icon,
+.cr-radio label input[type="radio"]:checked + .cr > .cr-icon {
+	transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
+	opacity: 1;
+}
+
+.cr-checkbox label input[type="checkbox"]:disabled + .cr,
+.cr-radio label input[type="radio"]:disabled + .cr {
+	opacity: .5;
+}

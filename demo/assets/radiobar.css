@@ -1,0 +1,47 @@
+/*  RadioBar: horizontal bar of radio buttons  */
+.radiobar {
+	display: flex;
+	margin: 0 0 1em 0;
+	padding: 0;
+	list-style: none;
+	}
+.radiobar > li {
+	flex: 1;
+	}
+
+/*  Bootstrap 2: no list groups, so draw items like a list group  */
+.radiobar > .radiobar-item {
+	padding: 10px 15px;
+	margin-left: -1px;
+	border: 1px solid #ddd;
+	background-color: #fff;
+	}
+.radiobar > .radiobar-item:first-child {
+	margin-left: 0;
+	border-radius: 4px 0 0 4px;
+	}
+.radiobar > .radiobar-item:last-child {
+	border-radius: 0 4px 4px 0;
+	}
+.radiobar > .radiobar-item label.radio {
+	margin-bottom: 0;
+	}
+
+/*  Bootstrap 3: list group is vertical, so lay it out horizontally  */
+.radiobar.list-group > .list-group-item {
+	margin-bottom: 0;
+	}
+body.bs-3 .radiobar.list-group > .list-group-item {
+	margin-left: -1px;
+	border-radius: 0;
+	}
+body.bs-3 .radiobar.list-group > .list-group-item:first-child {
+	margin-left: 0;
+	border-radius: 4px 0 0 4px;
+	}
+body.bs-3 .radiobar.list-group > .list-group-item:last-child {
+	border-radius: 0 4px 4px 0;
+	}
+body.bs-3 .radiobar .radio {
+	margin: 0;
+	}

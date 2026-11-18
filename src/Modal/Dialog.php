@@ -7,12 +7,13 @@ declare(strict_types=1);
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
 namespace CeusMedia\Bootstrap\Modal;
 
+use CeusMedia\Bootstrap\Base\BsVersion;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
@@ -22,11 +23,9 @@ use CeusMedia\Bootstrap\Base\Aware\SizeAware;
 use CeusMedia\Bootstrap\Button;
 use CeusMedia\Bootstrap\Icon;
 
-use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
-use Exception;
 use Stringable;
 
 /**
@@ -34,11 +33,11 @@ use Stringable;
  *	@category		Library
  *	@package		CeusMedia_Bootstrap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2024 {@link https://ceusmedia.de/ Ceus Media}
+ *	@copyright		2012-2026 {@link https://ceusmedia.de/ Ceus Media}
  *	@license		https://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Bootstrap
  */
-class Dialog extends Structure implements Renderable, Stringable
+class Dialog extends Structure
 {
 	use AriaAware, ClassAware, DataAware, IdAware, SizeAware;
 
@@ -95,57 +94,34 @@ class Dialog extends Structure implements Renderable, Stringable
 		$this->setSize( static::$defaultSize );
 	}
 
-	/**
-	 *	@access		public
-	 *	@return		string		Rendered HTML of component or exception message
-	 *	@todo		allow to throw exception since PHP 7.4
-	 */
-	public function __toString(): string
-	{
-		try{
-			return $this->render();
-		}
-		catch( Exception $e ){
-			print $e->getMessage();
-			exit;
-		}
-	}
 
 	/**
-	 *	Create modal trigger object by static call.
-	 *	For arguments see code doc of constructor.
-	 *	@static
-	 *	@access		public
-	 *	@return		static		Modal trigger instance for method chaining
-	 * @noinspection PhpDocMissingThrowsInspection
-	 */
-	public static function create(): static
-	{
-		/** @var static $dialog */
-		/** @noinspection PhpUnhandledExceptionInspection */
-		$dialog	= ObjectFactory::createObject( static::class, func_get_args() );
-		return $dialog;
-	}
-
-	/**
-	 *	Returns rendered component.
+	 *	Renders modal dialog for set Bootstrap version.
+	 *	Bootstrap 2 renders header, body and footer directly within the modal,
+	 *	later versions wrap them into dialog and content containers.
 	 *	@access		public
 	 *	@return		string		Rendered HTML of component
 	 */
 	public function render(): string
 	{
+		$version	= $this->getBsVersion();
 		$body		= HtmlTag::create( 'div', $this->body, [
 			'class'	=> 'modal-body',
 		] );
 		$footer		= $this->renderFooter();
 		$header		= $this->renderHeader();
+		$classes	= ['modal'];
+		if( BsVersion::V2 === $version )
+			$classes[]	= 'hide';
+		if( $this->fade )
+			$classes[]	= 'fade';
 		$attributes	= [
 			'id'				=> $this->id,
-			'class'				=> 'modal hide'.( $this->fade ? ' fade' : '' ),
+			'class'				=> join( ' ', $classes ),
 			'tabindex'			=> '-1',
 			'role'				=> 'dialog',
 			'aria-hidden'		=> 'true',
-			'aria-labelledby'	=> 'myModalLabel',
+			'aria-labelledby'	=> $this->useHeader && NULL !== $this->id ? $this->id.'-label' : NULL,
 		];
 		foreach( $this->attributes as $key => $value ){
 			switch( strtolower( $key ) ){
@@ -161,12 +137,23 @@ class Dialog extends Structure implements Renderable, Stringable
 					$attributes[$key]	= $value;
 			}
 		}
-		$content	= [$header, $body, $footer];
-		if( version_compare( $this->bsVersion, '4', '>=' ) ){
-			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-content'] );
-			$content	= HtmlTag::create( 'div', $content, ['class' => 'modal-dialog '.join( ' ', $this->classes ), 'role' => 'document'] );
-		}
-		$modal	= HtmlTag::create( 'div', [$content], $attributes );
+		$this->extendAttributesByData( $attributes );
+		$this->extendAttributesByAria( $attributes );
+		$content		= [$header, $body, $footer];
+		$classDialog	= $this->dialect()->classes( 'modal-dialog', join( ' ', $this->classes ) );
+		$content		= match( $version ){
+			BsVersion::V2	=> $content,												//  no dialog container, see below
+			BsVersion::V3, BsVersion::V4	=> HtmlTag::create( 'div', HtmlTag::create( 'div', $content, ['class' => 'modal-content'] ), [
+				'class'	=> $classDialog,
+				'role'	=> 'document',
+			] ),
+			BsVersion::V5	=> HtmlTag::create( 'div', HtmlTag::create( 'div', $content, ['class' => 'modal-content'] ), [
+				'class'	=> $classDialog,
+			] ),
+		};
+		if( BsVersion::V2 === $version )												//  Bootstrap 2: dialog classes on modal itself
+			$attributes['class']	= $this->dialect()->classes( $attributes['class'], join( ' ', $this->classes ) );
+		$modal	= HtmlTag::create( 'div', is_array( $content ) ? $content : [$content], $attributes );
 		if( NULL !== $this->formAction ){
 			$attributes	= array_merge( $this->formAttributes, [
 				'action'	=> $this->formAction,
@@ -439,8 +426,10 @@ class Dialog extends Structure implements Renderable, Stringable
 			$labelSubmit = $iconSubmit.'&nbsp;'.$this->buttonSubmitLabel;
 
 		$buttonClose	= new Button( $labelClose, $this->buttonCloseClass );
-		$buttonClose->setAria( 'hidden', 'true' )->setData( 'dismiss', 'modal' );
+		$buttonClose->setBsVersion( $this->bsVersion );
+		$buttonClose->setAria( 'hidden', 'true' )->setData( $this->dialect()->dataKey( 'dismiss' ), 'modal' );
 		$buttonSubmit	= new Button( $labelSubmit, $this->buttonSubmitClass );
+		$buttonSubmit->setBsVersion( $this->bsVersion );
 		$buttonSubmit->setType( Button::TYPE_SUBMIT );
 		$buttonSubmit	= ( '' !== ( $this->formAction ?? '' ) ) ? $buttonSubmit : '';
 		return HtmlTag::create( 'div', [$buttonClose, $buttonSubmit], ['class' => 'modal-footer'] );
@@ -454,13 +443,42 @@ class Dialog extends Structure implements Renderable, Stringable
 	{
 		if( !$this->useHeader )
 			return '';
-		$buttonClose	= HtmlTag::create( 'button', $this->headerCloseButtonIcon, [
-			'type'			=> 'button',
-			'class'			=> 'close',
-			'data-dismiss'	=> 'modal',
-			'aria-hidden'	=> 'true',
-		] );
-		$heading	= HtmlTag::create( 'h3', $this->heading, ['id' => $this->id.'-label'] );
-		return HtmlTag::create( 'div', [$buttonClose, $heading], ['class' => 'modal-header'] );
+		$version	= $this->getBsVersion();
+		$dialect	= $this->dialect();
+		$labelId	= NULL !== $this->id ? $this->id.'-label' : NULL;
+		switch( $version ){
+			case BsVersion::V2:
+				$buttonClose	= HtmlTag::create( 'button', $this->headerCloseButtonIcon, [
+					'type'				=> 'button',
+					'class'				=> $dialect->classes( 'btn-close' ),
+					$dialect->data( 'dismiss' )	=> 'modal',
+					'aria-hidden'		=> 'true',
+				] );
+				$heading	= HtmlTag::create( 'h3', $this->heading, ['id' => $labelId] );
+				return HtmlTag::create( 'div', [$buttonClose, $heading], ['class' => 'modal-header'] );
+			case BsVersion::V3:
+			case BsVersion::V4:
+				$buttonClose	= HtmlTag::create( 'button', HtmlTag::create( 'span', $this->headerCloseButtonIcon, ['aria-hidden' => 'true'] ), [
+					'type'				=> 'button',
+					'class'				=> $dialect->classes( 'btn-close' ),
+					$dialect->data( 'dismiss' )	=> 'modal',
+					'aria-label'		=> 'Close',
+				] );
+				if( BsVersion::V3 === $version ){											//  Bootstrap 3: close button before title
+					$heading	= HtmlTag::create( 'h4', $this->heading, ['id' => $labelId, 'class' => 'modal-title'] );
+					return HtmlTag::create( 'div', [$buttonClose, $heading], ['class' => 'modal-header'] );
+				}
+				$heading	= HtmlTag::create( 'h5', $this->heading, ['id' => $labelId, 'class' => 'modal-title'] );
+				return HtmlTag::create( 'div', [$heading, $buttonClose], ['class' => 'modal-header'] );
+			case BsVersion::V5:
+				$buttonClose	= HtmlTag::create( 'button', '', [
+					'type'				=> 'button',
+					'class'				=> $dialect->classes( 'btn-close' ),
+					$dialect->data( 'dismiss' )	=> 'modal',
+					'aria-label'		=> 'Close',
+				] );
+				$heading	= HtmlTag::create( 'h5', $this->heading, ['id' => $labelId, 'class' => 'modal-title'] );
+				return HtmlTag::create( 'div', [$heading, $buttonClose], ['class' => 'modal-header'] );
+		}
 	}
 }

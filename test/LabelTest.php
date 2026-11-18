@@ -10,6 +10,9 @@ use Stringable;
 
 /**
  * @coversDefaultClass	\CeusMedia\Bootstrap\Label
+ * @covers			\CeusMedia\Bootstrap\Label
+ * @covers			\CeusMedia\Bootstrap\Base\StateClassParser
+ * @covers			\CeusMedia\Bootstrap\Badge
  */
 class LabelTest extends TestCase
 {
@@ -47,6 +50,41 @@ class LabelTest extends TestCase
 
 		$expected	= '<span class="label label-success">Label Text</span>';
 		self::assertEquals( $expected, $label->render() );
+	}
+
+	/**
+	 *	@return		array<string,array{string,string,string,string}>
+	 */
+	public static function versionProvider(): array
+	{
+		return [
+			'Bootstrap 2'	=> ['2.3.2', 'label', 'label label-important', 'label label-inverse'],
+			'Bootstrap 3'	=> ['3.4.1', 'label label-default', 'label label-danger', 'label label-default'],
+			'Bootstrap 4'	=> ['4.6.2', 'badge badge-secondary', 'badge badge-danger', 'badge badge-dark'],
+			'Bootstrap 5'	=> ['5.3.3', 'badge bg-secondary', 'badge bg-danger', 'badge bg-dark'],
+		];
+	}
+
+	/**
+	 *	@covers		::render
+	 *	@dataProvider	versionProvider
+	 *	@return		void
+	 */
+	public function testRenderForVersion( string $version, string $default, string $important, string $inverse ): void
+	{
+		self::assertSame( '<span class="'.$default.'">L</span>', ( new Label( 'L' ) )->setBsVersion( $version )->render() );
+		self::assertSame( '<span class="'.$important.'">L</span>', ( new Label( 'L', Label::CLASS_IMPORTANT ) )->setBsVersion( $version )->render() );
+		self::assertSame( '<span class="'.$inverse.'">L</span>', ( new Label( 'L', Label::CLASS_INVERSE ) )->setBsVersion( $version )->render() );
+	}
+
+	/**
+	 *	Class names of Bootstrap 3 are understood as well.
+	 *	@covers		::render
+	 *	@return		void
+	 */
+	public function testRenderDefaultOfBootstrap3(): void
+	{
+		self::assertSame( '<span class="badge bg-secondary">L</span>', ( new Label( 'L', 'label-default' ) )->setBsVersion( '5' )->render() );
 	}
 }
 

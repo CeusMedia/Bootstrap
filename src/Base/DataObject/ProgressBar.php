@@ -22,7 +22,7 @@ class ProgressBar
 	 *	@param		string|NULL		$label
 	 *	@return		static
 	 */
-	public static function create( int|float $width, ?string $class = NULL, string $label = NULL ): static
+	public static function create( int|float $width, ?string $class = NULL, ?string $label = NULL ): static
 	{
 		$className	= static::class;
 		return new $className( $width, $class, $label );

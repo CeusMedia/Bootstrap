@@ -4,7 +4,8 @@ includes:
 
 parameters:
 	phpVersion: 80300
-	level: max
+	# level 9 equals former "max" of PHPStan 1; level 10 (now "max") additionally checks implicit mixed
+	level: 9
 	paths:
 		- ../src
 		- ../test

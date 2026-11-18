@@ -28,8 +28,8 @@ trait SizeAware
 				$foundSize	= $size;
 				continue;
 			}
-			/** @var array<string> $sizeClasses */
-			$sizeClasses = preg_split( '/\s+/', $size );
+			$sizeClasses = preg_split( '/\s+/', $size, -1, PREG_SPLIT_NO_EMPTY );
+			$sizeClasses = FALSE !== $sizeClasses ? $sizeClasses : [];
 			if( count( array_intersect( $sizeClasses, $this->classes ) ) > 0 ){
 				$foundSize	= $size;
 			}
@@ -55,8 +55,8 @@ trait SizeAware
 			throw new RangeException( 'Invalid size' );
 		foreach( static::SIZES as $otherSize ){
 			if( strlen( $otherSize ) > 0 ){
-				/** @var array<string> $sizeClasses */
-				$sizeClasses = preg_split( '/\s+/', $otherSize );
+				$sizeClasses = preg_split( '/\s+/', $otherSize, -1, PREG_SPLIT_NO_EMPTY );
+				$sizeClasses = FALSE !== $sizeClasses ? $sizeClasses : [];
 				foreach( $sizeClasses as $sizeClass )
 					$this->removeClass( $sizeClass );
 			}
