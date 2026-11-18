@@ -37,7 +37,7 @@ trait AriaAware
 		return $this;
 	}
 
-	protected function extendAttributesByAria( array &$attributes ): self
+	protected function extendAttributesByAria( array &$attributes ): static
 	{
 		foreach( $this->ariaAttributes as $key => $value ){
 			$attributes['aria-'.$key]	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );

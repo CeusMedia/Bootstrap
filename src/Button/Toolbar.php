@@ -42,9 +42,9 @@ class Toolbar extends Structure
 	/**
 	 *	@access		public
 	 *	@param		Group|array|string		$group
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 */
-	public function add( Group|array|string $group ): self
+	public function add( Group|array|string $group ): static
 	{
 		if( is_array( $group ) ) {
 			foreach( $group as $item )

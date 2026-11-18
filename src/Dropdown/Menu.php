@@ -14,9 +14,11 @@ declare(strict_types=1);
 namespace CeusMedia\Bootstrap\Dropdown;
 
 use CeusMedia\Bootstrap\Base\Aware\AriaAware;
+use CeusMedia\Bootstrap\Base\DataObject\MenuItem;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Icon;
 use CeusMedia\Bootstrap\Link;
+use CeusMedia\Common\Renderable;
 use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use OutOfBoundsException;
 
@@ -33,6 +35,7 @@ class Menu extends Structure
 {
 	use AriaAware;
 
+	/** @var array<MenuItem> $items */
 	protected array $items		= [];
 
 	protected bool $alignLeft	= TRUE;
@@ -57,63 +60,61 @@ class Menu extends Structure
 	 *	@access		public
 	/**
 	 *	Constructor.
-	 *	@param		string			$url
-	 *	@param		string			$label
-	 *	@param		string|array	$class
-	 *	@param		Icon|string		$icon
-	 *	@param		bool			$disabled
-	 *	@return		self			Own instance for method chaining
+	 *	@param		string				$url
+	 *	@param		string				$label
+	 *	@param		string|array|NULL	$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		bool				$disabled
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( string $url, string $label, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
+	public function add( string $url, string $label, array|string $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'link',
-			'content'	=> new Link( $url, $label, $class, $icon ),
-/*			'class'		=> $class,
-			'icon'		=> $icon,*/
-			'disabled'	=> $disabled,
-		];
+		$item	= new MenuItem();
+		$item->type		= 'link';
+		$item->content	= new Link( $url, $label, $class, $icon );
+		$item->disabled	= $disabled;
+		$this->items[]	= $item;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addDivider(): self
+	public function addDivider(): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'divider',
-			'content'	=> NULL,
-		];
+		$item			= new MenuItem();
+		$item->type		= 'divider';
+		$this->items[]	= $item;
 		return $this;
 	}
 
 	/**
 	 *	@access		public
-	 *	@param		string			$label
-	 *	@param		Menu			$dropdown
-	 *	@param		string|array	$class
-	 *	@param		Icon|string		$icon
-	 *	@param		bool			$disabled
-	 *	@return		self			Own instance for method chaining
-	 *	@deprecated					not supported in Bootstrap 4.4, so disabled for all others, too
+	 *	@param		string				$label
+	 *	@param		Menu				$dropdown
+	 *	@param		string|array|NULL	$class
+	 *	@param		Icon|string|NULL	$icon
+	 *	@param		bool				$disabled
+	 *	@return		static				Own instance for method chaining
+	 *	@deprecated						not supported in Bootstrap 4.4, so disabled for all others, too
 	 */
-	public function addDropdown( string $label, Menu $dropdown, $class = NULL, $icon = NULL, bool $disabled = FALSE ): self
+	public function addDropdown( string $label, Menu $dropdown, string|array $class = NULL, Icon|string $icon = NULL, bool $disabled = FALSE ): static
 	{
 		\trigger_error( 'Not supported in Bootstrap 4.4, so disabled for all others, too', E_USER_DEPRECATED );
 /*		$link		= new \CeusMedia\Bootstrap\Link( '#', $label, 'dropdown-item', $icon, $disabled );
 		$link->setRole( 'button' );
 		if( $class )
 			$link->addClass( $class );
-		$this->items[]	= (object) [
-			'type'		=> 'dropdown',
-			'content'	=> $link,
-			'submenu'	=> $dropdown,
-			'class'		=> $class,
-			'icon'		=> $icon,
-			'disabled'	=> $disabled,
-		];*/
+
+		$item	= new MenuItem();
+		$item->type		= 'dropdown';
+		$item->content	= $link;
+		$item->submenu	= $dropdown;
+		$item->class	= $class;
+		$item->icon		= $icon;
+		$item->disabled	= $disabled;
+		$this->items[]	= $item;*/
 		return $this;
 	}
 
@@ -121,15 +122,15 @@ class Menu extends Structure
 	 *	@access		public
 	 *	@param		Link			$link		Link to add
 	 *	@param		bool			$disabled	Flag: disable menu item, default: no
-	 *	@return		self			Own instance for method chaining
+	 *	@return		static			Own instance for method chaining
 	 */
-	public function addLink( Link $link, bool $disabled = FALSE ): self
+	public function addLink( Link $link, bool $disabled = FALSE ): static
 	{
-		$this->items[]	= (object) [
-			'type'		=> 'link',
-			'content'	=> $link,
-			'disabled'	=> $disabled,
-		];
+		$item	= new MenuItem();
+		$item->type		= 'link';
+		$item->content	= $link;
+		$item->disabled	= $disabled;
+		$this->items[]	= $item;
 		return $this;
 	}
 
@@ -145,7 +146,9 @@ class Menu extends Structure
 			switch( $item->type ){
 				case "dropdown":
 					$attributes['class']	= 'dropdown-submenu';
-					$item->content	= $item->content.$item->submenu->render();
+					$content	= is_object( $item->content ) ? $item->content->render() : $item->content;
+					$submenu	= is_object( $item->submenu ) ? $item->submenu->render() : $item->submenu;
+					$item->content	= $content.$submenu;
 					break;
 				case "divider":
 					$attributes['class']	= 'divider';
@@ -156,7 +159,7 @@ class Menu extends Structure
 				default:
 					throw new OutOfBoundsException( 'Invalid dropdown item time: '.$item->type );
 			}
-			if( !empty( $item->disabled ) )
+			if( $item->disabled )
 				$attributes['class']	.= ' disabled';
 			$list[]	= HtmlTag::create( 'li', $item->content, $attributes );
 		}
@@ -173,9 +176,9 @@ class Menu extends Structure
 	/**
 	 *	@access		public
 	 *	@param		bool		$left
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setAlign( bool $left = TRUE ): self
+	public function setAlign( bool $left = TRUE ): static
 	{
 		$this->alignLeft	= $left;
 		return $this;
@@ -184,9 +187,9 @@ class Menu extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string		$label
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setAriaLabel( string $label ): self
+	public function setAriaLabel( string $label ): static
 	{
 		$this->setAria( 'label', $label );
 		return $this;

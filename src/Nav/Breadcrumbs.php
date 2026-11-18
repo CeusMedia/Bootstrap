@@ -12,6 +12,7 @@ declare(strict_types=1);
  */
 namespace CeusMedia\Bootstrap\Nav;
 
+use CeusMedia\Bootstrap\Base\DataObject\Breadcrumb;
 use CeusMedia\Bootstrap\Base\Structure;
 use CeusMedia\Bootstrap\Base\Aware\ClassAware;
 use CeusMedia\Bootstrap\Icon;
@@ -71,17 +72,18 @@ class Breadcrumbs extends Structure
 	 *	@param		string|NULL			$class
 	 *	@param		Icon|string|NULL	$icon
 	 *	@param		boolean				$active
-	 *	@return		self				Own instance for method chaining
+	 *	@return		static				Own instance for method chaining
 	 */
-	public function add( $label, ?string $url = NULL, ?string $class = NULL, $icon = NULL, bool $active = FALSE ): self
+	public function add( Link|string $label, ?string $url = NULL, ?string $class = NULL, Icon|string $icon = NULL, bool $active = FALSE ): static
 	{
-		$this->crumbs[]	= (object) [
-			'label'		=> $label,
-			'url'		=> (string) $url,
-			'class'		=> (string) $class,
-			'icon'		=> (string) $icon,
-			'active'	=> $active,
-		];
+		$crumb	= new Breadcrumb();
+		$crumb->label	= $label;
+		$crumb->url		= (string) $url;
+		$crumb->class	= (string) $class;
+		$crumb->icon	= (string) $icon;
+		$crumb->active	= $active;
+
+		$this->crumbs[]	= $crumb;
 		return $this;
 	}
 
@@ -89,9 +91,9 @@ class Breadcrumbs extends Structure
 	 *	@access		public
 	 *	@param		Link|string			$label
 	 *	@param		Icon|string|NULL	$icon
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addCurrent( $label, $icon = NULL ): self
+	public function addCurrent( Link|string $label, Icon|string $icon = NULL ): static
 	{
 		$this->add( $label, NULL, NULL, $icon, TRUE );
 		return $this;
@@ -99,9 +101,9 @@ class Breadcrumbs extends Structure
 
 	/**
 	 *	@access		public
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function addLink( Link $link ): self
+	public function addLink( Link $link ): static
 	{
 		$this->add( $link );
 		return $this;
@@ -118,7 +120,7 @@ class Breadcrumbs extends Structure
 		foreach( $this->crumbs as $nr => $crumb ){
 			if( $crumb->label instanceof Link )
 				$content	= $crumb->label->render();
-			else if( strlen( trim( $crumb->url ) ) ){
+			else if( '' !== trim( $crumb->url ) ){
 				$link		= new Link( $crumb->url, $crumb->label );
 				$content	= $link->render();
 			}
@@ -148,9 +150,9 @@ class Breadcrumbs extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string		$divider
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setDivider( string $divider ): self
+	public function setDivider( string $divider ): static
 	{
 		$this->divider	= $divider;
 		return $this;

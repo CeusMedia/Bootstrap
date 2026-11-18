@@ -85,9 +85,9 @@ class Link extends Element
 
 	/**
 	 *	@param		URL|string	$url
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setUrl( URL|string $url ): self
+	public function setUrl( URL|string $url ): static
 	{
 		$this->url	= $url;
 		return $this;

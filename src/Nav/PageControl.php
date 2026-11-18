@@ -38,13 +38,14 @@ class PageControl extends Structure
 	public ?string $size				= NULL;
 	public string $fragment;
 
-	const SIZE_MINI			= 'mini';
-	const SIZE_SMALL		= 'small';
-	const SIZE_DEFAULT		= '';
-	const SIZE_LARGE		= 'large';
+	public const SIZE_MINI			= 'mini';
+	public const SIZE_SMALL			= 'small';
+	public const SIZE_DEFAULT		= '';
+	public const SIZE_LARGE			= 'large';
 
 	public function __construct( string $baseUrl, int $page, int $pages )
 	{
+		parent::__construct();
 		$this->baseUrl			= $baseUrl;
 		$this->page				= abs( $page );
 		$this->pages			= abs( $pages );
@@ -70,9 +71,9 @@ class PageControl extends Structure
 
 	protected function getUrl( int $page = 0 ): string
 	{
-		$fragment	= $this->fragment ? "#".$this->fragment : "";
+		$fragment	= '' !== $this->fragment ? '#'.$this->fragment : '';
 		$part		= sprintf( $this->patternUrl, $page );
-		if( !$page && $this->patternUrl == "/%s" )
+		if( 0 === $page && "/%s" === $this->patternUrl )
 			$part	= '';
 		return $this->baseUrl.$part.$fragment;
 	}
@@ -84,53 +85,43 @@ class PageControl extends Structure
 	public function render(): string
 	{
 		if( $this->pages <= 1 )
-			return "";
-		$size	= $this->size ? 'btn-'.$this->size : NULL;
-		$buttons	= [
-			(object) [
-				'url'		=> $this->getUrl(),
-				'label'		=> NULL,
-				'class'		=> $size,
-				'icon'		=> new Icon( 'fast-backward' ),
-				'disabled'	=> $this->page === 0,
-			],
-			(object) [
-				'url'		=> $this->getUrl( $this->page - 1 ),
-				'label'		=> NULL,
-				'class'		=> $size,
-				'icon'		=> new Icon( 'backward' ),
-				'disabled'	=> $this->page === 0,
-			],
-			(object) [
-				'label'		=> sprintf( $this->patternIndicator, $this->page + 1, $this->pages ),
-				'class'		=> $size.' page-indicator',
-				'icon'		=> NULL,
-				'disabled'	=> TRUE,
-			],
-			(object) [
-				'url'		=> $this->getUrl( $this->page + 1 ),
-				'label'		=> NULL,
-				'class'		=> $size,
-				'icon'		=> new Icon( 'forward' ),
-				'disabled'	=> $this->page === $this->pages - 1,
-			],
-			(object) [
-				'url'		=> $this->getUrl( $this->pages - 1 ),
-				'label'		=> NULL,
-				'class'		=> $size,
-				'icon'		=> new Icon( 'fast-forward' ),
-				'disabled'	=> $this->page === $this->pages - 1,
-			],
-		];
-		$group		= new ButtonGroup();
-		foreach( $buttons as $button ){
-			if( isset( $button->url ) )
-				$button	= new ButtonLink( $button->url, $button->label ?? '', $button->class, $button->icon, $button->disabled );
-			else
-				$button	= new Button( $button->label, $button->class, $button->icon, $button->disabled );
-			$group->add( $button );
-		}
-		$group->setClass( "page-control" );
-		return (string) $group;
+			return '';
+		$size	= NULL !== $this->size ? 'btn-'.$this->size : NULL;
+		$group	= ButtonGroup::create()->setClass( "page-control" );
+		$group->add( new ButtonLink(
+			$this->getUrl(),
+			'',
+			$size,
+			new Icon( 'fast-backward' ),
+			$this->page === 0,
+		) );
+		$group->add( new ButtonLink(
+			$this->getUrl( $this->page - 1 ),
+			'',
+			$size,
+			new Icon( 'backward' ),
+			$this->page === 0,
+		) );
+		$group->add( new Button(
+			sprintf( $this->patternIndicator, $this->page + 1, $this->pages ),
+			$size.' page-indicator',
+			NULL,
+			TRUE,
+		) );
+		$group->add( new ButtonLink(
+			$this->getUrl( $this->page + 1 ),
+			'',
+			$size,
+			new Icon( 'forward' ),
+			$this->page === $this->pages - 1,
+		) );
+		$group->add( new ButtonLink(
+			$this->getUrl( $this->pages - 1 ),
+			'',
+			$size,
+			new Icon( 'fast-forward' ),
+			$this->page === $this->pages - 1,
+		) );
+		return $group->render();
 	}
 }

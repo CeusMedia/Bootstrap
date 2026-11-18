@@ -49,9 +49,9 @@ class Row extends Element
 	/**
 	 *	@access		public
 	 *	@param		boolean		$fluid		Flag: set row to be fluid or not
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setFluid( bool $fluid ): self
+	public function setFluid( bool $fluid ): static
 	{
 		$this->fluid	= $fluid;
 		return $this;

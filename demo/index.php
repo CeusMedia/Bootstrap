@@ -22,15 +22,17 @@ ini_set( 'display_errors', TRUE );
 $versions	= [
 	'2.3.2',
 	'4.4.1',
+	'5.3.3',
 ];
 
 $request	= new Request();
 
 $version	= "2.3.2";
-if( $request->get( 'version' ) && in_array( $request->get( 'version' ), $versions ) )
+if( '' !== $request->get( 'version', '' ) && in_array( $request->get( 'version' ), $versions, TRUE ) )
 	/** @var string $version */
 	$version	= $request->get( 'version' );
-$isBs4	= version_compare( $version, '4', '>=' );
+$isBs5	= version_compare( $version, '5', '>=' );
+$isBs4	= !$isBs5 && version_compare( $version, '4', '>=' );
 CeusMedia\Bootstrap\Base\Element::$defaultBsVersion		= $version;
 CeusMedia\Bootstrap\Base\Structure::$defaultBsVersion	= $version;
 CeusMedia\Bootstrap\Icon::$defaultSet	= 'fontawesome';
@@ -46,18 +48,20 @@ $parts	= [
 	'modal',
 	'nav_tabs',
 	'nav_pills',
+	'nav_list',
 	'badge',
 //	'pagination',
 	'pagecontrol',
 	'navbar_tabbable',
 ];
+
+$contents	= [];
 foreach( $parts as $part ){
 	ob_start();
 	if( file_exists( 'parts/'.$part.'.php' ) )
 		include_once 'parts/'.$part.'.php';
 	$contents[]	= '<hr/>'.ob_get_clean();
 }
-
 
 $body	= Tag::create( 'div', [
 	Tag::create( 'div', [
@@ -78,14 +82,24 @@ $body	= Tag::create( 'div', [
 	join( $contents ),
 ], ['class' => 'container'] );
 
-
 $cdnBaseUrl	= 'https://cdn.ceusmedia.de/';
 //$cdnBaseUrl	= 'https://localhost/lib/GitHub/CeusMedia/AssetLibrary';
 
 $page		= new PageFrame();
 $page->addBody( BootstrapVersionProcessor::process( $body, $version ) );
 $page->addJavaScript( $cdnBaseUrl.'js/jquery/1.10.2.min.js' );
-if( $isBs4 ){
+if( $isBs5 ){
+	$page->addHead( Tag::create( 'link', NULL, [
+		'rel'			=> 'stylesheet',
+		'href'			=> 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css',
+		'crossorigin'	=> 'anonymous'
+	] ) );
+	$page->addHead( Tag::create( 'script', '', [
+		'src'			=> 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js',
+		'crossorigin'	=> 'anonymous'
+	] ) );
+}
+else if( $isBs4 ){
 	$page->addHead( Tag::create( 'link', NULL, [
 		'rel'			=> 'stylesheet',
 		'href'			=> 'https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css',
@@ -128,9 +142,9 @@ class BootstrapVersionProcessor
 				/** @var string $content */
 				$content	= preg_replace( $pattern, '\\1\\2\\4\\5\\6', $content );
 			}
-			$otherVersions	= array_diff( [2, 3, 4], [$majorVersion] );
-			foreach( $otherVersions as $version ){
-				$pattern	= '/(class=")([^"]*)(bs'.$version.'-[^ "]+)([^"]*)(")/';
+			$otherVersions	= array_diff( [2, 3, 4, 5], [$majorVersion] );
+			foreach( $otherVersions as $v ){
+				$pattern	= '/(class=")([^"]*)(bs'.$v.'-[^ "]+)([^"]*)(")/';
 				/** @var string $content */
 				$content	= preg_replace( $pattern, '\\1\\2\\4\\5', $content );
 			}

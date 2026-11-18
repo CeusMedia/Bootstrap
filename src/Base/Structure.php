@@ -54,13 +54,13 @@ abstract class Structure extends Abstraction implements Renderable, Stringable
 	 *	For arguments see code doc of constructor.
 	 *	@static
 	 *	@access		public
-	 *	@return		self		Icon instance for method chaining
-	 *	@throws		ReflectionException
+	 *	@return		static		Icon instance for method chaining
+	 *	@noinspection PhpDocMissingThrowsInspection
 	 */
-	public static function create(): self
+	public static function create(): static
 	{
 		/** @noinspection PhpUnhandledExceptionInspection */
-		/** @var self $structure */
+		/** @var static $structure */
 		$structure	= ObjectFactory::createObject( static::class, func_get_args() );
 		return $structure;
 	}

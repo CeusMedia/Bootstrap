@@ -73,8 +73,8 @@ class Checkbox extends Structure
 		$this->setChecked( $checked );
 		$this->label	= $label;
 		$this->icon		= $icon;
-		foreach( $data as $key => $value )
-			$this->setData( $key, $value );
+		foreach( $data as $key => $v )
+			$this->setData( $key, $v );
 	}
 
 	/**
@@ -102,9 +102,9 @@ class Checkbox extends Structure
 	/**
 	 *	@access		public
 	 *	@param		bool		$checked
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setChecked( bool $checked ): self
+	public function setChecked( bool $checked ): static
 	{
 		$this->checked	= $checked;
 		return $this;
@@ -113,9 +113,9 @@ class Checkbox extends Structure
 	/**
 	 *	@access		public
 	 *	@param		string|int|float		$value
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setValue( string|int|float $value ): self
+	public function setValue( string|int|float $value ): static
 	{
 		if( is_string( $value ) )
 			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8' );

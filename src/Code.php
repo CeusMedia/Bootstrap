@@ -57,9 +57,9 @@ class Code extends Element
 	/**
 	 *	@access		public
 	 *	@param		bool		$scrollable
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setScrollable( bool $scrollable ): self
+	public function setScrollable( bool $scrollable ): static
 	{
 		$this->scrollable	= $scrollable;
 		return $this;
@@ -75,6 +75,7 @@ class Code extends Element
 		foreach( explode( "\n", $content ) as $line ){
 			$line	= trim( $line, "\r" );
 			while( substr_count( $line, "\t" ) ){
+				/** @var int $pos */
 				$pos	= strpos( $line, "\t" );
 				$indent	= static::$tabSize - ( $pos % static::$tabSize );
 				$subst	= str_repeat( " ", $indent );

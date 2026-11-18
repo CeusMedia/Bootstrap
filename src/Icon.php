@@ -53,13 +53,13 @@ class Icon extends Structure
 	 *	@param		array|string|NULL	$size 		One or many size or modifier class name (see code doc of setSize)
 	 *	@return		void
 	 */
-	public function __construct( string $icon, ?string $style = NULL, $size = NULL )
+	public function __construct( string $icon, string $style = NULL, array|string $size = NULL )
 	{
 		parent::__construct();
 		$this->setSet( self::$defaultSet );
 		$this->setIcon( $icon );
-		$this->setStyle( $style ?: static::$defaultStyle );
-		if( $size !== NULL )
+		$this->setStyle( NULL !== $style ? $style : static::$defaultStyle );
+		if( NULL !== $size )
 			$this->setSize( $size );
 	}
 
@@ -77,9 +77,9 @@ class Icon extends Structure
 	 *	Set icon by its icon class name plus modifying class names.
 	 *	@access		public
 	 *	@param		string		$icon 		Icon class name plus modifying class names
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setIcon( string $icon ): self
+	public function setIcon( string $icon ): static
 	{
 		$this->icon		= $icon;
 		return $this;
@@ -89,9 +89,9 @@ class Icon extends Structure
 	 *	Set icon set, like fontawesome[4|5] or glyphicons.
 	 *	@access		public
 	 *	@param		string		$set 		Icon set key, like fontawesome[4|5] or glyphicons
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static		Own instance for method chaining
 	 */
-	public function setSet( string $set ): self
+	public function setSet( string $set ): static
 	{
 		$this->set	= trim( $set );
 		return $this;
@@ -107,9 +107,9 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string|array<string>	$sizes 		One or many size or modifier class name
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 */
-	public function setSize( string|array $sizes ): self
+	public function setSize( string|array $sizes ): static
 	{
 		$this->size		= [];
 		if( is_string( $sizes ) )
@@ -135,10 +135,10 @@ class Icon extends Structure
 	 *
 	 *	@access		public
 	 *	@param		string		$style 		Icon set style
-	 *	@return		self		Own instance for method chaining
+	 *	@return		static					Own instance for method chaining
 	 *	@todo		code doc
 	 */
-	public function setStyle( string $style ): self
+	public function setStyle( string $style ): static
 	{
 		$this->style	= trim( $style );
 		return $this;
@@ -148,7 +148,7 @@ class Icon extends Structure
 
 	protected function realizeSizes(): array
 	{
-		$sizes	= $this->size ?: static::$defaultSize;
+		$sizes	= [] !== $this->size ? $this->size : static::$defaultSize;
 		$list	= [];
 		foreach( $sizes as $size ){
 			switch( strtolower( $this->set ?? '' ) ){
@@ -156,7 +156,7 @@ class Icon extends Structure
 				case 'fontawesome4':
 				case 'fontawesome5':
 					$size	= 'fixed' === $size ? 'fw' : $size;										//  translate generic 'fixed' to FontAwesome's 'fw'
-					if( preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )				//  translate sizes like 'x2' (allowed: 1-9)
+					if( 1 === preg_match( $regExpFactor = '/^x([1-9])$/', (string) $size ) )		//  translate sizes like 'x2' (allowed: 1-9)
 						$size	= preg_replace( $regExpFactor, '\\1x', (string) $size );	//  ... to 2x
 					$list[]	= 'fa-'.$size;															//  ...
 					break;
@@ -172,7 +172,7 @@ class Icon extends Structure
 	 */
 	protected function realizeStyle(): array
 	{
-		$style	= $this->style ?: static::$defaultStyle;
+		$style	= '' !== $this->style ? $this->style : static::$defaultStyle;
 		$list	= [];
 		switch( strtolower( $this->set ?? '' ) ){
 			case 'glyphicons':
@@ -180,13 +180,13 @@ class Icon extends Structure
 					$list[]	= 'icon-white';
 				break;
 			case 'fontawesome5':
-				$style	= 'fas';
+				$style	= 'fa fas';
 				if( $this->style === 'regular' )
-					$style	= 'far';
+					$style	= 'fa far';
 				else if( $this->style === 'light' )
-					$style	= 'fal';
+					$style	= 'fa fal';
 				else if( $this->style === 'brand' )
-					$style	= 'fab';
+					$style	= 'fa fab';
 				$list[]	= $style;
 				break;
 			case 'fontawesome4':
@@ -202,7 +202,7 @@ class Icon extends Structure
 		$icon		= preg_replace( "/ +/", " ", $icon ) ?? '';
 		$parts		= explode( " ", $icon );
 		$list		= [];
-		if( preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
+		if( 1 === preg_match( '/^fa(r|l|s|b)? fa-/', $icon ) )
 			return $icon;
 		foreach( $this->realizeStyle() as $style )
 			$list[]	= $style;

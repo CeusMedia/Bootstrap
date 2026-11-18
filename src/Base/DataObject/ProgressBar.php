@@ -16,8 +16,15 @@ class ProgressBar
 		$this->label	= $label ?? '';
 	}
 
-	public static function create( int|float $width, ?string $class = NULL, string|NULL $label = NULL ): self
+	/**
+	 *	@param		int|float		$width
+	 *	@param		string|null		$class
+	 *	@param		string|NULL		$label
+	 *	@return		static
+	 */
+	public static function create( int|float $width, ?string $class = NULL, string $label = NULL ): static
 	{
-		return new self( $width, $class, $label );
+		$className	= static::class;
+		return new $className( $width, $class, $label );
 	}
 }
